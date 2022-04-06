@@ -1,0 +1,10 @@
+Package: MLTesteR
+Title: Hypothesis Tests Based on Maximum Likelihood Theory. Likelihood Ration, Score and Wald. 
+Version: 0.1
+Author: Greg McMahan
+Description: Implements likelihood ration, score and wald tests for many distributions.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
