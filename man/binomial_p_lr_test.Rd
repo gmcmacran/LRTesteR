@@ -7,12 +7,14 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-binomial_p_lr_test(x, p = 0.5, alternative = "two.sided")
+binomial_p_lr_test(x, n, p = 0.5, alternative = "two.sided")
 }
 \arguments{
-\item{x}{a (non-empty) numeric vector of data values.}
+\item{x}{Number of successes.}
 
-\item{p}{a number indicating the tested value of p.}
+\item{n}{Number of trials}
+
+\item{p}{Hypothesized probability of success..}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 }
@@ -29,13 +31,9 @@ This test requires a large sample size for approximation to be accurate.
 \examples{
 library(MLTesteR)
 
-# Null is true
-set.seed(1)
-x <- rbinom(100, 1, .5)
-binomial_p_lr_test(x, .50, "two.sided")
+# Null is true. 52 successes. 100 trials
+binomial_p_lr_test(52, 100, .50, "two.sided")
 
-# Null is false
-set.seed(1)
-x <- rbinom(100, 1, .75)
-binomial_p_lr_test(x, .50, "greater")
+# Null is false. 75 successes. 100 trials
+binomial_p_lr_test(75, 100, .50, "two.sided")
 }
