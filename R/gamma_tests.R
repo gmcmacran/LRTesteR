@@ -183,8 +183,8 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   if (!is.numeric(x)) {
     stop("Argument x should be numeric.")
   }
-  if (length(scale) != 1) {
-    stop("Argument scale should have length one.")
+  if (length(rate) != 1) {
+    stop("Argument rate should have length one.")
   }
   if (!is.numeric(rate)) {
     stop("Argument rate should be numeric.")
