@@ -1,4 +1,4 @@
-#' Test the mean of a gaussian distribution using likelihood ratio test.
+#' Test the shape parameter of a gamma distribution using likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param shape a number indicating the tested value of the shape parameter.
@@ -75,7 +75,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the variance of a gaussian distribution using likelihood ratio test.
+#' Test the scale parameter of a gamma distribution using likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param scale a number indicating the tested value of the scale parameter.
@@ -152,7 +152,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the variance of a gaussian distribution using likelihood ratio test.
+#' Test the rate parameter of a gamma distribution using likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param rate a number indicating the tested value of the rate parameter.

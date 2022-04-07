@@ -1,4 +1,4 @@
-#' Test p of a binomial distribution using likelihood ratio test.
+#' Test p of a binomial distribution's p using likelihood ratio test.
 #'
 #' @param x Number of successes.
 #' @param n Number of trials

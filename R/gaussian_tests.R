@@ -131,7 +131,7 @@ gaussian_variance_lr_test <- function(x, sigma.squared = 1, alternative = "two.s
   else {
     W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
       sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
-    W <- sign(obs_sd - sigma.squared^.5) * W^.5
+    W <- sign(obs_sd^2 - sigma.squared) * W^.5
     if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
     }
