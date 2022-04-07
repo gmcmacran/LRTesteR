@@ -41,7 +41,7 @@ gaussian_mean_lr_test <- function(x, mu = 0, alternative = "two.sided") {
   if (!is.character(alternative)) {
     stop("Argument alternative should be a character.")
   }
-  if(!(alternative %in% c("two.sided", "less", "greater"))) {
+  if (!(alternative %in% c("two.sided", "less", "greater"))) {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
@@ -49,18 +49,20 @@ gaussian_mean_lr_test <- function(x, mu = 0, alternative = "two.sided") {
   obs_mean <- mean(x)
 
   if (alternative == "two.sided") {
-    W <- 2*(sum(dnorm(x = x, mean = obs_mean, sd = obs_sd,log =TRUE)) -
-              sum(dnorm(x = x, mean = mu, sd = obs_sd, log =TRUE)))
+    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
     p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2*(sum(dnorm(x = x, mean = obs_mean, sd = obs_sd,log =TRUE)) -
-              sum(dnorm(x = x, mean = mu, sd = obs_sd, log =TRUE)))
+    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
     W <- sign(obs_mean - mu) * W^.5
-    if (alternative == "less")
+    if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
-    if (alternative == "greater")
+    }
+    if (alternative == "greater") {
       p.value <- pnorm(q = W, lower.tail = FALSE)
+    }
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
@@ -114,7 +116,7 @@ gaussian_variance_lr_test <- function(x, sigma.squared = 1, alternative = "two.s
   if (!is.character(alternative)) {
     stop("Argument alternative should be a character.")
   }
-  if(!(alternative %in% c("two.sided", "less", "greater"))) {
+  if (!(alternative %in% c("two.sided", "less", "greater"))) {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
@@ -122,22 +124,23 @@ gaussian_variance_lr_test <- function(x, sigma.squared = 1, alternative = "two.s
   obs_mean <- mean(x)
 
   if (alternative == "two.sided") {
-    W <- 2*(sum(dnorm(x = x, mean = obs_mean, sd = obs_sd,log =TRUE)) -
-              sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log =TRUE)))
+    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
     p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2*(sum(dnorm(x = x, mean = obs_mean, sd = obs_sd,log =TRUE)) -
-              sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log =TRUE)))
+    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
     W <- sign(obs_sd - sigma.squared^.5) * W^.5
-    if (alternative == "less")
+    if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
-    if (alternative == "greater")
+    }
+    if (alternative == "greater") {
       p.value <- pnorm(q = W, lower.tail = FALSE)
+    }
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
   class(out) <- "mltest"
   return(out)
 }
-
