@@ -1,5 +1,4 @@
 library(MLTesteR)
-set.seed(1)
 
 ###############################################
 # Null True
@@ -86,9 +85,9 @@ for (alt in c("two.sided", "greater", "less")) {
 # Null False
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
-  set.seed(1)
-  x <- rnorm(200, 0, 5)
-  test <- gaussian_variance_lr_test(x, 20, alt)
+  set.seed(2)
+  x <- rnorm(200, 0, 3)
+  test <- gaussian_variance_lr_test(x, 8, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "mltest")
@@ -97,9 +96,9 @@ for (alt in c("two.sided", "greater", "less")) {
   })
 
   # Compare with chi square test for variance
-  test_02 <- EnvStats::varTest(x, alternative = alt, sigma.squared = 20)
+  test_02 <- EnvStats::varTest(x, alternative = alt, sigma.squared = 8)
   test_that("Check contents", {
-    expect_true(abs(test$p.value - test_02$p.value) < .02)
+    expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
 
@@ -120,7 +119,3 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
-
-
-
-
