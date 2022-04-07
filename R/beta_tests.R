@@ -54,12 +54,12 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-                sum(dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
+      sum(dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
     p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-                sum(dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
+      sum(dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
     W <- sign(obs_shape1 - shape1) * W^.5
     if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
@@ -130,12 +130,12 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-                sum(dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
+      sum(dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
     p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-                sum(dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
+      sum(dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
     W <- sign(obs_shape2 - shape2) * W^.5
     if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)

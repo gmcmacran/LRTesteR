@@ -60,7 +60,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   }
   else {
     W <- 2 * (sum(dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-                sum(dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
+      sum(dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
     W <- sign(obs_shape - shape) * W^.5
     if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
@@ -137,7 +137,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   }
   else {
     W <- 2 * (sum(dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
-                sum(dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
+      sum(dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
     W <- sign(obs_scale - scale) * W^.5
     if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
@@ -214,7 +214,7 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   }
   else {
     W <- 2 * (sum(dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-                sum(dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
+      sum(dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
     W <- sign(obs_rate - rate) * W^.5
     if (alternative == "less") {
       p.value <- pnorm(q = W, lower.tail = TRUE)
