@@ -2,7 +2,7 @@
 % Please edit documentation in R/binomial_tests.R
 \name{binomial_p_lr_test}
 \alias{binomial_p_lr_test}
-\title{Test p of a binomial distribution's p using likelihood ratio test.}
+\title{Test p of a binomial distribution using likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -12,7 +12,7 @@ binomial_p_lr_test(x, n, p = 0.5, alternative = "two.sided")
 \arguments{
 \item{x}{Number of successes.}
 
-\item{n}{Number of trials}
+\item{n}{Number of trials.}
 
 \item{p}{Hypothesized probability of success..}
 
@@ -23,7 +23,7 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test p of a binomial distribution's p using likelihood ratio test.
+Test p of a binomial distribution using likelihood ratio test.
 }
 \details{
 This test requires a large sample size for approximation to be accurate.

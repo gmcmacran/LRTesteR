@@ -1,7 +1,7 @@
-#' Test p of a binomial distribution's p using likelihood ratio test.
+#' Test p of a binomial distribution using likelihood ratio test.
 #'
 #' @param x Number of successes.
-#' @param n Number of trials
+#' @param n Number of trials.
 #' @param p Hypothesized probability of success..
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
