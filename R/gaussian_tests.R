@@ -45,23 +45,23 @@ gaussian_mean_lr_test <- function(x, mu = 0, alternative = "two.sided") {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  obs_sd <- sd(x)
-  obs_mean <- mean(x)
+  obs_sd <- stats::sd(x)
+  obs_mean <- base::mean(x)
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
-      sum(dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(stats::dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
-      sum(dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
+    W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(stats::dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
     W <- sign(obs_mean - mu) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 
@@ -120,23 +120,23 @@ gaussian_variance_lr_test <- function(x, sigma.squared = 1, alternative = "two.s
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  obs_sd <- sd(x)
-  obs_mean <- mean(x)
+  obs_sd <- stats::sd(x)
+  obs_mean <- base::mean(x)
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
-      sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(stats::dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
-      sum(dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
+    W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
+      sum(stats::dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
     W <- sign(obs_sd^2 - sigma.squared) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 

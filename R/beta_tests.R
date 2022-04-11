@@ -53,19 +53,19 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   obs_shape2 <- unname(est$estimate["shape2"])
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
+      sum(stats::dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
+    W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
+      sum(stats::dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
     W <- sign(obs_shape1 - shape1) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 
@@ -129,19 +129,19 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
   obs_shape2 <- unname(est$estimate["shape2"])
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
+      sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
+    W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
+      sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
     W <- sign(obs_shape2 - shape2) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 

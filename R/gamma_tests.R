@@ -54,19 +54,19 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   obs_scale <- 1 / obs_rate
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
+      sum(stats::dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
+    W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
+      sum(stats::dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
     W <- sign(obs_shape - shape) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 
@@ -131,19 +131,19 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   obs_scale <- 1 / obs_rate
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
-      sum(dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
+      sum(stats::dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
-      sum(dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
+    W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
+      sum(stats::dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
     W <- sign(obs_scale - scale) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 
@@ -208,19 +208,19 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   obs_scale <- 1 / obs_rate
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
+      sum(stats::dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
+    W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
+      sum(stats::dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
     W <- sign(obs_rate - rate) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 

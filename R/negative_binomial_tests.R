@@ -60,19 +60,19 @@ negative_binomial_p_lr_test <- function(num_success, num_failures, p = .50, alte
   obs_p <- num_success / (num_success + num_failures)
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
-      sum(dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
+      sum(stats::dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
-      sum(dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
+    W <- 2 * (sum(stats::dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
+      sum(stats::dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
     W <- sign(obs_p - p) * (W^.5)
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 

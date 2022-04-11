@@ -63,19 +63,19 @@ binomial_p_lr_test <- function(x, n, p = .50, alternative = "two.sided") {
   obs_p <- x / n
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dbinom(x = x, size = n, p = obs_p, log = TRUE)) -
-      sum(dbinom(x = x, size = n, p = p, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dbinom(x = x, size = n, p = obs_p, log = TRUE)) -
+      sum(stats::dbinom(x = x, size = n, p = p, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dbinom(x = x, size = n, p = obs_p, log = TRUE)) -
-      sum(dbinom(x = x, size = n, p = p, log = TRUE)))
+    W <- 2 * (sum(stats::dbinom(x = x, size = n, p = obs_p, log = TRUE)) -
+      sum(stats::dbinom(x = x, size = n, p = p, log = TRUE)))
     W <- sign(obs_p - p) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 

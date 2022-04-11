@@ -48,19 +48,19 @@ poisson_lambda_lr_test <- function(x, lambda = 1, alternative = "two.sided") {
   obs_lambda <- mean(x)
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(dpois(x = x, lambda = obs_lambda, log = TRUE)) -
-      sum(dpois(x = x, lambda = lambda, log = TRUE)))
-    p.value <- pchisq(q = W, df = 1, lower.tail = FALSE)
+    W <- 2 * (sum(stats::dpois(x = x, lambda = obs_lambda, log = TRUE)) -
+      sum(stats::dpois(x = x, lambda = lambda, log = TRUE)))
+    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(dpois(x = x, lambda = obs_lambda, log = TRUE)) -
-      sum(dpois(x = x, lambda = lambda, log = TRUE)))
+    W <- 2 * (sum(stats::dpois(x = x, lambda = obs_lambda, log = TRUE)) -
+      sum(stats::dpois(x = x, lambda = lambda, log = TRUE)))
     W <- sign(obs_lambda - lambda) * W^.5
     if (alternative == "less") {
-      p.value <- pnorm(q = W, lower.tail = TRUE)
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
     }
     if (alternative == "greater") {
-      p.value <- pnorm(q = W, lower.tail = FALSE)
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
   }
 
