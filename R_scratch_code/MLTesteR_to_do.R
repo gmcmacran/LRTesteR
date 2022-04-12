@@ -44,6 +44,7 @@
 #
 # What is known about sampling distribution when null is false?
 # Are there any publications around power?
+# Use monte carlo methods to calculate power.
 #
 # Extend tests to multiple seeds
 #
