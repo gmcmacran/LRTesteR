@@ -33,4 +33,25 @@ for (theta in thetas) {
   print("")
 }
 
+set.seed(2)
+B <- 5000
+N <- 5
+shape <- 1
+thetas <- c(.35, .55, 2.50, 4.00)
+
+for (theta in thetas) {
+  pvalues <- vector(mode = "numeric", length = B)
+  scale  <- 1/theta
+  for (i in 1:B) {
+    x <- rgamma(n = N, shape = shape, scale  = scale ) # exponential
+    test <- gamma_scale_lr_test(x = x, scale  = scale , alternative = "two.sided")
+    pvalues[i] <- test$p.value
+  }
+  print("____________________")
+  print(round(mean(pvalues), 2))
+  print("____________________")
+  print("")
+}
+
+
 
