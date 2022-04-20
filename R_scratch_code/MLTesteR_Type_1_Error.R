@@ -35,42 +35,43 @@ mean(pvalues <= .05)
 ################
 # gamma
 ################
-# x <- rgamma(n = N, shape = 10, rate = 3)
-# x <- rgamma(n = N, shape = 10, scale = 3)
-# x <- rgamma(n = N, shape = 10, scale = 3)
-
 B <- 5000
-N <- 200
+N <- 100
+shape <- 50
+rate <- 2
+scale <- 1 / rate
+
 pvalues <- vector(mode = "numeric", length = B)
-set.seed(1)
+set.seed(2)
 for (i in seq_along(1:B)) {
-  x <- rgamma(n = N, shape = 50, rate = 2)
-  test <- gamma_rate_lr_test(x, 2, "two.sided")
+  x <- rgamma(n = N, shape = shape, rate = rate)
+  test <- gamma_rate_lr_test(x, rate, "two.sided")
   pvalues[i] <- test$p.value
 }
 mean(pvalues <= .05)
 
 B <- 5000
-N <- 200
+N <- 100
 pvalues <- vector(mode = "numeric", length = B)
-set.seed(1)
+set.seed(2)
 for (i in seq_along(1:B)) {
-  x <- rgamma(n = N, shape = 50, scale = .5)
-  test <- gamma_scale_lr_test(x, .5, "two.sided")
+  x <- rgamma(n = N, shape = shape, scale = scale)
+  test <- gamma_scale_lr_test(x, scale, "two.sided")
   pvalues[i] <- test$p.value
 }
 mean(pvalues <= .05)
 
 B <- 5000
-N <- 200
+N <- 100
 pvalues <- vector(mode = "numeric", length = B)
 set.seed(1)
 for (i in seq_along(1:B)) {
-  x <- rgamma(n = N, shape = 50, scale = .5)
-  test <- gamma_shape_lr_test(x, 50, "two.sided")
+  x <- rgamma(n = N, shape = shape, scale = scale)
+  test <- gamma_shape_lr_test(x, shape, "two.sided")
   pvalues[i] <- test$p.value
 }
 mean(pvalues <= .05)
+head(pvalues)
 
 ################
 # gaussian

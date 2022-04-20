@@ -4,8 +4,8 @@ library(MLTesteR)
 # Null True
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
-  set.seed(5)
-  x <- rgamma(n = 100, shape = 10, scale = 1)
+  set.seed(2)
+  x <- rgamma(n = 100, shape = 10, scale = .5)
   test <- gamma_shape_lr_test(x, 10, alt)
 
   test_that("Check structure.", {

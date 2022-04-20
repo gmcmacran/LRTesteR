@@ -53,14 +53,17 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   obs_rate <- unname(est$estimate["rate"])
   obs_scale <- 1 / obs_rate
 
+  profile_scale <- mean(x) / shape
+  profile_rate <- 1 / profile_scale
+
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(stats::dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
+      sum(stats::dgamma(x = x, shape = shape, rate = profile_rate, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(stats::dgamma(x = x, shape = shape, rate = obs_rate, log = TRUE)))
+      sum(stats::dgamma(x = x, shape = shape, rate = profile_rate, log = TRUE)))
     W <- sign(obs_shape - shape) * W^.5
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
@@ -130,14 +133,24 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   obs_rate <- unname(est$estimate["rate"])
   obs_scale <- 1 / obs_rate
 
+  geo_mean <- function(x) {
+    return( exp(mean(log(x))) )
+  }
+
+  profile_helper <- function(shape) {
+    return(base::digamma(shape) - log(geo_mean(x) / scale))
+  }
+
+  profile_shape <- uniroot(profile_helper, lower = geo_mean(x)/scale, upper = geo_mean(x)/scale + 1)$root
+
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
-      sum(stats::dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
+      sum(stats::dgamma(x = x, shape = profile_shape, scale = scale, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
-      sum(stats::dgamma(x = x, shape = obs_shape, scale = scale, log = TRUE)))
+      sum(stats::dgamma(x = x, shape = profile_shape, scale = scale, log = TRUE)))
     W <- sign(obs_scale - scale) * W^.5
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
@@ -207,14 +220,25 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   obs_rate <- unname(est$estimate["rate"])
   obs_scale <- 1 / obs_rate
 
+  scale <- 1 / rate
+  geo_mean <- function(x) {
+    return( exp(mean(log(x))) )
+  }
+
+  profile_helper <- function(shape) {
+    return(base::digamma(shape) - log(geo_mean(x) / scale))
+  }
+
+  profile_shape <- uniroot(profile_helper, lower = geo_mean(x)/scale, upper = geo_mean(x)/scale + 1)$root
+
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(stats::dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
+      sum(stats::dgamma(x = x, shape = profile_shape, rate = rate, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
-      sum(stats::dgamma(x = x, shape = obs_shape, rate = rate, log = TRUE)))
+      sum(stats::dgamma(x = x, shape = profile_shape, rate = rate, log = TRUE)))
     W <- sign(obs_rate - rate) * W^.5
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
