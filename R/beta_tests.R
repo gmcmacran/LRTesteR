@@ -52,14 +52,20 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   obs_shape1 <- unname(est$estimate["shape1"])
   obs_shape2 <- unname(est$estimate["shape2"])
 
+  # negative log likelihood
+  profile_helper <- function(shape2) {
+    return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
+  }
+  profile_shape2 <- stats::optim(shape1, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(stats::dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
+      sum(stats::dbeta(x = x, shape1 = shape1, shape2 = profile_shape2, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(stats::dbeta(x = x, shape1 = shape1, shape2 = obs_shape2, log = TRUE)))
+      sum(stats::dbeta(x = x, shape1 = shape1, shape2 = profile_shape2, log = TRUE)))
     W <- sign(obs_shape1 - shape1) * W^.5
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
@@ -128,14 +134,20 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
   obs_shape1 <- unname(est$estimate["shape1"])
   obs_shape2 <- unname(est$estimate["shape2"])
 
+  # negative log likelihood
+  profile_helper <- function(shape1) {
+    return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
+  }
+  profile_shape1 <- stats::optim(shape2, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
+      sum(stats::dbeta(x = x, shape1 = profile_shape1, shape2 = shape2, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
-      sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = shape2, log = TRUE)))
+      sum(stats::dbeta(x = x, shape1 = profile_shape1, shape2 = shape2, log = TRUE)))
     W <- sign(obs_shape2 - shape2) * W^.5
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)

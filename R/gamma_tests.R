@@ -134,14 +134,14 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   obs_scale <- 1 / obs_rate
 
   geo_mean <- function(x) {
-    return( exp(mean(log(x))) )
+    return(exp(mean(log(x))))
   }
 
   profile_helper <- function(shape) {
     return(base::digamma(shape) - log(geo_mean(x) / scale))
   }
 
-  profile_shape <- uniroot(profile_helper, lower = geo_mean(x)/scale, upper = geo_mean(x)/scale + 1)$root
+  profile_shape <- uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
@@ -222,14 +222,14 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
 
   scale <- 1 / rate
   geo_mean <- function(x) {
-    return( exp(mean(log(x))) )
+    return(exp(mean(log(x))))
   }
 
   profile_helper <- function(shape) {
     return(base::digamma(shape) - log(geo_mean(x) / scale))
   }
 
-  profile_shape <- uniroot(profile_helper, lower = geo_mean(x)/scale, upper = geo_mean(x)/scale + 1)$root
+  profile_shape <- uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
