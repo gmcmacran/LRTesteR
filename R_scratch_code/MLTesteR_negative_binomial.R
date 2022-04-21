@@ -1,24 +1,79 @@
 library(MLTesteR)
 
-negative_binomial_p_lr_test(500, 500, .50, "two.sided")
-2*min(pnbinom(q = 500, size = 500, prob = .50, lower.tail = TRUE), pnbinom(q = 500, size = 500, prob = .50, lower.tail = FALSE))
+calc_two_sided_p_value <- function(x, size, prob) {
+  if (prob == 0) {
+    (x == 0)
+  } else if (prob == 1) {
+    (x == size)
+  } else {
+    relErr <- 1 + 1e-07
+    d <- dnbinom(x, size, prob)
+    m <- size*(1-prob)/prob
+    if (x == m) {
+      1
+    } else if (x < m) {
+      nearInf <- m*20
+      i <- seq.int(from = ceiling(m), to = nearInf)
+      y <- sum(dnbinom(i, size, prob) <= d * relErr)
+      pnbinom(x, size, prob) + pnbinom(nearInf - y, size, prob, lower.tail = FALSE)
+    } else {
+      i <- seq.int(from = 0, to = floor(m))
+      y <- sum(dnbinom(i, size, prob) <= d * relErr)
+      pnbinom(y - 1, size, prob) + pnbinom(x - 1, size, prob, lower.tail = FALSE)
+    }
+  }
+}
+
+negative_binomial_p_lr_test(5000, 5000, .50, "two.sided")
+calc_two_sided_p_value(5000, 5000, .50)
 
 negative_binomial_p_lr_test(5000, 5000, .50, "greater")
-pnbinom(q = 4900, size = 5000, prob = .50, lower.tail = FALSE)
+pnbinom(q = 4999, size = 5000, prob = .50, lower.tail = FALSE)
 
-negative_binomial_p_lr_test(500, 500, .50, "less")
-pnbinom(q = 500, size = 500, prob = .50, lower.tail = TRUE)
+negative_binomial_p_lr_test(5000, 5000, .50, "less")
+pnbinom(q = 5000, size = 5000, prob = .50, lower.tail = TRUE)
 
 
 
-negative_binomial_p_lr_test(500, 100, .50, "two.sided")
-2*min(pnbinom(q = 100, size = 500, prob = .50, lower.tail = TRUE), pnbinom(q = 99, size = 500, prob = .50, lower.tail = FALSE))
 
-negative_binomial_p_lr_test(500, 100, .50, "greater")
-pnbinom(q = 99, size = 500, prob = .50, lower.tail = FALSE)
+negative_binomial_p_lr_test(1000, 5000, .50, "two.sided")
+calc_two_sided_p_value(1000, 5000, .50)
 
-negative_binomial_p_lr_test(500, 100, .50, "less")
-pnbinom(q = 100, size = 500, prob = .50, lower.tail = TRUE)
+
+negative_binomial_p_lr_test(10, 50, .50, "greater")
+pnbinom(q = 10, size = 50, prob = .50, lower.tail = TRUE)
+
+negative_binomial_p_lr_test(10, 50, .50, "less")
+pnbinom(q = 9, size = 50, prob = .50, lower.tail = FALSE)
+
+calc_mean <- function(size, prob) {
+  return(size * (1 - prob) / prob)
+}
+
+ps <- seq(.05, .95, .05)
+sizes <- seq(05, 200, 10)
+
+set.seed(2)
+results <- c()
+for (p in ps) {
+  for (size in sizes) {
+    m1 <- calc_mean(size, p)
+    m2 <- mean(rnbinom(20000, size, p))
+    results <- c(results, m1 - m2)
+  }
+}
+mean(results)
+
+calc_mean(200, .05)
+
+
+
+
+
+
+
+
+
 
 
 # binomial lower tail
