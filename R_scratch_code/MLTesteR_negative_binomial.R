@@ -1,3 +1,8 @@
+# https://en.wikipedia.org/wiki/Negative_binomial_distribution
+# https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/11%3A_Bernoulli_Trials/11.04%3A_The_Negative_Binomial_Distribution
+
+
+
 library(MLTesteR)
 
 calc_two_sided_p_value <- function(x, size, prob) {
