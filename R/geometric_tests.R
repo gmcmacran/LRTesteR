@@ -6,7 +6,8 @@
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.
 #' @details
-#' This test requires a large sample size for approximation to be accurate.
+#' Simulation shows this test needs the hypothesized p at or above .35 for a
+#' reasonable type I error.
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
@@ -48,17 +49,16 @@ geometric_p_lr_test <- function(num_failures, p = .50, alternative = "two.sided"
   }
 
   # Geometric distribution is a negative binomial with 1 success
-  num_success <- 1
-  obs_p <- num_success / (num_success + num_failures)
+  obs_p <- 1 / (1 + num_failures)
 
   if (alternative == "two.sided") {
-    W <- 2 * (sum(stats::dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
-                sum(stats::dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
+    W <- 2 * (sum(stats::dgeom(x = num_failures, prob = obs_p, log = TRUE)) -
+                sum(stats::dgeom(x = num_failures, prob = p, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
-    W <- 2 * (sum(stats::dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
-                sum(stats::dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
+    W <- 2 * (sum(stats::dgeom(x = num_failures, prob = obs_p, log = TRUE)) -
+                sum(stats::dgeom(x = num_failures, prob = p, log = TRUE)))
     W <- sign(obs_p - p) * (W^.5)
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)

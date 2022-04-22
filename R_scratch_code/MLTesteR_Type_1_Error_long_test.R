@@ -727,7 +727,7 @@ temp %>%
 ################
 B <- 5000
 
-ps <- seq(.35, .95, .05)
+ps <- seq(.05, .95, .05)
 
 all(ps < 1)
 all(ps > 0)
@@ -777,11 +777,11 @@ sim_results %>%
 temp <- sim_results %>%
   group_by(test, alt, p) %>%
   summarise(TypeI = mean(pvalue <= .05, na.rm = TRUE), meanStat = mean(stat, na.rm = TRUE), N = sum(!is.na(pvalue))) %>%
-  arrange(desc(TypeI)) %>%
+  arrange(desc(p, test, alt)) %>%
   ungroup()
 
 ggplot(temp, aes(x = factor(p), y = TypeI)) +
-  geom_boxplot() +
+  geom_point() +
   geom_hline(yintercept = .05) +
   scale_y_continuous(breaks = seq(0, 1, .05), limits = c(0, 1)) +
   labs(x = "P", y = "Type I Error")
@@ -887,7 +887,7 @@ temp <- sim_results_03 %>%
   ungroup()
 
 ggplot(temp, aes(x = p, y = TypeI, group = p)) +
-  geom_boxplot() +
+  geom_point() +
   geom_hline(yintercept = .05) +
   scale_x_continuous(breaks = seq(0, 1, .10), limits = c(0, 1)) +
   scale_y_continuous(breaks = seq(0, 1, .05), limits = c(0, 1)) +
@@ -906,3 +906,9 @@ ggplot(temp, aes(x = factor(test), y = TypeI)) +
   geom_hline(yintercept = .05) +
   scale_y_continuous(breaks = seq(0, 1, .05), limits = c(0, 1)) +
   labs(x = "Hypothesis Test", y = "Type I Error")
+
+temp %>%
+  filter(test == "exact") %>%
+  pull(TypeI) %>%
+  max()
+
