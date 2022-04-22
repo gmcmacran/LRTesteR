@@ -600,13 +600,15 @@ for (p in ps) {
               if (x == m) {
                 1
               } else if (x < m) {
-                nearInf <- m * 20
+                nearInf <- ceiling(m * 20)
                 i <- seq.int(from = ceiling(m), to = nearInf)
-                y <- sum(dnbinom(i, size, prob) <= d * relErr)
-                pnbinom(x, size, prob) + pnbinom(nearInf - y, size, prob, lower.tail = FALSE)
+                i <- setdiff(i, x)
+                y <- sum(dnbinom(i, size, prob) < d * relErr)
+                pnbinom(x, size, prob) + pnbinom(pmax(nearInf - y,0), size, prob, lower.tail = FALSE)
               } else {
                 i <- seq.int(from = 0, to = floor(m))
-                y <- sum(dnbinom(i, size, prob) <= d * relErr)
+                i <- setdiff(i, x)
+                y <- sum(dnbinom(i, size, prob) < d * relErr)
                 pnbinom(y - 1, size, prob) + pnbinom(x - 1, size, prob, lower.tail = FALSE)
               }
             }
@@ -725,9 +727,10 @@ temp %>%
 ################
 # geometric
 ################
-B <- 2000
+B <- 5000
 
 ps <- seq(.05, .95, .05)
+ps <- seq(.35, .95, .05)
 
 all(ps < 1)
 all(ps > 0)
@@ -813,7 +816,7 @@ for (p in ps) {
         stats[i] <- x
         calc_two_sided_p_value <- function(x, prob) {
           if (prob == 0) {
-            (as.numeric(x > 0))
+            (as.numeric(x >= 0))
           } else if (prob == 1) {
             (as.numeric(x == 0))
           } else {

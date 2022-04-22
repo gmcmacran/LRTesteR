@@ -3,7 +3,7 @@ library(MLTesteR)
 exact_test <- function(num_failures, p, alternative) {
   calc_two_sided_p_value <- function(x, prob) {
     if (prob == 0) {
-      (as.numeric(x > 0))
+      (as.numeric(x >= 0))
     } else if (prob == 1) {
       (as.numeric(x == 0))
     } else {

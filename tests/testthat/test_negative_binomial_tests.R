@@ -5,7 +5,7 @@ exact_test <- function(num_failures, num_success, p, alternative) {
     if (prob == 0) {
       (x == 0)
     } else if (prob == 1) {
-      (x == size)
+      (x == 0)
     } else {
       relErr <- 1 + 1e-07
       d <- dnbinom(x, size, prob)
@@ -13,19 +13,21 @@ exact_test <- function(num_failures, num_success, p, alternative) {
       if (x == m) {
         1
       } else if (x < m) {
-        nearInf <- m * 20
+        nearInf <- ceiling(m * 20)
         i <- seq.int(from = ceiling(m), to = nearInf)
-        y <- sum(dnbinom(i, size, prob) <= d * relErr)
-        pnbinom(x, size, prob) + pnbinom(nearInf - y, size, prob, lower.tail = FALSE)
+        i <- setdiff(i, x)
+        y <- sum(dnbinom(i, size, prob) < d * relErr)
+        pnbinom(x, size, prob) + pnbinom(pmax(nearInf - y,0), size, prob, lower.tail = FALSE)
       } else {
         i <- seq.int(from = 0, to = floor(m))
-        y <- sum(dnbinom(i, size, prob) <= d * relErr)
+        i <- setdiff(i, x)
+        y <- sum(dnbinom(i, size, prob) < d * relErr)
         pnbinom(y - 1, size, prob) + pnbinom(x - 1, size, prob, lower.tail = FALSE)
       }
     }
   }
 
-  calc_less_p_value <- function(x, size, prob) {
+  calc_left_p_value <- function(x, size, prob) {
     pnbinom(q = x, size = size, prob = prob, lower.tail = TRUE)
   }
 
@@ -37,7 +39,7 @@ exact_test <- function(num_failures, num_success, p, alternative) {
     p.value <- calc_two_sided_p_value(num_failures, num_success, p)
   }
   if (alternative == "greater") {
-    p.value <- calc_less_p_value(num_failures, num_success, p)
+    p.value <- calc_left_p_value(num_failures, num_success, p)
   }
   if (alternative == "less") {
     p.value <- calc_right_p_value(num_failures, num_success, p)
