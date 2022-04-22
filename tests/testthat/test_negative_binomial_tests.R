@@ -37,10 +37,10 @@ exact_test <- function(num_failures, num_success, p, alternative) {
     p.value <- calc_two_sided_p_value(num_failures, num_success, p)
   }
   if (alternative == "greater") {
-    p.value <- calc_right_p_value(num_failures, num_success, p)
+    p.value <- calc_less_p_value(num_failures, num_success, p)
   }
   if (alternative == "less") {
-    p.value <- calc_less_p_value(num_failures, num_success, p)
+    p.value <- calc_right_p_value(num_failures, num_success, p)
   }
   return(list(p.value = p.value))
 }
@@ -84,7 +84,7 @@ for (alt in c("two.sided", "greater")) {
 }
 
 for (alt in c("two.sided", "less")) {
-  test <- negative_binomial_p_lr_test(45, 50, .50, alt)
+  test <- negative_binomial_p_lr_test(90, 50, .50, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "mltest")
@@ -92,7 +92,7 @@ for (alt in c("two.sided", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  test_02 <- exact_test(45, 50, .50, alt)
+  test_02 <- exact_test(90, 50, .50, alt)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
