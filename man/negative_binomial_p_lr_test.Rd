@@ -2,7 +2,7 @@
 % Please edit documentation in R/negative_binomial_tests.R
 \name{negative_binomial_p_lr_test}
 \alias{negative_binomial_p_lr_test}
-\title{Test p of a negative binomial distribution's p using likelihood ratio test.}
+\title{Test p of a negative binomial distribution using likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -28,7 +28,7 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test p of a negative binomial distribution's p using likelihood ratio test.
+Test p of a negative binomial distribution using likelihood ratio test.
 }
 \details{
 This test requires a large sample size for approximation to be accurate.

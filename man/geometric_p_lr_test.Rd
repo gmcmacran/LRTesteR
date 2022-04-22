@@ -2,7 +2,7 @@
 % Please edit documentation in R/geometric_tests.R
 \name{geometric_p_lr_test}
 \alias{geometric_p_lr_test}
-\title{Test a geometric distribution's p using likelihood ratio test.}
+\title{Test p of a geometric distribution using likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -21,10 +21,11 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test a geometric distribution's p using likelihood ratio test.
+Test p of a geometric distribution using likelihood ratio test.
 }
 \details{
-This test requires a large sample size for approximation to be accurate.
+Simulation shows this test needs the hypothesized p at or above .35 for a
+reasonable type I error.
 }
 \examples{
 library(MLTesteR)

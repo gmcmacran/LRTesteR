@@ -2,7 +2,7 @@
 % Please edit documentation in R/beta_tests.R
 \name{beta_shape1_lr_test}
 \alias{beta_shape1_lr_test}
-\title{Test the shape1 of a beta distribution using likelihood ratio test.}
+\title{Test the shape1 parameter of a beta distribution using likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -21,7 +21,7 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test the shape1 of a beta distribution using likelihood ratio test.
+Test the shape1 parameter of a beta distribution using likelihood ratio test.
 }
 \details{
 This test requires a large sample size for approximation to be accurate.

@@ -1,4 +1,4 @@
-#' Test a geometric distribution's p using likelihood ratio test.
+#' Test p of a geometric distribution using likelihood ratio test.
 #'
 #' @param num_failures Number of failures.
 #' @param p Hypothesized probability of success.
@@ -53,12 +53,12 @@ geometric_p_lr_test <- function(num_failures, p = .50, alternative = "two.sided"
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgeom(x = num_failures, prob = obs_p, log = TRUE)) -
-                sum(stats::dgeom(x = num_failures, prob = p, log = TRUE)))
+      sum(stats::dgeom(x = num_failures, prob = p, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dgeom(x = num_failures, prob = obs_p, log = TRUE)) -
-                sum(stats::dgeom(x = num_failures, prob = p, log = TRUE)))
+      sum(stats::dgeom(x = num_failures, prob = p, log = TRUE)))
     W <- sign(obs_p - p) * (W^.5)
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)

@@ -17,7 +17,7 @@ exact_test <- function(num_failures, num_success, p, alternative) {
         i <- seq.int(from = ceiling(m), to = nearInf)
         i <- setdiff(i, x)
         y <- sum(dnbinom(i, size, prob) < d * relErr)
-        pnbinom(x, size, prob) + pnbinom(pmax(nearInf - y,0), size, prob, lower.tail = FALSE)
+        pnbinom(x, size, prob) + pnbinom(pmax(nearInf - y, 0), size, prob, lower.tail = FALSE)
       } else {
         i <- seq.int(from = 0, to = floor(m))
         i <- setdiff(i, x)
