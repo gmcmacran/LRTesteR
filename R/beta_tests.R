@@ -1,4 +1,4 @@
-#' Test the shape1 of a beta distribution using likelihood ratio test.
+#' Test the shape1 parameter of a beta distribution using likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param shape1 a number indicating the tested value of the shape1 parameter.
@@ -80,7 +80,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the shape2 of a beta distribution using likelihood ratio test.
+#' Test the shape2 parameter of a beta distribution using likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param shape2 a number indicating the tested value of the shape2 parameter.
