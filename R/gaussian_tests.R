@@ -1,7 +1,7 @@
-#' Test the mean of a gaussian distribution using likelihood ratio test.
+#' Test the mean of a gaussian distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
-#' @param mu a number indicating the tested value of the mean.
+#' @param mu a number indicating the tested value of mu.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.
@@ -15,14 +15,14 @@
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_mean_lr_test(x, 0, "two.sided")
+#' gaussian_mu_lr_test(x, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 3, 1)
-#' gaussian_mean_lr_test(x, 0, "greater")
+#' gaussian_mu_lr_test(x, 0, "greater")
 #' @export
-gaussian_mean_lr_test <- function(x, mu = 0, alternative = "two.sided") {
+gaussian_mu_lr_test <- function(x, mu = 0, alternative = "two.sided") {
   if (length(x) < 50) {
     stop("Argument x should have at least 50 data points.")
   }
@@ -70,10 +70,10 @@ gaussian_mean_lr_test <- function(x, mu = 0, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the variance of a gaussian distribution using likelihood ratio test.
+#' Test the variance of a gaussian distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
-#' @param sigma.squared a number indicating the tested value of the variance.
+#' @param sigma.squared a number indicating the tested value of sigma squared.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.

@@ -1,4 +1,4 @@
-#' Test p of a negative binomial distribution using likelihood ratio test.
+#' Test p of a negative binomial distribution using the likelihood ratio test.
 #'
 #' @param num_failures Number of failures.
 #' @param num_success Number of successes.

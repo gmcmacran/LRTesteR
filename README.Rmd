@@ -16,6 +16,9 @@ knitr::opts_chunk$set(
 # MLTesteR
 
 <!-- badges: start -->
+[![R build status](https://github.com/gmcmacran/MLTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/MLTesteR/actions)
+[![Codecov test coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=master)
+[![CRAN status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
 <!-- badges: end -->
 
 MLTester is a work in progress. The goal is to implement the likelihood ratio, wald and score tests for all common families. Currently a few likelihood ratio tests are implemented. A thorough evaluation (type 1 error rate, publication comparisons, thorough test creation, etc) have not been done yet.
@@ -40,12 +43,12 @@ library(MLTesteR)
 # Null is true
 set.seed(1)
 x <- rnorm(100, 0, 1)
-gaussian_mean_lr_test(x, 0, "two.sided")
+gaussian_mu_lr_test(x, 0, "two.sided")
 
 # Null is false
 set.seed(1)
 x <- rnorm(100, 3, 1)
-gaussian_mean_lr_test(x, 0, "greater")
+gaussian_mu_lr_test(x, 0, "greater")
 ```
 
 

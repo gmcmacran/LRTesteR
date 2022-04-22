@@ -1,4 +1,4 @@
-#' Test lambda of a poisson distribution using likelihood ratio test.
+#' Test lambda of a poisson distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param lambda a number indicating the tested value of lambda
@@ -34,6 +34,9 @@ poisson_lambda_lr_test <- function(x, lambda = 1, alternative = "two.sided") {
   }
   if (!is.numeric(lambda)) {
     stop("Argument lambda should be numeric.")
+  }
+  if (lambda <= 0) {
+    stop("Argument lambda should be positive.")
   }
   if (length(alternative) != 1) {
     stop("Argument alternative should have length one.")

@@ -1,4 +1,4 @@
-#' Test the shape parameter of a gamma distribution using likelihood ratio test.
+#' Test the shape parameter of a gamma distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param shape a number indicating the tested value of the shape parameter.
@@ -35,7 +35,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   if (!is.numeric(shape)) {
     stop("Argument shape should be numeric.")
   }
-  if (shape < 0) {
+  if (shape <= 0) {
     stop("Argument shape should be positive.")
   }
   if (length(alternative) != 1) {
@@ -78,7 +78,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the scale parameter of a gamma distribution using likelihood ratio test.
+#' Test the scale parameter of a gamma distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param scale a number indicating the tested value of the scale parameter.
@@ -115,7 +115,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   if (!is.numeric(scale)) {
     stop("Argument scale should be numeric.")
   }
-  if (scale < 0) {
+  if (scale <= 0) {
     stop("Argument scale should be positive.")
   }
   if (length(alternative) != 1) {
@@ -141,7 +141,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
     return(base::digamma(shape) - log(geo_mean(x) / scale))
   }
 
-  profile_shape <- uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
+  profile_shape <- stats::uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
@@ -165,7 +165,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the rate parameter of a gamma distribution using likelihood ratio test.
+#' Test the rate parameter of a gamma distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param rate a number indicating the tested value of the rate parameter.
@@ -202,7 +202,7 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   if (!is.numeric(rate)) {
     stop("Argument rate should be numeric.")
   }
-  if (rate < 0) {
+  if (rate <= 0) {
     stop("Argument rate should be positive.")
   }
   if (length(alternative) != 1) {
@@ -229,7 +229,7 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
     return(base::digamma(shape) - log(geo_mean(x) / scale))
   }
 
-  profile_shape <- uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
+  profile_shape <- stats::uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -

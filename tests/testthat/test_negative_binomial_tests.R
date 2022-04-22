@@ -1,5 +1,3 @@
-library(MLTesteR)
-
 exact_test <- function(num_failures, num_success, p, alternative) {
   calc_two_sided_p_value <- function(x, size, prob) {
     if (prob == 0) {
@@ -100,3 +98,34 @@ for (alt in c("two.sided", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+
+test_that("failure input checking works", {
+  expect_error(negative_binomial_p_lr_test("foo"), NULL)
+  expect_error(negative_binomial_p_lr_test(c(5, 4)), NULL)
+  expect_error(negative_binomial_p_lr_test(-2), NULL)
+})
+
+test_that("sucess input checking works", {
+  expect_error(negative_binomial_p_lr_test(5, "foo"), NULL)
+  expect_error(negative_binomial_p_lr_test(5, c(5, 4)), NULL)
+  expect_error(negative_binomial_p_lr_test(5, -1), NULL)
+})
+
+set.seed(1)
+test_that("p input checking works", {
+  expect_error(negative_binomial_p_lr_test(5, 6, "foo"), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, c(.5, .6)), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, -1), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, 1.1), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(negative_binomial_p_lr_test(5, 6, .5, c("two.sided", "less")), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, .5, 1), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, .5, "lesss"), NULL)
+})

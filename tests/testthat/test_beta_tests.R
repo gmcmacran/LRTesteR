@@ -1,5 +1,3 @@
-library(MLTesteR)
-
 ###############################################
 # Null True
 ###############################################
@@ -55,6 +53,30 @@ for (alt in c("two.sided", "less")) {
 }
 
 ###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(beta_shape1_lr_test(c()), NULL)
+  expect_error(beta_shape1_lr_test(rep("foo", 50)), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(49, shape1 = 1, shape2 = 1)), NULL)
+})
+
+set.seed(1)
+test_that("shape1 input checking works", {
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), c(1, 2)), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), "foo"), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, c("two.sided", "less")), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, 1), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, "lesss"), NULL)
+})
+
+###############################################
 # Null True
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
@@ -107,3 +129,27 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(beta_shape2_lr_test(c()), NULL)
+  expect_error(beta_shape2_lr_test(rep("foo", 50)), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(49, shape1 = 1, shape2 = 1)), NULL)
+})
+
+set.seed(1)
+test_that("shape2 input checking works", {
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), c(1, 2)), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), "foo"), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, c("two.sided", "less")), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, 1), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, "lesss"), NULL)
+})

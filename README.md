@@ -4,6 +4,13 @@
 # MLTesteR
 
 <!-- badges: start -->
+
+[![R build
+status](https://github.com/gmcmacran/MLTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/MLTesteR/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=master)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
 <!-- badges: end -->
 
 MLTester is a work in progress. The goal is to implement the likelihood
@@ -35,7 +42,7 @@ library(MLTesteR)
 # Null is true
 set.seed(1)
 x <- rnorm(100, 0, 1)
-gaussian_mean_lr_test(x, 0, "two.sided")
+gaussian_mu_lr_test(x, 0, "two.sided")
 #> $statistic
 #> [1] 1.469635
 #> 
@@ -51,7 +58,7 @@ gaussian_mean_lr_test(x, 0, "two.sided")
 # Null is false
 set.seed(1)
 x <- rnorm(100, 3, 1)
-gaussian_mean_lr_test(x, 0, "greater")
+gaussian_mu_lr_test(x, 0, "greater")
 #> $statistic
 #> [1] 34.61244
 #> 

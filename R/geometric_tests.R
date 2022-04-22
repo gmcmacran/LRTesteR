@@ -1,4 +1,4 @@
-#' Test p of a geometric distribution using likelihood ratio test.
+#' Test p of a geometric distribution using the likelihood ratio test.
 #'
 #' @param num_failures Number of failures.
 #' @param p Hypothesized probability of success.

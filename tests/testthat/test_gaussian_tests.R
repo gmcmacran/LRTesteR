@@ -1,12 +1,10 @@
-library(MLTesteR)
-
 ###############################################
 # Null True
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
   set.seed(1)
   x <- rnorm(200, 0, 1)
-  test <- gaussian_mean_lr_test(x, 0, alt)
+  test <- gaussian_mu_lr_test(x, 0, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "mltest")
@@ -28,7 +26,7 @@ for (alt in c("two.sided", "greater", "less")) {
 for (alt in c("two.sided", "greater")) {
   set.seed(1)
   x <- rnorm(200, 3, 1)
-  test <- gaussian_mean_lr_test(x, 0, alt)
+  test <- gaussian_mu_lr_test(x, 0, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "mltest")
@@ -47,7 +45,7 @@ for (alt in c("two.sided", "greater")) {
 for (alt in c("two.sided", "less")) {
   set.seed(1)
   x <- rnorm(200, -3, 1)
-  test <- gaussian_mean_lr_test(x, 0, alt)
+  test <- gaussian_mu_lr_test(x, 0, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "mltest")
@@ -62,6 +60,29 @@ for (alt in c("two.sided", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(gaussian_mu_lr_test(c()), NULL)
+  expect_error(gaussian_mu_lr_test(rep("foo", 50)), NULL)
+  expect_error(gaussian_mu_lr_test(rnorm(49)), NULL)
+})
+
+set.seed(1)
+test_that("mu input checking works", {
+  expect_error(gaussian_mu_lr_test(rnorm(50), c(1, 2)), NULL)
+  expect_error(gaussian_mu_lr_test(rnorm(50), "foo"), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gaussian_mu_lr_test(rnorm(50), 0, c("two.sided", "less")), NULL)
+  expect_error(gaussian_mu_lr_test(rnorm(50), 0, 1), NULL)
+  expect_error(gaussian_mu_lr_test(rnorm(50), 0, "lesss"), NULL)
+})
 
 ###############################################
 # Null True
@@ -125,3 +146,27 @@ for (alt in c("two.sided", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(gaussian_variance_lr_test(c()), NULL)
+  expect_error(gaussian_variance_lr_test(rep("foo", 50)), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(49)), NULL)
+})
+
+set.seed(1)
+test_that("variance input checking works", {
+  expect_error(gaussian_variance_lr_test(rnorm(50), c(1, 2)), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(50), "foo"), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(50), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, c("two.sided", "less")), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, 1), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "lesss"), NULL)
+})

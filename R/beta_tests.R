@@ -1,4 +1,4 @@
-#' Test the shape1 parameter of a beta distribution using likelihood ratio test.
+#' Test the shape1 parameter of a beta distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param shape1 a number indicating the tested value of the shape1 parameter.
@@ -35,7 +35,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   if (!is.numeric(shape1)) {
     stop("Argument shape1 should be numeric.")
   }
-  if (shape1 < 0) {
+  if (shape1 <= 0) {
     stop("Argument shape1 should be positive.")
   }
   if (length(alternative) != 1) {
@@ -80,7 +80,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   return(out)
 }
 
-#' Test the shape2 parameter of a beta distribution using likelihood ratio test.
+#' Test the shape2 parameter of a beta distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
 #' @param shape2 a number indicating the tested value of the shape2 parameter.
@@ -117,7 +117,7 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
   if (!is.numeric(shape2)) {
     stop("Argument shape2 should be numeric.")
   }
-  if (shape2 < 0) {
+  if (shape2 <= 0) {
     stop("Argument shape2 should be positive.")
   }
   if (length(alternative) != 1) {
