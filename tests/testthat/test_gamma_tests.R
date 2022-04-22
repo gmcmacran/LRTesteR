@@ -1,5 +1,3 @@
-library(MLTesteR)
-
 ###############################################
 # Null True
 ###############################################
@@ -53,6 +51,30 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(gamma_shape_lr_test(c()), NULL)
+  expect_error(gamma_shape_lr_test(rep("foo", 50)), NULL)
+  expect_error(gamma_shape_lr_test(rgamma(49, shape = 1)), NULL)
+})
+
+set.seed(1)
+test_that("shape input checking works", {
+  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), c(1, 2)), NULL)
+  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), "foo"), NULL)
+  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, c("two.sided", "less")), NULL)
+  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, 1), NULL)
+  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, "lesss"), NULL)
+})
 
 ###############################################
 # Null True
@@ -109,6 +131,30 @@ for (alt in c("two.sided", "less")) {
 }
 
 ###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(gamma_scale_lr_test(c()), NULL)
+  expect_error(gamma_scale_lr_test(rep("foo", 50)), NULL)
+  expect_error(gamma_scale_lr_test(rgamma(49, shape = 1)), NULL)
+})
+
+set.seed(1)
+test_that("scale input checking works", {
+  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), c(1, 2)), NULL)
+  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), "foo"), NULL)
+  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, c("two.sided", "less")), NULL)
+  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, 1), NULL)
+  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, "lesss"), NULL)
+})
+
+###############################################
 # Null True
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
@@ -161,3 +207,27 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(gamma_rate_lr_test(c()), NULL)
+  expect_error(gamma_rate_lr_test(rep("foo", 50)), NULL)
+  expect_error(gamma_rate_lr_test(rgamma(49, shape = 1)), NULL)
+})
+
+set.seed(1)
+test_that("rate input checking works", {
+  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), c(1, 2)), NULL)
+  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), "foo"), NULL)
+  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, c("two.sided", "less")), NULL)
+  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, 1), NULL)
+  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, "lesss"), NULL)
+})

@@ -1,5 +1,3 @@
-library(MLTesteR)
-
 ###############################################
 # Null True
 ###############################################
@@ -65,3 +63,27 @@ for (alt in c("two.sided", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
+
+###############################################
+# Input checking
+###############################################
+set.seed(1)
+test_that("x input checking works", {
+  expect_error(exponentail_rate_lr_test(c()), NULL)
+  expect_error(exponentail_rate_lr_test(rep("foo", 50)), NULL)
+  expect_error(exponentail_rate_lr_test(rexp(49)), NULL)
+})
+
+set.seed(1)
+test_that("rate input checking works", {
+  expect_error(exponentail_rate_lr_test(rexp(50), c(1, 2)), NULL)
+  expect_error(exponentail_rate_lr_test(rexp(50), "foo"), NULL)
+  expect_error(exponentail_rate_lr_test(rexp(50), 0), NULL)
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(exponentail_rate_lr_test(rexp(50), 1, c("two.sided", "less")), NULL)
+  expect_error(exponentail_rate_lr_test(rexp(50), 1, 1), NULL)
+  expect_error(exponentail_rate_lr_test(rexp(50), 1, "lesss"), NULL)
+})
