@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaussian_tests.R
 \name{gaussian_variance_lr_test}
 \alias{gaussian_variance_lr_test}
-\title{Test the variance of a gaussian distribution using likelihood ratio test.}
+\title{Test the variance of a gaussian distribution using the likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -12,7 +12,7 @@ gaussian_variance_lr_test(x, sigma.squared = 1, alternative = "two.sided")
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}
 
-\item{sigma.squared}{a number indicating the tested value of the variance.}
+\item{sigma.squared}{a number indicating the tested value of sigma squared.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 }
@@ -21,7 +21,7 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test the variance of a gaussian distribution using likelihood ratio test.
+Test the variance of a gaussian distribution using the likelihood ratio test.
 }
 \details{
 This test requires a large sample size for approximation to be accurate.

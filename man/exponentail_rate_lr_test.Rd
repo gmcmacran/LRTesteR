@@ -2,7 +2,7 @@
 % Please edit documentation in R/exponential_tests.R
 \name{exponentail_rate_lr_test}
 \alias{exponentail_rate_lr_test}
-\title{Test rate of a exponential distribution using likelihood ratio test.}
+\title{Test the rate of a exponential distribution using the likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -12,7 +12,7 @@ exponentail_rate_lr_test(x, rate = 1, alternative = "two.sided")
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}
 
-\item{rate}{a number indicating the tested value of rate}
+\item{rate}{a number indicating the tested value of rate.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 }
@@ -21,7 +21,7 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test rate of a exponential distribution using likelihood ratio test.
+Test the rate of a exponential distribution using the likelihood ratio test.
 }
 \details{
 This test requires a large sample size for approximation to be accurate.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/gamma_tests.R
 \name{gamma_scale_lr_test}
 \alias{gamma_scale_lr_test}
-\title{Test the scale parameter of a gamma distribution using likelihood ratio test.}
+\title{Test the scale parameter of a gamma distribution using the likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -21,7 +21,7 @@ An S3 class containing the test statistic, p value and alternative
 hypothesis.
 }
 \description{
-Test the scale parameter of a gamma distribution using likelihood ratio test.
+Test the scale parameter of a gamma distribution using the likelihood ratio test.
 }
 \details{
 This test requires a large sample size for approximation to be accurate.
