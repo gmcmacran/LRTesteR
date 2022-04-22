@@ -8,7 +8,7 @@
 [![R build
 status](https://github.com/gmcmacran/MLTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/MLTesteR/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/gmcmacran/MLTesteR?branch=main)
+coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=master)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
 <!-- badges: end -->
