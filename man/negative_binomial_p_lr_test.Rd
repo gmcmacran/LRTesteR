@@ -8,16 +8,16 @@
 }
 \usage{
 negative_binomial_p_lr_test(
-  num_success,
   num_failures,
+  num_success,
   p = 0.5,
   alternative = "two.sided"
 )
 }
 \arguments{
-\item{num_success}{Number of successes.}
-
 \item{num_failures}{Number of failures.}
+
+\item{num_success}{Number of successes.}
 
 \item{p}{Hypothesized probability of success.}
 
@@ -37,8 +37,8 @@ This test requires a large sample size for approximation to be accurate.
 library(MLTesteR)
 
 # Null is true. 52 successes. 100 trials
-negative_binomial_p_lr_test(50, 50, .50, "two.sided")
+negative_binomial_p_lr_test(48, 52, .50, "two.sided")
 
 # Null is false. 75 successes. 100 trials
-negative_binomial_p_lr_test(75, 25, .50, "two.sided")
+negative_binomial_p_lr_test(25, 75, .50, "two.sided")
 }

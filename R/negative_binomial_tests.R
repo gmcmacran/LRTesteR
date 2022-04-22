@@ -1,7 +1,7 @@
 #' Test p of a negative binomial distribution's p using likelihood ratio test.
 #'
-#' @param num_success Number of successes.
 #' @param num_failures Number of failures.
+#' @param num_success Number of successes.
 #' @param p Hypothesized probability of success.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
@@ -14,21 +14,12 @@
 #' library(MLTesteR)
 #'
 #' # Null is true. 52 successes. 100 trials
-#' negative_binomial_p_lr_test(50, 50, .50, "two.sided")
+#' negative_binomial_p_lr_test(48, 52, .50, "two.sided")
 #'
 #' # Null is false. 75 successes. 100 trials
-#' negative_binomial_p_lr_test(75, 25, .50, "two.sided")
+#' negative_binomial_p_lr_test(25, 75, .50, "two.sided")
 #' @export
-negative_binomial_p_lr_test <- function(num_success, num_failures, p = .50, alternative = "two.sided") {
-  if (!is.numeric(num_success)) {
-    stop("Argument num_success should be numeric.")
-  }
-  if (length(num_success) != 1) {
-    stop("Argument num_success should have length 1.")
-  }
-  if (num_success < 0) {
-    stop("Argument num_success should be 0 or positive.")
-  }
+negative_binomial_p_lr_test <- function(num_failures, num_success, p = .50, alternative = "two.sided") {
   if (!is.numeric(num_failures)) {
     stop("Argument num_failures should be numeric.")
   }
@@ -37,6 +28,15 @@ negative_binomial_p_lr_test <- function(num_success, num_failures, p = .50, alte
   }
   if (num_failures < 0) {
     stop("Argument num_failures should be 0 or positive.")
+  }
+  if (!is.numeric(num_success)) {
+    stop("Argument num_success should be numeric.")
+  }
+  if (length(num_success) != 1) {
+    stop("Argument num_success should have length 1.")
+  }
+  if (num_success < 0) {
+    stop("Argument num_success should be 0 or positive.")
   }
   if (!is.numeric(p)) {
     stop("Argument p should be numeric.")

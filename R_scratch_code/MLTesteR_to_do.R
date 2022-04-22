@@ -1,13 +1,11 @@
 ############################
-# For gaussian variance test, why does seed matter so much?
-# Should this be published? Does the lr theory warrent using this test?
-# What is the power of the chi square test?
-# N seems very important. At what N does wilk's theroem happen? Run sim.
+# For gaussian variance test, what is the power of the chi square test?
 #
 # For poisson, find an exact test to confirm results are similar?
 # Can a glm model be used to confirm results?
 # Why does seed matter so much
 # chisq.pois test in stats package
+# Can poisson approximation to binomial be used to make a nearly exact test?
 # https://stats.stackexchange.com/questions/92627/how-to-use-the-chi-squared-test-to-determine-if-data-follow-the-poisson-distribu
 #
 # All tests assume large N. What should be the cut off?
@@ -50,6 +48,8 @@
 #
 
 
-
+Z <- 3.5
+2 * min(pnorm(-1*Z, lower.tail = TRUE), pnorm(Z, lower.tail = FALSE))
+pchisq(Z^2, df = 1, lower.tail = FALSE)
 
 
