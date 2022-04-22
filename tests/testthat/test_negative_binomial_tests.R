@@ -60,7 +60,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test_02 <- exact_test(50, 50, .50, alt)
   test_that("Check contents", {
     expect_true(test$p.value > .05)
-    expect_true(abs(test$p.value - test_02$p.value) < .05)
+    expect_true(abs(test$p.value - test_02$p.value) < .04)
   })
 }
 
