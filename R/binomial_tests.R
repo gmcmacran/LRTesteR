@@ -1,8 +1,8 @@
-#' Test p of a binomial distribution using likelihood ratio test.
+#' Test p of a binomial distribution using the likelihood ratio test.
 #'
 #' @param x Number of successes.
 #' @param n Number of trials.
-#' @param p Hypothesized probability of success..
+#' @param p Hypothesized probability of success.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.
@@ -26,6 +26,9 @@ binomial_p_lr_test <- function(x, n, p = .50, alternative = "two.sided") {
   if (length(x) != 1) {
     stop("Argument x should have length 1.")
   }
+  if (length(n) != 1) {
+    stop("Argument n should have length 1.")
+  }
   if (x < 0) {
     stop("Argument x should be 0 or positive.")
   }
@@ -34,9 +37,6 @@ binomial_p_lr_test <- function(x, n, p = .50, alternative = "two.sided") {
   }
   if (!is.numeric(n)) {
     stop("Argument n should be numeric.")
-  }
-  if (length(n) != 1) {
-    stop("Argument n should have length 1.")
   }
   if (n < 0) {
     stop("Argument n should be positive.")

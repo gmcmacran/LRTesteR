@@ -1,7 +1,7 @@
-#' Test rate of a exponential distribution using likelihood ratio test.
+#' Test the rate of a exponential distribution using the likelihood ratio test.
 #'
 #' @param x a (non-empty) numeric vector of data values.
-#' @param rate a number indicating the tested value of rate
+#' @param rate a number indicating the tested value of rate.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.
@@ -34,6 +34,9 @@ exponentail_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   }
   if (!is.numeric(rate)) {
     stop("Argument rate should be numeric.")
+  }
+  if (rate <= 0) {
+    stop("Argument rate should be positive.")
   }
   if (length(alternative) != 1) {
     stop("Argument alternative should have length one.")
