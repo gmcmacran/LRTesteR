@@ -9,7 +9,6 @@ Encoding: UTF-8
 LazyData: true
 Imports: 
     stats,
-    fitdistrplus,
     EnvStats,
     testthat
 Roxygen: list(markdown = TRUE)
