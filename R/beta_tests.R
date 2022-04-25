@@ -48,15 +48,45 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  est <- fitdistrplus::fitdist(data = x, distr = "beta", method = "mle")
-  obs_shape1 <- unname(est$estimate["shape1"])
-  obs_shape2 <- unname(est$estimate["shape2"])
+  get_MLEs <- function(x) {
+    neg_log_likelihood <- function(MLEs) {
+      est_shape1 <- MLEs[1]
+      est_shape2 <- MLEs[2]
 
-  # negative log likelihood
-  profile_helper <- function(shape2) {
-    return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
+      objective <- -1 * sum(stats::dbeta(x = x, shape1 = est_shape1, shape2 = est_shape2, log = TRUE))
+
+      return(objective)
+    }
+
+    # starting points (method of moments)
+    xbar <- mean(x)
+    vbar <- var(x)
+    C <- (xbar*(1-xbar)) / vbar - 1
+    shape1_start <- xbar * C
+    shape2_start <- (1 - xbar) * C
+    MLEstart <- c(shape1_start, shape2_start)
+    rm(xbar, vbar, C, shape1_start, shape2_start)
+
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    return(MLEs)
   }
-  profile_shape2 <- stats::optim(shape1, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+  MLEs <- get_MLEs(x)
+  obs_shape1 <- MLEs[1]
+  obs_shape2 <-  MLEs[2]
+  rm(MLEs)
+
+  get_profile_shape2 <- function(x, shape1) {
+    # negative log likelihood
+    profile_helper <- function(shape2) {
+      return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
+    }
+
+    profile_shape2 <- stats::optim(shape1, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
+    return(profile_shape2)
+  }
+  profile_shape2 <- get_profile_shape2(x, shape1)
+
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
@@ -130,15 +160,43 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  est <- fitdistrplus::fitdist(data = x, distr = "beta", method = "mle")
-  obs_shape1 <- unname(est$estimate["shape1"])
-  obs_shape2 <- unname(est$estimate["shape2"])
+  get_MLEs <- function(x) {
+    neg_log_likelihood <- function(MLEs) {
+      est_shape1 <- MLEs[1]
+      est_shape2 <- MLEs[2]
 
-  # negative log likelihood
-  profile_helper <- function(shape1) {
-    return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
+      objective <- -1 * sum(stats::dbeta(x = x, shape1 = est_shape1, shape2 = est_shape2, log = TRUE))
+
+      return(objective)
+    }
+
+    # starting points (method of moments)
+    xbar <- mean(x)
+    vbar <- var(x)
+    C <- (xbar*(1-xbar)) / vbar - 1
+    shape1_start <- xbar * C
+    shape2_start <- (1 - xbar) * C
+    MLEstart <- c(shape1_start, shape2_start)
+    rm(xbar, vbar, C, shape1_start, shape2_start)
+
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    return(MLEs)
   }
-  profile_shape1 <- stats::optim(shape2, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+  MLEs <- get_MLEs(x)
+  obs_shape1 <- MLEs[1]
+  obs_shape2 <-  MLEs[2]
+
+  get_profile_shape2 <- function(x, shape2) {
+    # negative log likelihood
+    profile_helper <- function(shape1) {
+      return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
+    }
+
+    profile_shape2 <- stats::optim(shape2, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
+    return(profile_shape2)
+  }
+  profile_shape1 <- get_profile_shape2(x, shape2)
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
