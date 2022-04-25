@@ -59,9 +59,9 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
     }
 
     # starting points (method of moments)
-    xbar <- mean(x)
-    vbar <- var(x)
-    C <- (xbar*(1-xbar)) / vbar - 1
+    xbar <- base::mean(x)
+    vbar <- stats::var(x)
+    C <- (xbar * (1 - xbar)) / vbar - 1
     shape1_start <- xbar * C
     shape2_start <- (1 - xbar) * C
     MLEstart <- c(shape1_start, shape2_start)
@@ -72,7 +72,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   }
   MLEs <- get_MLEs(x)
   obs_shape1 <- MLEs[1]
-  obs_shape2 <-  MLEs[2]
+  obs_shape2 <- MLEs[2]
   rm(MLEs)
 
   get_profile_shape2 <- function(x, shape1) {
@@ -171,9 +171,9 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
     }
 
     # starting points (method of moments)
-    xbar <- mean(x)
-    vbar <- var(x)
-    C <- (xbar*(1-xbar)) / vbar - 1
+    xbar <- base::mean(x)
+    vbar <- stats::var(x)
+    C <- (xbar * (1 - xbar)) / vbar - 1
     shape1_start <- xbar * C
     shape2_start <- (1 - xbar) * C
     MLEstart <- c(shape1_start, shape2_start)
@@ -184,7 +184,7 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
   }
   MLEs <- get_MLEs(x)
   obs_shape1 <- MLEs[1]
-  obs_shape2 <-  MLEs[2]
+  obs_shape2 <- MLEs[2]
 
   get_profile_shape2 <- function(x, shape2) {
     # negative log likelihood

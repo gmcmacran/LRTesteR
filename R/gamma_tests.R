@@ -60,8 +60,8 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
 
     # starting points
     s <- log(mean(x)) - mean(log(x))
-    shape_start <- (3 - s + ((s - 3)^2 + 24*s)^.5) / (12 * s)
-    scale_start <- sum(x) / (shape_start*length(x))
+    shape_start <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
+    scale_start <- sum(x) / (shape_start * length(x))
     rate_start <- 1 / scale_start
     MLEstart <- c(shape_start, rate_start)
     rm(s, shape_start, scale_start, rate_start)
@@ -73,7 +73,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
 
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
-  obs_rate <-MLEs[2]
+  obs_rate <- MLEs[2]
   obs_scale <- 1 / obs_rate
 
   # Profile scale/rate based on null hypothesis shape
@@ -164,8 +164,8 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
 
     # starting points
     s <- log(mean(x)) - mean(log(x))
-    shape_start <- (3 - s + ((s - 3)^2 + 24*s)^.5) / (12 * s)
-    scale_start <- sum(x) / (shape_start*length(x))
+    shape_start <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
+    scale_start <- sum(x) / (shape_start * length(x))
     rate_start <- 1 / scale_start
     MLEstart <- c(shape_start, rate_start)
     rm(s, shape_start, scale_start, rate_start)
@@ -177,7 +177,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
 
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
-  obs_rate <-MLEs[2]
+  obs_rate <- MLEs[2]
   obs_scale <- 1 / obs_rate
 
   get_profile_shape <- function(x, scale) {
@@ -280,8 +280,8 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
 
     # starting points
     s <- log(mean(x)) - mean(log(x))
-    shape_start <- (3 - s + ((s - 3)^2 + 24*s)^.5) / (12 * s)
-    scale_start <- sum(x) / (shape_start*length(x))
+    shape_start <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
+    scale_start <- sum(x) / (shape_start * length(x))
     rate_start <- 1 / scale_start
     MLEstart <- c(shape_start, rate_start)
     rm(s, shape_start, scale_start, rate_start)
@@ -293,7 +293,7 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
 
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
-  obs_rate <-MLEs[2]
+  obs_rate <- MLEs[2]
   obs_scale <- 1 / obs_rate
 
   get_profile_shape <- function(x, rate) {
