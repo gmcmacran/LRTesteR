@@ -48,11 +48,35 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  est <- fitdistrplus::fitdist(data = x, distr = "gamma", method = "mle")
-  obs_shape <- unname(est$estimate["shape"])
-  obs_rate <- unname(est$estimate["rate"])
+  get_MLEs <- function(x) {
+    neg_log_likelihood <- function(MLEs) {
+      est_shape <- MLEs[1]
+      est_rate <- MLEs[2]
+
+      objective <- -1 * sum(stats::dgamma(x = x, shape = est_shape, rate = est_rate, log = TRUE))
+
+      return(objective)
+    }
+
+    # starting points
+    s <- log(mean(x)) - mean(log(x))
+    shape_start <- (3 - s + ((s - 3)^2 + 24*s)^.5) / (12 * s)
+    scale_start <- sum(x) / (shape_start*length(x))
+    rate_start <- 1 / scale_start
+    MLEstart <- c(shape_start, rate_start)
+    rm(s, shape_start, scale_start, rate_start)
+
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
+    return(MLEs)
+  }
+
+  MLEs <- get_MLEs(x)
+  obs_shape <- MLEs[1]
+  obs_rate <-MLEs[2]
   obs_scale <- 1 / obs_rate
 
+  # Profile scale/rate based on null hypothesis shape
   profile_scale <- mean(x) / shape
   profile_rate <- 1 / profile_scale
 
@@ -128,20 +152,49 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  est <- fitdistrplus::fitdist(data = x, distr = "gamma", method = "mle")
-  obs_shape <- unname(est$estimate["shape"])
-  obs_rate <- unname(est$estimate["rate"])
+  get_MLEs <- function(x) {
+    neg_log_likelihood <- function(MLEs) {
+      est_shape <- MLEs[1]
+      est_rate <- MLEs[2]
+
+      objective <- -1 * sum(stats::dgamma(x = x, shape = est_shape, rate = est_rate, log = TRUE))
+
+      return(objective)
+    }
+
+    # starting points
+    s <- log(mean(x)) - mean(log(x))
+    shape_start <- (3 - s + ((s - 3)^2 + 24*s)^.5) / (12 * s)
+    scale_start <- sum(x) / (shape_start*length(x))
+    rate_start <- 1 / scale_start
+    MLEstart <- c(shape_start, rate_start)
+    rm(s, shape_start, scale_start, rate_start)
+
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
+    return(MLEs)
+  }
+
+  MLEs <- get_MLEs(x)
+  obs_shape <- MLEs[1]
+  obs_rate <-MLEs[2]
   obs_scale <- 1 / obs_rate
 
-  geo_mean <- function(x) {
-    return(exp(mean(log(x))))
+  get_profile_shape <- function(x, scale) {
+    geo_mean <- function(x) {
+      return(exp(mean(log(x))))
+    }
+
+    profile_helper <- function(shape) {
+      return(base::digamma(shape) - log(geo_mean(x) / scale))
+    }
+
+    profile_shape <- stats::uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
+
+    return(profile_shape)
   }
 
-  profile_helper <- function(shape) {
-    return(base::digamma(shape) - log(geo_mean(x) / scale))
-  }
-
-  profile_shape <- stats::uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
+  profile_shape <- get_profile_shape(x, scale)
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
@@ -215,21 +268,50 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  est <- fitdistrplus::fitdist(data = x, distr = "gamma", method = "mle")
-  obs_shape <- unname(est$estimate["shape"])
-  obs_rate <- unname(est$estimate["rate"])
+  get_MLEs <- function(x) {
+    neg_log_likelihood <- function(MLEs) {
+      est_shape <- MLEs[1]
+      est_rate <- MLEs[2]
+
+      objective <- -1 * sum(stats::dgamma(x = x, shape = est_shape, rate = est_rate, log = TRUE))
+
+      return(objective)
+    }
+
+    # starting points
+    s <- log(mean(x)) - mean(log(x))
+    shape_start <- (3 - s + ((s - 3)^2 + 24*s)^.5) / (12 * s)
+    scale_start <- sum(x) / (shape_start*length(x))
+    rate_start <- 1 / scale_start
+    MLEstart <- c(shape_start, rate_start)
+    rm(s, shape_start, scale_start, rate_start)
+
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+
+    return(MLEs)
+  }
+
+  MLEs <- get_MLEs(x)
+  obs_shape <- MLEs[1]
+  obs_rate <-MLEs[2]
   obs_scale <- 1 / obs_rate
 
-  scale <- 1 / rate
-  geo_mean <- function(x) {
-    return(exp(mean(log(x))))
+  get_profile_shape <- function(x, rate) {
+    scale <- 1 / rate
+    geo_mean <- function(x) {
+      return(exp(mean(log(x))))
+    }
+
+    profile_helper <- function(shape) {
+      return(base::digamma(shape) - log(geo_mean(x) / scale))
+    }
+
+    profile_shape <- stats::uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
+
+    return(profile_shape)
   }
 
-  profile_helper <- function(shape) {
-    return(base::digamma(shape) - log(geo_mean(x) / scale))
-  }
-
-  profile_shape <- stats::uniroot(profile_helper, lower = geo_mean(x) / scale, upper = geo_mean(x) / scale + 1)$root
+  profile_shape <- get_profile_shape(x, rate)
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
