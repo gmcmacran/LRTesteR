@@ -122,8 +122,8 @@ gaussian_variance_lr_test <- function(x, sigma.squared = 1, alternative = "two.s
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
   }
 
-  obs_sd <- stats::sd(x)
   obs_mean <- base::mean(x)
+  obs_sd <- (sum((x - obs_mean)^2) / length(x))^.5 # Need n denominator. Not n-1.
 
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
