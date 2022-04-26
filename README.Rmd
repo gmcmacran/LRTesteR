@@ -35,7 +35,7 @@ devtools::install_github("gmcmacran/MLTesteR")
 ```
 ## Example
 
-This is a basic example which shows how to test the mean of a Gaussian distribution with the likelihood ratio test:
+This is a basic example which shows how to test the mean of a Gaussian distribution with the likelihood ratio test.
 
 ```{r example}
 library(MLTesteR)
