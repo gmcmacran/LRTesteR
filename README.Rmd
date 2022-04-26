@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![R build status](https://github.com/gmcmacran/MLTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/MLTesteR/actions)
-[![Codecov test coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/main/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=main)
 [![CRAN status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
 <!-- badges: end -->
 

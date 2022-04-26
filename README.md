@@ -8,7 +8,7 @@
 [![R build
 status](https://github.com/gmcmacran/MLTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/MLTesteR/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/master/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=master)
+coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/main/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
 <!-- badges: end -->
@@ -44,10 +44,10 @@ set.seed(1)
 x <- rnorm(100, 0, 1)
 gaussian_mu_lr_test(x, 0, "two.sided")
 #> $statistic
-#> [1] 1.469635
+#> [1] 1.468536
 #> 
 #> $p.value
-#> [1] 0.2254033
+#> [1] 0.2255769
 #> 
 #> $alternative
 #> [1] "two.sided"
@@ -60,10 +60,10 @@ set.seed(1)
 x <- rnorm(100, 3, 1)
 gaussian_mu_lr_test(x, 0, "greater")
 #> $statistic
-#> [1] 34.61244
+#> [1] 16.0395
 #> 
 #> $p.value
-#> [1] 8.209628e-263
+#> [1] 3.384907e-58
 #> 
 #> $alternative
 #> [1] "greater"
