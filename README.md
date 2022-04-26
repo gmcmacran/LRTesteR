@@ -34,7 +34,7 @@ devtools::install_github("gmcmacran/MLTesteR")
 ## Example
 
 This is a basic example which shows how to test the mean of a Gaussian
-distribution with the likelihood ratio test:
+distribution with the likelihood ratio test.
 
 ``` r
 library(MLTesteR)
@@ -44,10 +44,10 @@ set.seed(1)
 x <- rnorm(100, 0, 1)
 gaussian_mu_lr_test(x, 0, "two.sided")
 #> $statistic
-#> [1] 1.468536
+#> [1] 1.473569
 #> 
 #> $p.value
-#> [1] 0.2255769
+#> [1] 0.2247834
 #> 
 #> $alternative
 #> [1] "two.sided"
@@ -60,10 +60,10 @@ set.seed(1)
 x <- rnorm(100, 3, 1)
 gaussian_mu_lr_test(x, 0, "greater")
 #> $statistic
-#> [1] 16.0395
+#> [1] 16.03966
 #> 
 #> $p.value
-#> [1] 3.384907e-58
+#> [1] 3.376365e-58
 #> 
 #> $alternative
 #> [1] "greater"
