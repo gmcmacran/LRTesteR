@@ -48,14 +48,16 @@ gaussian_mu_lr_test <- function(x, mu = 0, alternative = "two.sided") {
   obs_sd <- stats::sd(x)
   obs_mean <- base::mean(x)
 
+  profile_sd <- (sum((x - mu)^2) / length(x))^.5
+
   if (alternative == "two.sided") {
     W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
-      sum(stats::dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
+      sum(stats::dnorm(x = x, mean = mu, sd = profile_sd, log = TRUE)))
     p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
   }
   else {
     W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
-      sum(stats::dnorm(x = x, mean = mu, sd = obs_sd, log = TRUE)))
+      sum(stats::dnorm(x = x, mean = mu, sd = profile_sd, log = TRUE)))
     W <- sign(obs_mean - mu) * W^.5
     if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
