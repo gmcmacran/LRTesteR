@@ -34,7 +34,7 @@ Test p of a negative binomial distribution using the likelihood ratio test.
 This test requires a large sample size for approximation to be accurate.
 }
 \examples{
-library(MLTesteR)
+library(LRTesteR)
 
 # Null is true. 52 successes. 100 trials
 negative_binomial_p_lr_test(48, 52, .50, "two.sided")

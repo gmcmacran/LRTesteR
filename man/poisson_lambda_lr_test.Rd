@@ -27,7 +27,7 @@ Test lambda of a poisson distribution using the likelihood ratio test.
 This test requires a large sample size for approximation to be accurate.
 }
 \examples{
-library(MLTesteR)
+library(LRTesteR)
 
 # Null is true
 set.seed(1)

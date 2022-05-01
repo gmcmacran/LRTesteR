@@ -10,7 +10,7 @@
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
@@ -122,7 +122,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)

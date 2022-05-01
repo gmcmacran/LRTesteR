@@ -11,7 +11,7 @@
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true. Two failures before the 1st success.
 #' geometric_p_lr_test(2, .50, "two.sided")

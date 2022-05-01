@@ -10,7 +10,7 @@
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
@@ -84,7 +84,7 @@ gaussian_mu_lr_test <- function(x, mu = 0, alternative = "two.sided") {
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)

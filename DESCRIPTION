@@ -1,9 +1,9 @@
-Package: MLTesteR
-Title: Hypothesis Tests Based on Maximum Likelihood Theory
+Package: LRTesteR
+Title: Likelihood Ratio Tests
 Version: 0.1
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
-Description: Implements likelihood ration, score and wald tests for many distributions.
+Description: A collection of hypothesis tests based on the likelihood ratio.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true

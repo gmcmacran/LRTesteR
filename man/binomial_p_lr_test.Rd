@@ -29,7 +29,7 @@ Test p of a binomial distribution using the likelihood ratio test.
 This test requires a large sample size for approximation to be accurate.
 }
 \examples{
-library(MLTesteR)
+library(LRTesteR)
 
 # Null is true. 52 successes. 100 trials
 binomial_p_lr_test(52, 100, .50, "two.sided")
