@@ -21,21 +21,11 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
 <!-- badges: end -->
 
-MLTester is a work in progress. The goal is to implement the likelihood ratio, wald and score tests for all common families. Currently a few likelihood ratio tests are implemented. A thorough evaluation (type 1 error rate, publication comparisons, thorough test creation, etc) have not been done yet.
+LRTester implements the likelihood ratio test for many common distributions. All tests rely on chi square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50.
 
-Package is mostly of theoretical interest. Exact tests are implemented in other R packages. These tests are all approximations.
+A simulation that estimates asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
-## Installation
-
-And the development version from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("devtools")
-devtools::install_github("gmcmacran/MLTesteR")
-```
-## Example
-
-This is a basic example which shows how to test the mean of a Gaussian distribution with the likelihood ratio test.
+# Test mu of a gaussian distribution. 
 
 ```{r example}
 library(MLTesteR)
