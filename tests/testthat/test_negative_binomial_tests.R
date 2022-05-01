@@ -119,8 +119,8 @@ set.seed(1)
 test_that("p input checking works", {
   expect_error(negative_binomial_p_lr_test(5, 6, "foo"), NULL)
   expect_error(negative_binomial_p_lr_test(5, 6, c(.5, .6)), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, -1), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, 1.1), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, 0), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, 1.01), NULL)
 })
 
 set.seed(1)

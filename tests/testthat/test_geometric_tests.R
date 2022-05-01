@@ -146,8 +146,8 @@ set.seed(1)
 test_that("p input checking works", {
   expect_error(geometric_p_lr_test(10, "foo"), NULL)
   expect_error(geometric_p_lr_test(10, c(.5, .6)), NULL)
-  expect_error(geometric_p_lr_test(10, -1), NULL)
-  expect_error(geometric_p_lr_test(10, 1.1), NULL)
+  expect_error(geometric_p_lr_test(10, 0), NULL)
+  expect_error(geometric_p_lr_test(10, 1.01), NULL)
 })
 
 set.seed(1)
