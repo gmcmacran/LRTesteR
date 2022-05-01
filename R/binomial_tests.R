@@ -38,7 +38,7 @@ binomial_p_lr_test <- function(x, n, p = .50, alternative = "two.sided") {
   if (!is.numeric(n)) {
     stop("Argument n should be numeric.")
   }
-  if (n < 0) {
+  if (n <= 0) {
     stop("Argument n should be positive.")
   }
   if (!is.numeric(p)) {

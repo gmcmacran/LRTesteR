@@ -69,15 +69,15 @@ test_that("x input checking works", {
 test_that("n input checking works", {
   expect_error(binomial_p_lr_test(5, "foo"), NULL)
   expect_error(binomial_p_lr_test(5, c(10, 11)), NULL)
-  expect_error(binomial_p_lr_test(0, -1), NULL)
+  expect_error(binomial_p_lr_test(0, 0), NULL)
 })
 
 set.seed(1)
 test_that("p input checking works", {
   expect_error(binomial_p_lr_test(5, 10, "foo"), NULL)
   expect_error(binomial_p_lr_test(5, 10, c(.5, .6)), NULL)
-  expect_error(binomial_p_lr_test(5, 10, -1), NULL)
-  expect_error(binomial_p_lr_test(5, 10, 1.1), NULL)
+  expect_error(binomial_p_lr_test(5, 10, -.1), NULL)
+  expect_error(binomial_p_lr_test(5, 10, 1.01), NULL)
 })
 
 set.seed(1)
