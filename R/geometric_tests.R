@@ -35,8 +35,11 @@ geometric_p_lr_test <- function(num_failures, p = .50, alternative = "two.sided"
   if (length(p) != 1) {
     stop("Argument p should have length one.")
   }
-  if (p < 0 | p > 1) {
-    stop("Argument p should be between 0 and 1.")
+  if (p <= 0) {
+    stop("Argument p should be positive.")
+  }
+  if (p > 1) {
+    stop("Argument p should be less than or equal to 1.")
   }
   if (length(alternative) != 1) {
     stop("Argument alternative should have length one.")
