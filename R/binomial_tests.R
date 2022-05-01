@@ -11,7 +11,7 @@
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true. 52 successes. 100 trials
 #' binomial_p_lr_test(52, 100, .50, "two.sided")

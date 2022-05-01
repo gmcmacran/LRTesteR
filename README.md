@@ -1,16 +1,16 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# MLTesteR
+# LRTesteR
 
 <!-- badges: start -->
 
 [![R build
-status](https://github.com/gmcmacran/MLTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/MLTesteR/actions)
+status](https://github.com/gmcmacran/LRTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/LRTesteR/actions)
 [![Codecov test
-coverage](https://codecov.io/gh/gmcmacran/MLTesteR/branch/main/graph/badge.svg)](https://codecov.io/gh/gmcmacran/MLTesteR?branch=main)
+coverage](https://codecov.io/gh/gmcmacran/LRTesteR/branch/main/graph/badge.svg)](https://codecov.io/gh/gmcmacran/LRTesteR?branch=main)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/MLTesteR)](https://cran.r-project.org/package=MLTesteR)
+status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
 LRTester implements the likelihood ratio test for many common
@@ -24,7 +24,7 @@ can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 # Test mu of a gaussian distribution.
 
 ``` r
-library(MLTesteR)
+library(LRTesteR)
 
 # Null is true
 set.seed(1)

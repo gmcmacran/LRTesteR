@@ -10,7 +10,7 @@
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
@@ -114,7 +114,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
@@ -230,7 +230,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)

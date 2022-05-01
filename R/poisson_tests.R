@@ -10,7 +10,7 @@
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
-#' library(MLTesteR)
+#' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)

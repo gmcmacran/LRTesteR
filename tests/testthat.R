@@ -1,4 +1,4 @@
 library(testthat)
-library(MLTesteR)
+library(LRTesteR)
 
-test_check("MLTesteR")
+test_check("LRTesteR")
