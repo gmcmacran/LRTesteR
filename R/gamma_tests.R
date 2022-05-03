@@ -98,7 +98,7 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }
 
@@ -214,7 +214,7 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }
 
@@ -331,6 +331,6 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }

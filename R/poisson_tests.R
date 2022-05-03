@@ -68,6 +68,6 @@ poisson_lambda_lr_test <- function(x, lambda = 1, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }

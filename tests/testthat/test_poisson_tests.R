@@ -7,7 +7,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- poisson_lambda_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -29,7 +29,7 @@ for (alt in c("two.sided", "greater")) {
   test <- poisson_lambda_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -48,7 +48,7 @@ for (alt in c("two.sided", "less")) {
   test <- poisson_lambda_lr_test(x, 3, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })

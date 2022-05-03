@@ -52,7 +52,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- negative_binomial_p_lr_test(50, 50, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -71,7 +71,7 @@ for (alt in c("two.sided", "greater")) {
   test <- negative_binomial_p_lr_test(10, 50, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -87,7 +87,7 @@ for (alt in c("two.sided", "less")) {
   test <- negative_binomial_p_lr_test(90, 50, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })

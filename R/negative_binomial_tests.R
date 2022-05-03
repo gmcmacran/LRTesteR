@@ -80,6 +80,6 @@ negative_binomial_p_lr_test <- function(num_failures, num_success, p = .50, alte
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }

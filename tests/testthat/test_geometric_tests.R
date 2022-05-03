@@ -52,7 +52,7 @@ for (alt in c("two.sided")) {
   test <- geometric_p_lr_test(1, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -68,7 +68,7 @@ for (alt in c("less")) {
   test <- geometric_p_lr_test(0, .10, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -84,7 +84,7 @@ for (alt in c("greater")) {
   test <- geometric_p_lr_test(0, .26, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -104,7 +104,7 @@ for (alt in c("two.sided", "less")) {
   test <- geometric_p_lr_test(10, .925, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -120,7 +120,7 @@ for (alt in c("greater")) {
   test <- geometric_p_lr_test(0, .05, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
