@@ -7,7 +7,12 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-geometric_p_lr_test(num_failures, p = 0.5, alternative = "two.sided")
+geometric_p_lr_test(
+  num_failures,
+  p = 0.5,
+  alternative = "two.sided",
+  warn = TRUE
+)
 }
 \arguments{
 \item{num_failures}{Number of failures.}
@@ -15,6 +20,8 @@ geometric_p_lr_test(num_failures, p = 0.5, alternative = "two.sided")
 \item{p}{Hypothesized probability of success.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
+
+\item{warn}{Should a message about type I and type II error be printed.}
 }
 \value{
 An S3 class containing the test statistic, p value and alternative
@@ -24,8 +31,8 @@ hypothesis.
 Test p of a geometric distribution using the likelihood ratio test.
 }
 \details{
-Simulation shows this test needs the hypothesized p at or above .35 for a
-reasonable type I error.
+Simulation shows this test does not achieve the desired type I error rate. It can be conservative or liberal depending on what the true value
+of p is. This test also has a high type II error rate. Sometimes near 100\%.
 }
 \examples{
 library(LRTesteR)
