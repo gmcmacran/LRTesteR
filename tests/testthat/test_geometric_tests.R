@@ -49,7 +49,7 @@ exact_test <- function(num_failures, p, alternative) {
 # Null True
 ###############################################
 for (alt in c("two.sided")) {
-  test <- geometric_p_lr_test(1, .50, alt)
+  test <- geometric_p_lr_test(1, .50, alt, FALSE)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -65,7 +65,7 @@ for (alt in c("two.sided")) {
 }
 
 for (alt in c("less")) {
-  test <- geometric_p_lr_test(0, .10, alt)
+  test <- geometric_p_lr_test(0, .10, alt, FALSE)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -81,7 +81,7 @@ for (alt in c("less")) {
 }
 
 for (alt in c("greater")) {
-  test <- geometric_p_lr_test(0, .26, alt)
+  test <- geometric_p_lr_test(0, .26, alt, FALSE)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -101,7 +101,7 @@ for (alt in c("greater")) {
 ###############################################
 
 for (alt in c("two.sided", "less")) {
-  test <- geometric_p_lr_test(10, .925, alt)
+  test <- geometric_p_lr_test(10, .925, alt, FALSE)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -117,7 +117,7 @@ for (alt in c("two.sided", "less")) {
 }
 
 for (alt in c("greater")) {
-  test <- geometric_p_lr_test(0, .05, alt)
+  test <- geometric_p_lr_test(0, .05, alt, FALSE)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -155,4 +155,10 @@ test_that("alternative input checking works", {
   expect_error(geometric_p_lr_test(10, .5, c("two.sided", "less")), NULL)
   expect_error(geometric_p_lr_test(10, .5, 1), NULL)
   expect_error(geometric_p_lr_test(10, .5, "lesss"), NULL)
+})
+
+set.seed(1)
+test_that("warn input checking works", {
+  expect_error(geometric_p_lr_test(10, .5, "less", "foo"), NULL)
+  expect_error(geometric_p_lr_test(10, .5, "less", c(TRUE, FALSE)), NULL)
 })
