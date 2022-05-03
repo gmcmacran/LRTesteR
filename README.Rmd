@@ -21,9 +21,35 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTester implements the likelihood ratio test for many common distributions. All tests rely on chi square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50.
+LRTesteR implements the likelihood ratio test for many common distributions. All tests rely on chi-square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
-A simulation that estimates asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
+* beta
+  + Shape 1 test
+  + Shape 2 test
+
+* binomial
+  + p test
+  
+* exponential
+  + rate test
+  
+* gamma
+  + rate test
+  + scale test
+  + shape test
+  
+* gaussian
+  + mu test
+  + variance test
+  
+* geometric
+  + p test
+  
+* negative binomial
+  + p test
+  
+* poisson
+  + lambda test
 
 # Test mu of a gaussian distribution. 
 
