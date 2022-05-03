@@ -23,9 +23,6 @@ hypothesis.
 \description{
 Test the shape parameter of a gamma distribution using the likelihood ratio test.
 }
-\details{
-This test requires a large sample size for approximation to be accurate.
-}
 \examples{
 library(LRTesteR)
 

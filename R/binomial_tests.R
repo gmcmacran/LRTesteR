@@ -6,9 +6,6 @@
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.
-#' @details
-#' This test requires a large sample size for approximation to be accurate.
-#'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
 #' library(LRTesteR)

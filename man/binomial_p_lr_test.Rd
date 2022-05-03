@@ -25,9 +25,6 @@ hypothesis.
 \description{
 Test p of a binomial distribution using the likelihood ratio test.
 }
-\details{
-This test requires a large sample size for approximation to be accurate.
-}
 \examples{
 library(LRTesteR)
 

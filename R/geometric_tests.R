@@ -3,11 +3,12 @@
 #' @param num_failures Number of failures.
 #' @param p Hypothesized probability of success.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
+#' @param warn Should a message about type I and type II error be printed.
 #' @return An S3 class containing the test statistic, p value and alternative
 #' hypothesis.
 #' @details
-#' Simulation shows this test needs the hypothesized p at or above .35 for a
-#' reasonable type I error.
+#' Simulation shows this test does not achieve the desired type I error rate. It can be conservative or liberal depending on what the true value
+#' of p is. This test also has a high type II error rate. Sometimes near 100%.
 #'
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
@@ -19,7 +20,7 @@
 #' # Null is false. 15 failures before the 1st success.
 #' geometric_p_lr_test(15, .50, "two.sided")
 #' @export
-geometric_p_lr_test <- function(num_failures, p = .50, alternative = "two.sided") {
+geometric_p_lr_test <- function(num_failures, p = .50, alternative = "two.sided", warn = TRUE) {
   if (!is.numeric(num_failures)) {
     stop("Argument num_failures should be numeric.")
   }
@@ -49,6 +50,17 @@ geometric_p_lr_test <- function(num_failures, p = .50, alternative = "two.sided"
   }
   if (!(alternative %in% c("two.sided", "less", "greater"))) {
     stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
+  }
+  if (length(warn) != 1) {
+    stop("Argument warn should have length one.")
+  }
+  if (!is.logical(warn)) {
+    stop("Argument warn should be a logical.")
+  }
+
+  if (warn) {
+    msg <- "This test does not control type I error well. Type II error can be near 100% for some alternatives."
+    print(msg)
   }
 
   # Geometric distribution is a negative binomial with 1 success

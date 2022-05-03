@@ -100,6 +100,42 @@ for (alt in c("two.sided", "less")) {
 }
 
 ###############################################
+# Confirm match between negative binomial and geometric
+###############################################
+for (alt in c("two.sided", "less", "greater")) {
+  test <- negative_binomial_p_lr_test(3, 1, .50, alt)
+  test_02 <- geometric_p_lr_test(3, .50, alt, FALSE)
+
+  test_that("Check equality", {
+    expect_equal(test$statistic, test_02$statistic)
+    expect_equal(test$p.value, test_02$p.value)
+    expect_equal(test$alternative, test_02$alternative)
+  })
+}
+
+for (alt in c("two.sided", "less", "greater")) {
+  test <- negative_binomial_p_lr_test(10, 1, .90, alt)
+  test_02 <- geometric_p_lr_test(10, .90, alt, FALSE)
+
+  test_that("Check equality", {
+    expect_equal(test$statistic, test_02$statistic)
+    expect_equal(test$p.value, test_02$p.value)
+    expect_equal(test$alternative, test_02$alternative)
+  })
+}
+
+for (alt in c("two.sided", "less", "greater")) {
+  test <- negative_binomial_p_lr_test(0, 1, .90, alt)
+  test_02 <- geometric_p_lr_test(0, .90, alt, FALSE)
+
+  test_that("Check equality", {
+    expect_equal(test$statistic, test_02$statistic)
+    expect_equal(test$p.value, test_02$p.value)
+    expect_equal(test$alternative, test_02$alternative)
+  })
+}
+
+###############################################
 # Input checking
 ###############################################
 
