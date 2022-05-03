@@ -7,7 +7,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gaussian_mu_lr_test(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -29,7 +29,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gaussian_mu_lr_test(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -48,7 +48,7 @@ for (alt in c("two.sided", "less")) {
   test <- gaussian_mu_lr_test(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -93,7 +93,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gaussian_variance_lr_test(x, 9, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -115,7 +115,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gaussian_variance_lr_test(x, 8, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -134,7 +134,7 @@ for (alt in c("two.sided", "less")) {
   test <- gaussian_variance_lr_test(x, 10, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })

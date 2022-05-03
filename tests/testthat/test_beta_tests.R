@@ -7,7 +7,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- beta_shape1_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -26,7 +26,7 @@ for (alt in c("two.sided", "greater")) {
   test <- beta_shape1_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -42,7 +42,7 @@ for (alt in c("two.sided", "less")) {
   test <- beta_shape1_lr_test(x, 2, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -85,7 +85,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- beta_shape2_lr_test(x, 2, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -104,7 +104,7 @@ for (alt in c("two.sided", "greater")) {
   test <- beta_shape2_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
@@ -120,7 +120,7 @@ for (alt in c("two.sided", "less")) {
   test <- beta_shape2_lr_test(x, 2, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "mltest")
+    expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })

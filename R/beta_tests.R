@@ -106,7 +106,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }
 
@@ -216,6 +216,6 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }

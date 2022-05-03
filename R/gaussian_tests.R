@@ -68,7 +68,7 @@ gaussian_mu_lr_test <- function(x, mu = 0, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }
 
@@ -143,6 +143,6 @@ gaussian_variance_lr_test <- function(x, sigma.squared = 1, alternative = "two.s
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }

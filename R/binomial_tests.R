@@ -80,6 +80,6 @@ binomial_p_lr_test <- function(x, n, p = .50, alternative = "two.sided") {
   }
 
   out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "mltest"
+  class(out) <- "lrtest"
   return(out)
 }
