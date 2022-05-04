@@ -20,8 +20,8 @@ at least 50. Estimated asymptotic type I and type II error rates can be
 found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 -   beta
-    -   shape 1 test
-    -   shape 2 test
+    -   shape1 test
+    -   shape2 test
 -   binomial
     -   p test
 -   exponential
