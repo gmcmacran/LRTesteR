@@ -33,9 +33,9 @@ Test p of a negative binomial distribution using the likelihood ratio test.
 \examples{
 library(LRTesteR)
 
-# Null is true. 52 successes. 100 trials
+# Null is true. 48 failures before 52 successes.
 negative_binomial_p_lr_test(48, 52, .50, "two.sided")
 
-# Null is false. 75 successes. 100 trials
+# Null is false. 25 failures before 75 successes.
 negative_binomial_p_lr_test(25, 75, .50, "two.sided")
 }
