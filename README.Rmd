@@ -24,8 +24,8 @@ knitr::opts_chunk$set(
 LRTesteR implements the likelihood ratio test for many common distributions. All tests rely on chi-square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 * beta
-  + Shape 1 test
-  + Shape 2 test
+  + shape 1 test
+  + shape 2 test
 
 * binomial
   + p test
