@@ -1,3 +1,53 @@
+# The sum of a N iid poisson random variables
+# is a poisson random variable with lambda of sum = N*lambda
+exact_test <- function(x, alternative, lambda) {
+  # sum of x
+  lambda <- lambda * length(x)
+  x <- sum(x)
+
+  calc_two_sided_p_value <- function(x, lambda) {
+    relErr <- 1 + 1e-05
+    d <- dpois(x, lambda)
+    m <- lambda
+    if (x == m) {
+      1
+    } else if (x < m) {
+      nearInf <- ceiling(m * 20)
+      i <- seq.int(from = ceiling(m), to = nearInf)
+      i <- setdiff(i, m)
+      y <- sum(dpois(i, lambda) < d * relErr)
+      ppois(x, lambda) + ppois(pmax(nearInf - y, 0), lambda, lower.tail = FALSE)
+    } else {
+      i <- seq.int(from = 0, to = floor(m))
+      i <- setdiff(i, m)
+      y <- sum(dpois(i, lambda) < d * relErr)
+      ppois(y - 1, lambda) + ppois(x - 1, lambda, lower.tail = FALSE)
+    }
+  }
+
+
+  calc_left_p_value <- function(x, lambda) {
+    ppois(q = x, lambda = lambda, lower.tail = TRUE)
+  }
+
+  calc_right_p_value <- function(x, lambda) {
+    ppois(q = x - 1, lambda = lambda, lower.tail = FALSE)
+  }
+
+  if (alternative == "two.sided") {
+    p.value <- calc_two_sided_p_value(x, lambda)
+  }
+  if (alternative == "greater") {
+    p.value <- calc_right_p_value(x, lambda)
+  }
+  if (alternative == "less") {
+    p.value <- calc_left_p_value(x, lambda)
+  }
+  return(list(p.value = p.value))
+}
+
+
+
 ###############################################
 # Null True
 ###############################################
@@ -12,11 +62,10 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  # Compare with test about mean using CLT
-  test_02 <- stats::t.test(x = x, alternative = alt, mu = 1)
+  test_02 <- exact_test(x = x, alternative = alt, lambda = 1)
   test_that("Check contents", {
     expect_true(test$p.value > .05)
-    expect_true(abs(test$p.value - test_02$p.value) < .01)
+    expect_true(abs(test$p.value - test_02$p.value) < .03)
   })
 }
 
@@ -25,7 +74,7 @@ for (alt in c("two.sided", "greater", "less")) {
 ###############################################
 for (alt in c("two.sided", "greater")) {
   set.seed(1)
-  x <- rpois(200, 3)
+  x <- rpois(2000, 3)
   test <- poisson_lambda_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
@@ -34,8 +83,7 @@ for (alt in c("two.sided", "greater")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  # Compare with test about mean using CLT
-  test_02 <- stats::t.test(x = x, alternative = alt, mu = 1)
+  test_02 <- exact_test(x = x, alternative = alt, lambda = 1)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
@@ -53,8 +101,7 @@ for (alt in c("two.sided", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  # Compare with test about mean using CLT
-  test_02 <- stats::t.test(x = x, alternative = alt, mu = 3)
+  test_02 <- exact_test(x = x, alternative = alt, lambda = 3)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
