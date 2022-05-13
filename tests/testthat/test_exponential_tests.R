@@ -1,4 +1,4 @@
-# The some of iid exponential r.v. is gamma w/
+# The sum of iid exponential r.v. is gamma w/
 # shape = n and rate = rate of exponential
 exact_test <- function(x, rate, alternative) {
   calc_two_sided_p_value <- function(x, rate) {
