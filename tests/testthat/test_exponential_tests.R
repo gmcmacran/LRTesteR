@@ -1,3 +1,33 @@
+# The sum of iid exponential r.v. is gamma w/
+# shape = n and rate = rate of exponential
+exact_test <- function(x, rate, alternative) {
+  calc_two_sided_p_value <- function(x, rate) {
+    2 * pmin(
+      stats::pgamma(q = sum(x), shape = length(x), rate = rate, lower.tail = TRUE),
+      stats::pgamma(q = sum(x), shape = length(x), rate = rate, lower.tail = FALSE)
+    )
+  }
+
+  calc_left_p_value <- function(x, rate) {
+    stats::pgamma(q = sum(x), shape = length(x), rate = rate, lower.tail = TRUE)
+  }
+
+  calc_right_p_value <- function(x, rate) {
+    stats::pgamma(q = sum(x), shape = length(x), rate = rate, lower.tail = FALSE)
+  }
+
+  if (alternative == "two.sided") {
+    p.value <- calc_two_sided_p_value(x, rate)
+  }
+  if (alternative == "greater") {
+    p.value <- calc_left_p_value(x, rate)
+  }
+  if (alternative == "less") {
+    p.value <- calc_right_p_value(x, rate)
+  }
+  return(list(p.value = p.value))
+}
+
 ###############################################
 # Null True
 ###############################################
@@ -12,12 +42,10 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  # Compare with test about mean using CLT
-  alt2 <- ifelse(alt == "greater", "less", ifelse(alt == "less", "greater", "two.sided"))
-  test_02 <- stats::t.test(x = x, alternative = alt2, mu = 1)
+  test_02 <- exact_test(x, 1, alt)
   test_that("Check contents", {
     expect_true(test$p.value > .05)
-    expect_true(abs(test$p.value - test_02$p.value) < .01)
+    expect_true(abs(test$p.value - test_02$p.value) < .02)
   })
 }
 
@@ -35,9 +63,7 @@ for (alt in c("two.sided", "greater")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  # Compare with test about mean using CLT
-  alt2 <- ifelse(alt == "greater", "less", "two.sided")
-  test_02 <- stats::t.test(x = x, alternative = alt2, mu = 1)
+  test_02 <- exact_test(x, 1, alt)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
@@ -55,9 +81,7 @@ for (alt in c("two.sided", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  # Compare with test about mean using CL
-  alt2 <- ifelse(alt == "less", "greater", "two.sided")
-  test_02 <- stats::t.test(x = x, alternative = alt2, mu = 1 / 3)
+  test_02 <- exact_test(x, 3, alt)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
