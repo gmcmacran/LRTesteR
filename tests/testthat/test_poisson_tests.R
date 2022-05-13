@@ -1,6 +1,6 @@
 # The sum of a N iid poisson random variables
 # is a poisson random variable with lambda of sum = N*lambda
-exact_test <- function(x, alternative, lambda) {
+exact_test <- function(x, lambda, alternative) {
   # sum of x
   lambda <- lambda * length(x)
   x <- sum(x)
@@ -62,7 +62,7 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  test_02 <- exact_test(x = x, alternative = alt, lambda = 1)
+  test_02 <- exact_test(x = x, lambda = 1, alternative = alt)
   test_that("Check contents", {
     expect_true(test$p.value > .05)
     expect_true(abs(test$p.value - test_02$p.value) < .03)
@@ -83,7 +83,7 @@ for (alt in c("two.sided", "greater")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  test_02 <- exact_test(x = x, alternative = alt, lambda = 1)
+  test_02 <- exact_test(x = x, lambda = 1, alternative = alt)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
@@ -101,7 +101,7 @@ for (alt in c("two.sided", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
-  test_02 <- exact_test(x = x, alternative = alt, lambda = 3)
+  test_02 <- exact_test(x = x, lambda = 3, alternative = alt)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
