@@ -1,10 +1,43 @@
+# When X ~ Beta(alpha, 1), then  sum(-ln(X)) ~ gamma(N, 1/alpha)
+# (shape and scale)
+# Function requires and assumes beta (the parameter) equals 1
+# Not programmatically checked.
+exact_test_shape1 <- function(x, shape1, alternative) {
+  calc_two_sided_p_value <- function(x) {
+    2 * pmin(
+      stats::pgamma(q = sum(-log(x)), shape = length(x), scale = 1 / shape1, lower.tail = TRUE),
+      stats::pgamma(q = sum(-log(x)), shape = length(x), scale = 1 / shape1, lower.tail = FALSE)
+    )
+  }
+
+  calc_left_p_value <- function(x) {
+    stats::pgamma(q = sum(-log(x)), shape = length(x), scale = 1 / shape1, lower.tail = TRUE)
+  }
+
+  calc_right_p_value <- function(x) {
+    stats::pgamma(q = sum(-log(x)), shape = length(x), scale = 1 / shape1, lower.tail = FALSE)
+  }
+
+  if (alternative == "two.sided") {
+    p.value <- calc_two_sided_p_value(x)
+  }
+  if (alternative == "greater") {
+    p.value <- calc_left_p_value(x)
+  }
+  if (alternative == "less") {
+    p.value <- calc_right_p_value(x)
+  }
+  return(list(p.value = p.value))
+}
+
+
 ###############################################
 # Null True
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
   set.seed(1)
-  x <- rbeta(100, shape1 = 1, shape2 = 2)
-  test <- beta_shape1_lr_test(x, 1, alt)
+  x <- rbeta(100, shape1 = 3, shape2 = 1)
+  test <- beta_shape1_lr_test(x, 3, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -12,8 +45,10 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
+  test_02 <- exact_test_shape1(x, 3, alt)
   test_that("Check contents", {
     expect_true(test$p.value > .05)
+    expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
 
@@ -22,7 +57,7 @@ for (alt in c("two.sided", "greater", "less")) {
 ###############################################
 for (alt in c("two.sided", "greater")) {
   set.seed(1)
-  x <- rbeta(100, shape1 = 2, shape2 = 2)
+  x <- rbeta(100, shape1 = 2, shape2 = 1)
   test <- beta_shape1_lr_test(x, 1, alt)
 
   test_that("Check structure.", {
@@ -31,16 +66,19 @@ for (alt in c("two.sided", "greater")) {
     expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
   })
 
+  test_02 <- exact_test_shape1(x, 1, alt)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
+    expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
 
 for (alt in c("two.sided", "less")) {
   set.seed(1)
-  x <- rbeta(100, shape1 = 1, shape2 = 2)
+  x <- rbeta(100, shape1 = 1, shape2 = 1)
   test <- beta_shape1_lr_test(x, 2, alt)
 
+  test_02 <- exact_test_shape1(x, 2, alt)
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 3)
@@ -49,6 +87,7 @@ for (alt in c("two.sided", "less")) {
 
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
+    expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 }
 
