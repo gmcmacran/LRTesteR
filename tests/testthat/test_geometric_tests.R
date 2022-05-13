@@ -1,11 +1,9 @@
 exact_test <- function(num_failures, p, alternative) {
   calc_two_sided_p_value <- function(x, prob) {
-    if (prob == 0) {
-      (as.numeric(x >= 0))
-    } else if (prob == 1) {
+    if (prob == 1) {
       (as.numeric(x == 0))
     } else {
-      relErr <- 1 + 1e-05
+      relErr <- 1 + 1e-07
       d <- dgeom(x, prob)
       m <- (1 - prob) / prob
       if (x == m) {
@@ -13,13 +11,11 @@ exact_test <- function(num_failures, p, alternative) {
       } else if (x < m) {
         nearInf <- ceiling(m * 20)
         i <- seq.int(from = ceiling(m), to = nearInf)
-        i <- setdiff(i, x)
-        y <- sum(dgeom(i, prob) < d * relErr)
+        y <- sum(dgeom(i, prob) <= d * relErr)
         pgeom(x, prob) + pgeom(pmax(nearInf - y, 0), prob, lower.tail = FALSE)
       } else {
         i <- seq.int(from = 0, to = floor(m))
-        i <- setdiff(i, x)
-        y <- sum(dgeom(i, prob) < d * relErr)
+        y <- sum(dgeom(i, prob) <= d * relErr)
         pgeom(y - 1, prob) + pgeom(x - 1, prob, lower.tail = FALSE)
       }
     }

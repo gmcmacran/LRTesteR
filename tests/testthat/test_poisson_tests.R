@@ -6,7 +6,7 @@ exact_test <- function(x, lambda, alternative) {
   x <- sum(x)
 
   calc_two_sided_p_value <- function(x, lambda) {
-    relErr <- 1 + 1e-05
+    relErr <- 1 + 1e-07
     d <- dpois(x, lambda)
     m <- lambda
     if (x == m) {
@@ -14,13 +14,11 @@ exact_test <- function(x, lambda, alternative) {
     } else if (x < m) {
       nearInf <- ceiling(m * 20)
       i <- seq.int(from = ceiling(m), to = nearInf)
-      i <- setdiff(i, m)
-      y <- sum(dpois(i, lambda) < d * relErr)
+      y <- sum(dpois(i, lambda) <= d * relErr)
       ppois(x, lambda) + ppois(pmax(nearInf - y, 0), lambda, lower.tail = FALSE)
     } else {
       i <- seq.int(from = 0, to = floor(m))
-      i <- setdiff(i, m)
-      y <- sum(dpois(i, lambda) < d * relErr)
+      y <- sum(dpois(i, lambda) <= d * relErr)
       ppois(y - 1, lambda) + ppois(x - 1, lambda, lower.tail = FALSE)
     }
   }
