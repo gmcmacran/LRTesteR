@@ -64,7 +64,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
     MLEstart <- c(shape1_start, shape2_start)
     rm(xbar, vbar, C, shape1_start, shape2_start)
 
-    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
     return(MLEs)
   }
   MLEs <- get_MLEs(x)
@@ -78,7 +78,7 @@ beta_shape1_lr_test <- function(x, shape1 = 1, alternative = "two.sided") {
       return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
     }
 
-    profile_shape2 <- stats::optim(shape1, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    profile_shape2 <- stats::optim(shape1, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
 
     return(profile_shape2)
   }
@@ -173,7 +173,7 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
     MLEstart <- c(shape1_start, shape2_start)
     rm(xbar, vbar, C, shape1_start, shape2_start)
 
-    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
     return(MLEs)
   }
   MLEs <- get_MLEs(x)
@@ -186,7 +186,7 @@ beta_shape2_lr_test <- function(x, shape2 = 1, alternative = "two.sided") {
       return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
     }
 
-    profile_shape2 <- stats::optim(shape2, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    profile_shape2 <- stats::optim(shape2, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
 
     return(profile_shape2)
   }

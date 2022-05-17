@@ -46,24 +46,19 @@ gamma_shape_lr_test <- function(x, shape = 1, alternative = "two.sided") {
   }
 
   get_MLEs <- function(x) {
-    neg_log_likelihood <- function(MLEs) {
-      est_shape <- MLEs[1]
-      est_rate <- MLEs[2]
-
-      objective <- -1 * sum(stats::dgamma(x = x, shape = est_shape, rate = est_rate, log = TRUE))
-
-      return(objective)
-    }
-
+    # Based on wiki page for gamma distribution.
     # starting points
     s <- log(mean(x)) - mean(log(x))
-    shape_start <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
-    scale_start <- sum(x) / (shape_start * length(x))
-    rate_start <- 1 / scale_start
-    MLEstart <- c(shape_start, rate_start)
-    rm(s, shape_start, scale_start, rate_start)
+    shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
-    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    # newton updates
+    for (i in 1:10) {
+      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    }
+
+    scale <- sum(x) / (shape * length(x))
+    rate <- 1 / scale
+    MLEs <- c(shape, rate)
 
     return(MLEs)
   }
@@ -147,24 +142,19 @@ gamma_scale_lr_test <- function(x, scale = 1, alternative = "two.sided") {
   }
 
   get_MLEs <- function(x) {
-    neg_log_likelihood <- function(MLEs) {
-      est_shape <- MLEs[1]
-      est_rate <- MLEs[2]
-
-      objective <- -1 * sum(stats::dgamma(x = x, shape = est_shape, rate = est_rate, log = TRUE))
-
-      return(objective)
-    }
-
+    # Based on wiki page for gamma distribution.
     # starting points
     s <- log(mean(x)) - mean(log(x))
-    shape_start <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
-    scale_start <- sum(x) / (shape_start * length(x))
-    rate_start <- 1 / scale_start
-    MLEstart <- c(shape_start, rate_start)
-    rm(s, shape_start, scale_start, rate_start)
+    shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
-    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    # newton updates
+    for (i in 1:10) {
+      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    }
+
+    scale <- sum(x) / (shape * length(x))
+    rate <- 1 / scale
+    MLEs <- c(shape, rate)
 
     return(MLEs)
   }
@@ -260,24 +250,19 @@ gamma_rate_lr_test <- function(x, rate = 1, alternative = "two.sided") {
   }
 
   get_MLEs <- function(x) {
-    neg_log_likelihood <- function(MLEs) {
-      est_shape <- MLEs[1]
-      est_rate <- MLEs[2]
-
-      objective <- -1 * sum(stats::dgamma(x = x, shape = est_shape, rate = est_rate, log = TRUE))
-
-      return(objective)
-    }
-
+    # Based on wiki page for gamma distribution.
     # starting points
     s <- log(mean(x)) - mean(log(x))
-    shape_start <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
-    scale_start <- sum(x) / (shape_start * length(x))
-    rate_start <- 1 / scale_start
-    MLEstart <- c(shape_start, rate_start)
-    rm(s, shape_start, scale_start, rate_start)
+    shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
-    MLEs <- stats::optim(MLEstart, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B")$par
+    # newton updates
+    for (i in 1:10) {
+      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    }
+
+    scale <- sum(x) / (shape * length(x))
+    rate <- 1 / scale
+    MLEs <- c(shape, rate)
 
     return(MLEs)
   }
