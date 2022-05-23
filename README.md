@@ -33,8 +33,6 @@ found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 -   gaussian
     -   mu test
     -   variance test
--   geometric
-    -   p test
 -   negative binomial
     -   p test
 -   poisson
