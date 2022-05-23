@@ -42,9 +42,6 @@ LRTesteR implements the likelihood ratio test for many common distributions. All
   + mu test
   + variance test
   
-* geometric
-  + p test
-  
 * negative binomial
   + p test
   
