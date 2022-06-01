@@ -14,7 +14,7 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 <!-- badges: end -->
 
 LRTesteR implements the likelihood ratio test for many common
-distributions. All tests rely on chi-square approximation even when
+distributions. All tests rely on the chi-square approximation even when
 exact sampling distributions are known. Tests require a sample size of
 at least 50. Estimated asymptotic type I and type II error rates can be
 found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
