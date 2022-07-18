@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-beta_shape1_lr_test(x, shape1 = 1, alternative = "two.sided")
+beta_shape1_lr_test(x, shape1, alternative = "two.sided")
 }
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}

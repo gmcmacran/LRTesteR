@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-gaussian_variance_lr_test(x, sigma.squared = 1, alternative = "two.sided")
+gaussian_variance_lr_test(x, sigma.squared, alternative = "two.sided")
 }
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}

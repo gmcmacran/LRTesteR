@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-gaussian_mu_lr_test(x, mu = 0, alternative = "two.sided")
+gaussian_mu_lr_test(x, mu, alternative = "two.sided")
 }
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}
