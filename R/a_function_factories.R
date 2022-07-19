@@ -45,13 +45,13 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
       stop("Argument x should be numeric.")
     }
     if (length(!!p0) != 1) {
-      stop("Null hypothesis should have length one.")
+      stop("The tested parameter should have length one.")
     }
     if (!is.numeric(!!p0)) {
-      stop("Null hypothesis should be numeric.")
+      stop("The tested parameter should be numeric.")
     }
     if (!!p0 <= LB) {
-      stop(paste("Null hypothesis should be above ", LB, "."))
+      stop(paste("The tested parameter should be above ", LB, ".", sep = ""))
     }
     if (length(alternative) != 1) {
       stop("Argument alternative should have length one.")
@@ -60,7 +60,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
       stop("Argument alternative should be a character.")
     }
     if (!(alternative %in% c("two.sided", "less", "greater"))) {
-      stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
+      stop("Argument alternative should be 'two.sided', 'less', or 'greater.'")
     }
 
     W <- calc_test_stat(x, !!p0, alternative)
