@@ -100,28 +100,28 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 
 test_that("failure input checking works", {
-  expect_error(negative_binomial_p_lr_test("foo"), NULL)
-  expect_error(negative_binomial_p_lr_test(c(5, 4)), NULL)
-  expect_error(negative_binomial_p_lr_test(-2), NULL)
+  expect_error(negative_binomial_p_lr_test("foo"), "Argument num_failures should be numeric.")
+  expect_error(negative_binomial_p_lr_test(c(5, 4)), "Argument num_failures should have length 1.")
+  expect_error(negative_binomial_p_lr_test(-2), "Argument num_failures should be 0 or positive.")
 })
 
-test_that("sucess input checking works", {
-  expect_error(negative_binomial_p_lr_test(5, "foo"), NULL)
-  expect_error(negative_binomial_p_lr_test(5, c(5, 4)), NULL)
-  expect_error(negative_binomial_p_lr_test(5, -1), NULL)
+test_that("success input checking works", {
+  expect_error(negative_binomial_p_lr_test(5, "foo"), "Argument num_success should be numeric.")
+  expect_error(negative_binomial_p_lr_test(5, c(5, 4)), "Argument num_success should have length 1.")
+  expect_error(negative_binomial_p_lr_test(5, -1), "Argument num_success should be 0 or positive.")
 })
 
 set.seed(1)
 test_that("p input checking works", {
-  expect_error(negative_binomial_p_lr_test(5, 6, "foo"), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, c(.5, .6)), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, 0), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, 1.01), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, "foo"), "Argument p should be numeric.")
+  expect_error(negative_binomial_p_lr_test(5, 6, c(.5, .6)), "Argument p should have length one.")
+  expect_error(negative_binomial_p_lr_test(5, 6, 0), "Argument p should be positive.")
+  expect_error(negative_binomial_p_lr_test(5, 6, 1.01), "Argument p should be less than or equal to 1.")
 })
 
 set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(negative_binomial_p_lr_test(5, 6, .5, c("two.sided", "less")), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, .5, 1), NULL)
-  expect_error(negative_binomial_p_lr_test(5, 6, .5, "lesss"), NULL)
+  expect_error(negative_binomial_p_lr_test(5, 6, .5, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(negative_binomial_p_lr_test(5, 6, .5, 1), "Argument alternative should be a character.")
+  expect_error(negative_binomial_p_lr_test(5, 6, .5, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })

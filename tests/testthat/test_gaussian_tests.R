@@ -66,22 +66,21 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 set.seed(1)
 test_that("x input checking works", {
-  expect_error(gaussian_mu_lr_test(c()), NULL)
-  expect_error(gaussian_mu_lr_test(rep("foo", 50)), NULL)
-  expect_error(gaussian_mu_lr_test(rnorm(49)), NULL)
+  expect_error(gaussian_mu_lr_test(c()), "Argument x should have at least 50 data points.")
+  expect_error(gaussian_mu_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 test_that("mu input checking works", {
-  expect_error(gaussian_mu_lr_test(rnorm(50), c(1, 2)), NULL)
-  expect_error(gaussian_mu_lr_test(rnorm(50), "foo"), NULL)
+  expect_error(gaussian_mu_lr_test(rnorm(50), c(1, 2)), "The tested parameter should have length one.")
+  expect_error(gaussian_mu_lr_test(rnorm(50), "foo"), "The tested parameter should be numeric.")
 })
 
 set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(gaussian_mu_lr_test(rnorm(50), 0, c("two.sided", "less")), NULL)
-  expect_error(gaussian_mu_lr_test(rnorm(50), 0, 1), NULL)
-  expect_error(gaussian_mu_lr_test(rnorm(50), 0, "lesss"), NULL)
+  expect_error(gaussian_mu_lr_test(rnorm(50), 0, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(gaussian_mu_lr_test(rnorm(50), 0, 1), "Argument alternative should be a character.")
+  expect_error(gaussian_mu_lr_test(rnorm(50), 0, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
 ###############################################
@@ -152,21 +151,20 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 set.seed(1)
 test_that("x input checking works", {
-  expect_error(gaussian_variance_lr_test(c()), NULL)
-  expect_error(gaussian_variance_lr_test(rep("foo", 50)), NULL)
-  expect_error(gaussian_variance_lr_test(rnorm(49)), NULL)
+  expect_error(gaussian_variance_lr_test(c()), "Argument x should have at least 50 data points.")
+  expect_error(gaussian_variance_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 test_that("variance input checking works", {
-  expect_error(gaussian_variance_lr_test(rnorm(50), c(1, 2)), NULL)
-  expect_error(gaussian_variance_lr_test(rnorm(50), "foo"), NULL)
-  expect_error(gaussian_variance_lr_test(rnorm(50), 0), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(50), c(1, 2)), "The tested parameter should have length one.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), "foo"), "The tested parameter should be numeric.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), 0), "The tested parameter should be above 0.")
 })
 
 set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(gaussian_variance_lr_test(rnorm(50), 1, c("two.sided", "less")), NULL)
-  expect_error(gaussian_variance_lr_test(rnorm(50), 1, 1), NULL)
-  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "lesss"), NULL)
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, 1), "Argument alternative should be a character.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
