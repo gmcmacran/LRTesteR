@@ -11,7 +11,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
   force(LB)
 
   # Confirm function looks right
-  if (class(calc_test_stat) != "function") {
+  if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
   }
   args <- names(formals(calc_test_stat))
