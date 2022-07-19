@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-poisson_lambda_lr_test(x, lambda = 1, alternative = "two.sided")
+poisson_lambda_lr_test(x, lambda, alternative = "two.sided")
 }
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}

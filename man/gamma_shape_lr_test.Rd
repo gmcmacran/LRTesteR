@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-gamma_shape_lr_test(x, shape = 1, alternative = "two.sided")
+gamma_shape_lr_test(x, shape, alternative = "two.sided")
 }
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}

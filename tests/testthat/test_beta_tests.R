@@ -96,23 +96,22 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 set.seed(1)
 test_that("x input checking works", {
-  expect_error(beta_shape1_lr_test(c()), NULL)
-  expect_error(beta_shape1_lr_test(rep("foo", 50)), NULL)
-  expect_error(beta_shape1_lr_test(rbeta(49, shape1 = 1, shape2 = 1)), NULL)
+  expect_error(beta_shape1_lr_test(c()), "Argument x should have at least 50 data points.")
+  expect_error(beta_shape1_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 test_that("shape1 input checking works", {
-  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), c(1, 2)), NULL)
-  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), "foo"), NULL)
-  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 0), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), c(1, 2)), "The tested parameter should have length one.")
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), "foo"), "The tested parameter should be numeric.")
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 0), "The tested parameter should be above 0.")
 })
 
 set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, c("two.sided", "less")), NULL)
-  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, 1), NULL)
-  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, "lesss"), NULL)
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, 1), "Argument alternative should be a character.")
+  expect_error(beta_shape1_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
 ###############################################
@@ -174,21 +173,20 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 set.seed(1)
 test_that("x input checking works", {
-  expect_error(beta_shape2_lr_test(c()), NULL)
-  expect_error(beta_shape2_lr_test(rep("foo", 50)), NULL)
-  expect_error(beta_shape2_lr_test(rbeta(49, shape1 = 1, shape2 = 1)), NULL)
+  expect_error(beta_shape2_lr_test(c()), "Argument x should have at least 50 data points.")
+  expect_error(beta_shape2_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 test_that("shape2 input checking works", {
-  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), c(1, 2)), NULL)
-  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), "foo"), NULL)
-  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 0), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), c(1, 2)), "The tested parameter should have length one.")
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), "foo"), "The tested parameter should be numeric.")
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 0), "The tested parameter should be above 0.")
 })
 
 set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, c("two.sided", "less")), NULL)
-  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, 1), NULL)
-  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, "lesss"), NULL)
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, 1), "Argument alternative should be a character.")
+  expect_error(beta_shape2_lr_test(rbeta(50, shape1 = 1, shape2 = 1), 2, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
