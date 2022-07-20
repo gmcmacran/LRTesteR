@@ -18,6 +18,9 @@ known. Tests require a sample size of at least 50. Estimated asymptotic
 type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
+All functions match popular tests in R. If you are familiar with t.test
+and binom.test, you already know how to use these functions.
+
 # Implemented Tests
 
 -   beta
@@ -31,13 +34,16 @@ type I and type II error rates can be found
     -   rate test
     -   scale test
     -   shape test
--   gaussian
+-   Gaussian
     -   mu test
     -   variance test
 -   negative binomial
     -   p test
--   poisson
+-   Poisson
     -   lambda test
+-   Cauchy
+    -   location
+    -   scale
 
 # Example 1: Test lambda of a poisson distribution
 
@@ -103,9 +109,9 @@ exponentail_rate_lr_test(x = x, rate = 1, alternative = "two.sided")
 # Mathematical Details
 
 The strength of the likelihood ratio test is its generality. It is a a
-recipe to create tests and confidence intervals in many different
-settings. Sometimes the test is the only known procedure. When there are
-many procedures, likelihood ratio tests tend to have very good
+recipe to create hypothesis tests and confidence intervals in many
+different settings. Sometimes the test is the only known procedure. When
+there are many procedures, likelihood ratio tests tend to have very good
 **asymptotic** type I error rates.
 
 The weakness of the likelihood ratio test is it depends on two
@@ -116,7 +122,7 @@ assumptions:
 
 For the first condition, type I error rates and confidence interval
 coverage rates improve as N increases. For a given N, type I error rates
-are **close** to alpha and coverage rates are **close** to the the
+are **close** to alpha and coverage rates are **close** to the
 confidence level. This is the reason all tests require a sample size of
 at least 50. For the second condition, the parameter must not be near
 the boundary of the parameter space. How near is too near depends on N.
@@ -157,11 +163,10 @@ likelihoodTest$conf.int
 #> [1] 1.875392 4.121238
 ```
 
-The above shows the confidence intervals produced by the likelihood
-method are only close approximations. The greatest strength of the
-likelihood method is the generality. There are a total of 11 tests and
-11 confidence intervals implemented in this package. Some tests (beta,
-gamma, poisson) don’t have other well known options.
+The greatest strength of the likelihood method is the generality. There
+are a total of 12 tests and 12 confidence intervals implemented in this
+package. Some tests (cauchy, beta, gamma, poisson) don’t have other well
+known options.
 
 Estimated asymptotic type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).

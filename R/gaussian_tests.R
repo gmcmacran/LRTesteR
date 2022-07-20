@@ -17,7 +17,7 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 
 #' Test the mean of a gaussian distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @param x a numeric vector of at least 50 data values.
 #' @param mu a number indicating the tested value of mu.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @param conf.level confidence level of the likelihood interval.
