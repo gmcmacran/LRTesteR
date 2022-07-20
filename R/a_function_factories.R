@@ -32,17 +32,17 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
   if (!is.numeric(LB)) {
     stop("LB should be numeric.")
   }
-  
+
   calc_CI <- function(x, alternative, conf.level) {
     alpha <- 1 - conf.level
-    
+
     calc_left_side_CI <- function(alpha) {
       helper <- function(param) {
         W <- calc_test_stat(x, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      out <- stats::uniroot(helper, lower = pmax(-9999999, LB), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
@@ -51,10 +51,10 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      out <- stats::uniroot(helper, lower = pmax(-9999999, LB), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 10 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
       return(out)
     }
-    
+
     if (alternative == "two.sided") {
       alpha <- alpha / 2
       CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
@@ -65,7 +65,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
     else {
       CI <- c(calc_left_side_CI(alpha), Inf)
     }
-    
+
     return(CI)
   }
 
@@ -120,7 +120,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
     else {
       p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
-    
+
     CI <- calc_CI(x, alternative, conf.level)
 
     out <- list(statistic = W, p.value = p.value, CI = CI, alternative = alternative)
