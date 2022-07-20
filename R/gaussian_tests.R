@@ -20,7 +20,8 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' @param x a (non-empty) numeric vector of data values.
 #' @param mu a number indicating the tested value of mu.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
+#' @param conf.level confidence level of the likelihood interval.
+#' @return An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
 #' hypothesis.
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
@@ -55,12 +56,10 @@ calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
 
 #' Test the variance of a gaussian distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param sigma.squared a number indicating the tested value of sigma squared.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'

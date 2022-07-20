@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-beta_shape1_lr_test(x, shape1, alternative = "two.sided")
+beta_shape1_lr_test(x, shape1, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{a (non-empty) numeric vector of data values.}
@@ -15,9 +15,11 @@ beta_shape1_lr_test(x, shape1, alternative = "two.sided")
 \item{shape1}{a number indicating the tested value of the shape1 parameter.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
+
+\item{conf.level}{confidence level of the likelihood interval.}
 }
 \value{
-An S3 class containing the test statistic, p value and alternative
+An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
 hypothesis.
 }
 \description{

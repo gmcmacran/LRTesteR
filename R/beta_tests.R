@@ -51,12 +51,10 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 
 #' Test the shape1 parameter of a beta distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param shape1 a number indicating the tested value of the shape1 parameter.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -124,12 +122,10 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 
 #' Test the shape2 parameter of a beta distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param shape2 a number indicating the tested value of the shape2 parameter.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'
