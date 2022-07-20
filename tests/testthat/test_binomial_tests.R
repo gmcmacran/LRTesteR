@@ -116,3 +116,10 @@ test_that("alternative input checking works", {
   expect_error(binomial_p_lr_test(5, 10, .5, 1), "Argument alternative should be a character.")
   expect_error(binomial_p_lr_test(5, 10, .5, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater'")
 })
+
+test_that("conf.level input checking works", {
+  expect_error(binomial_p_lr_test(5, 10, .5, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(binomial_p_lr_test(5, 10, .5, "less", "foo"), "conf.level should be numeric.")
+  expect_error(binomial_p_lr_test(5, 10, .5, "less", 0), "conf.level should between zero and one.")
+  expect_error(binomial_p_lr_test(5, 10, .5, "less", 1), "conf.level should between zero and one.")
+})

@@ -125,7 +125,6 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 # Input checking
 ###############################################
-set.seed(1)
 test_that("x input checking works", {
   expect_error(beta_shape1_lr_test(c()), "Argument x should have at least 50 data points.")
   expect_error(beta_shape1_lr_test(rep("foo", 50)), "Argument x should be numeric.")
@@ -145,7 +144,7 @@ test_that("alternative input checking works", {
   expect_error(beta_shape1_lr_test(x, 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
-test_that("alternative input checking works", {
+test_that("conf.level input checking works", {
   expect_error(beta_shape1_lr_test(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
   expect_error(beta_shape1_lr_test(x, 1, "less", "foo"), "conf.level should be numeric.")
   expect_error(beta_shape1_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")
@@ -240,7 +239,6 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 # Input checking
 ###############################################
-set.seed(1)
 test_that("x input checking works", {
   expect_error(beta_shape2_lr_test(c()), "Argument x should have at least 50 data points.")
   expect_error(beta_shape2_lr_test(rep("foo", 50)), "Argument x should be numeric.")
@@ -254,15 +252,13 @@ test_that("shape2 input checking works", {
   expect_error(beta_shape2_lr_test(x, 0), "The tested parameter should be above 0.")
 })
 
-set.seed(1)
 test_that("alternative input checking works", {
   expect_error(beta_shape2_lr_test(x, 2, c("two.sided", "less")), "Argument alternative should have length one.")
   expect_error(beta_shape2_lr_test(x, 2, 1), "Argument alternative should be a character.")
   expect_error(beta_shape2_lr_test(x, 2, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
-set.seed(1)
-test_that("alternative input checking works", {
+test_that("conf.level input checking works", {
   expect_error(beta_shape2_lr_test(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
   expect_error(beta_shape2_lr_test(x, 1, "less", "foo"), "conf.level should be numeric.")
   expect_error(beta_shape2_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")

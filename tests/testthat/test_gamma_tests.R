@@ -86,32 +86,30 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 # Input checking
 ###############################################
-set.seed(1)
 test_that("x input checking works", {
   expect_error(gamma_shape_lr_test(c()), "Argument x should have at least 50 data points.")
   expect_error(gamma_shape_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
+x <- rgamma(50, shape = 1)
 test_that("shape input checking works", {
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), c(1, 2)), "The tested parameter should have length one.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), "foo"), "The tested parameter should be numeric.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 0), "The tested parameter should be above 0.")
+  expect_error(gamma_shape_lr_test(x, c(1, 2)), "The tested parameter should have length one.")
+  expect_error(gamma_shape_lr_test(x, "foo"), "The tested parameter should be numeric.")
+  expect_error(gamma_shape_lr_test(x, 0), "The tested parameter should be above 0.")
 })
 
-set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, c("two.sided", "less")), "Argument alternative should have length one.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, 1), "Argument alternative should be a character.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
+  expect_error(gamma_shape_lr_test(x, 1, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(gamma_shape_lr_test(x, 1, 1), "Argument alternative should be a character.")
+  expect_error(gamma_shape_lr_test(x, 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
-set.seed(1)
-test_that("alternative input checking works", {
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, "less", c(.50, .75)), "conf.level should have length one.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, "less", "foo"), "conf.level should be numeric.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, "less", 0), "conf.level should between zero and one.")
-  expect_error(gamma_shape_lr_test(rgamma(50, shape = 1), 1, "less", 1), "conf.level should between zero and one.")
+test_that("conf.level input checking works", {
+  expect_error(gamma_shape_lr_test(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(gamma_shape_lr_test(x, 1, "less", "foo"), "conf.level should be numeric.")
+  expect_error(gamma_shape_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")
+  expect_error(gamma_shape_lr_test(x, 1, "less", 1), "conf.level should between zero and one.")
 })
 
 ###############################################
@@ -202,32 +200,30 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 # Input checking
 ###############################################
-set.seed(1)
 test_that("x input checking works", {
   expect_error(gamma_scale_lr_test(c()), "Argument x should have at least 50 data points.")
   expect_error(gamma_scale_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
+x <- rgamma(50, shape = 1)
 test_that("scale input checking works", {
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), c(1, 2)), "The tested parameter should have length one.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), "foo"), "The tested parameter should be numeric.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 0), "The tested parameter should be above 0.")
+  expect_error(gamma_scale_lr_test(x, c(1, 2)), "The tested parameter should have length one.")
+  expect_error(gamma_scale_lr_test(x, "foo"), "The tested parameter should be numeric.")
+  expect_error(gamma_scale_lr_test(x, 0), "The tested parameter should be above 0.")
 })
 
-set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, c("two.sided", "less")), "Argument alternative should have length one.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, 1), "Argument alternative should be a character.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
+  expect_error(gamma_scale_lr_test(x, 1, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(gamma_scale_lr_test(x, 1, 1), "Argument alternative should be a character.")
+  expect_error(gamma_scale_lr_test(x, 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
-set.seed(1)
-test_that("alternative input checking works", {
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, "less", c(.50, .75)), "conf.level should have length one.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, "less", "foo"), "conf.level should be numeric.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, "less", 0), "conf.level should between zero and one.")
-  expect_error(gamma_scale_lr_test(rgamma(50, shape = 1), 1, "less", 1), "conf.level should between zero and one.")
+test_that("conf.level input checking works", {
+  expect_error(gamma_scale_lr_test(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(gamma_scale_lr_test(x, 1, "less", "foo"), "conf.level should be numeric.")
+  expect_error(gamma_scale_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")
+  expect_error(gamma_scale_lr_test(x, 1, "less", 1), "conf.level should between zero and one.")
 })
 
 ###############################################
@@ -318,30 +314,28 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 # Input checking
 ###############################################
-set.seed(1)
 test_that("x input checking works", {
   expect_error(gamma_rate_lr_test(c()), "Argument x should have at least 50 data points.")
   expect_error(gamma_rate_lr_test(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
+x <- rgamma(50, shape = 1)
 test_that("rate input checking works", {
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), c(1, 2)), "The tested parameter should have length one.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), "foo"), "The tested parameter should be numeric.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 0), "The tested parameter should be above 0.")
+  expect_error(gamma_rate_lr_test(x, c(1, 2)), "The tested parameter should have length one.")
+  expect_error(gamma_rate_lr_test(x, "foo"), "The tested parameter should be numeric.")
+  expect_error(gamma_rate_lr_test(x, 0), "The tested parameter should be above 0.")
 })
 
-set.seed(1)
 test_that("alternative input checking works", {
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, c("two.sided", "less")), "Argument alternative should have length one.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, 1), "Argument alternative should be a character.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
+  expect_error(gamma_rate_lr_test(x, 1, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(gamma_rate_lr_test(x, 1, 1), "Argument alternative should be a character.")
+  expect_error(gamma_rate_lr_test(x, 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
-set.seed(1)
-test_that("alternative input checking works", {
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, "less", c(.50, .75)), "conf.level should have length one.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, "less", "foo"), "conf.level should be numeric.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, "less", 0), "conf.level should between zero and one.")
-  expect_error(gamma_rate_lr_test(rgamma(50, shape = 1), 1, "less", 1), "conf.level should between zero and one.")
+test_that("conf.level input checking works", {
+  expect_error(gamma_rate_lr_test(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(gamma_rate_lr_test(x, 1, "less", "foo"), "conf.level should be numeric.")
+  expect_error(gamma_rate_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")
+  expect_error(gamma_rate_lr_test(x, 1, "less", 1), "conf.level should between zero and one.")
 })
