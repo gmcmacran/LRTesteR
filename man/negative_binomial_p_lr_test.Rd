@@ -10,8 +10,9 @@
 negative_binomial_p_lr_test(
   num_failures,
   num_success,
-  p = 0.5,
-  alternative = "two.sided"
+  p,
+  alternative = "two.sided",
+  conf.level = 0.95
 )
 }
 \arguments{
@@ -22,9 +23,11 @@ negative_binomial_p_lr_test(
 \item{p}{Hypothesized probability of success.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
+
+\item{conf.level}{confidence level of the likelihood interval.}
 }
 \value{
-An S3 class containing the test statistic, p value and alternative
+An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
 hypothesis.
 }
 \description{
