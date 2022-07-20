@@ -5,7 +5,7 @@ for (alt in c("two.sided", "greater", "less")) {
   f <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_normal_mu, mu)
   test_that("Check structure.", {
     expect_true(class(f) == "function")
-    expect_true(all(names(formals(f)) == c("x", "mu", "alternative")))
+    expect_true(all(names(formals(f)) == c("x", "mu", "alternative", "conf.level")))
   })
 }
 rm(f)
