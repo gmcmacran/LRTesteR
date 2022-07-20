@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR implements the likelihood ratio test for many common distributions. All tests rely on the chi-square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
+LRTesteR provides likelihood ratio test and associated confidence intervals for many common distributions. All tests and CIs rely on the chi-square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 # Implemented Tests
 
@@ -76,5 +76,41 @@ x <- rexp(n = 100, rate = 3)
 exponentail_rate_lr_test(x = x, rate = 1, alternative = "two.sided")
 ```
 
+# Mathematical Details
 
+The strength of the likelihood ratio test is its generality. It is a a recipe to create tests and confidence intervals in many different settings. Sometimes the test is the only known procedure. When there are many procedures, likelihood ratio tests tend to have very good **asymptotic** type I error rates.
 
+The weakness of the likelihood ratio test is it depends on two assumptions:
+
+* N is sufficiently large.
+* Parameters are in the interior of the parameter space.
+
+For the first condition, type I error rates and confidence interval coverage rates improve as N increases. For a given N, type I error rates are **close** to alpha and coverage rates are **close** to the the confidence level. This is the reason all tests require a sample size of at least 50. For the second condition, the parameter must not be near the boundary of the parameter space. How near is too near depends on N. There is no clear cut off point.
+
+As implemented, all functions depend on the $$\chi^2$$ approximation. To get a sense of performance, lets compare the likelihood method to the exact method. Here, X is normally distributed with mu equal to 3 and standard deviation equal to 2.
+
+```{r MDPart1}
+set.seed(1)
+x <- rnorm(n = 50, mean = 3, sd = 2)
+exactTest <- t.test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- gaussian_mu_lr_test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
+```
+
+The two intervals are similar.
+```{r MDPart2}
+as.numeric(exactTest$conf.int)
+likelihoodTest$CI
+```
+
+Lets compare tests for variance. Again, confidence intervals  are similar.
+```{r MDPart4}
+sigma2 <- 1.5^2 # Variance, not standard deviation.
+exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2,  alternative = "two.sided", conf.level = .95)
+likelihoodTest <- gaussian_variance_lr_test(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
+as.numeric(exactTest$conf.int)
+likelihoodTest$CI
+```
+
+The above shows the confidence intervals produced by the likelihood method are only close approximations. The greatest strength of the likelihood method is the generality. There are a total of 11 tests and 11 confidence intervals implemented in this package. Some tests (beta, gamma, poisson) don't have other well known options.
+
+Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
