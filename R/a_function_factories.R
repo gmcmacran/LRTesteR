@@ -1,6 +1,6 @@
 # fix check.
 # Not actually global.
-utils::globalVariables(c("x", "alternative"))
+utils::globalVariables(c("x", "alternative", "conf.level"))
 
 #' @keywords internal
 #' A function factory
