@@ -123,7 +123,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
 
     CI <- calc_CI(x, alternative, conf.level)
 
-    out <- list(statistic = W, p.value = p.value, CI = CI, alternative = alternative)
+    out <- list(statistic = W, p.value = p.value, conf.int = CI, alternative = alternative)
     class(out) <- "lrtest"
     return(out)
   })
@@ -295,7 +295,7 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
 
     CI <- calc_CI(!!arg1, !!arg2, alternative, conf.level)
 
-    out <- list(statistic = W, p.value = p.value, CI = CI, alternative = alternative)
+    out <- list(statistic = W, p.value = p.value, conf.int = CI, alternative = alternative)
     class(out) <- "lrtest"
     return(out)
   })

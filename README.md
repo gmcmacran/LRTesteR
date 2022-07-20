@@ -60,7 +60,7 @@ poisson_lambda_lr_test(x = x, lambda = 1, alternative = "two.sided")
 #> $p.value
 #> [1] 0.9204761
 #> 
-#> $CI
+#> $conf.int
 #> [1] 0.8256173 1.2199816
 #> 
 #> $alternative
@@ -90,7 +90,7 @@ exponentail_rate_lr_test(x = x, rate = 1, alternative = "two.sided")
 #> $p.value
 #> [1] 1.116523e-19
 #> 
-#> $CI
+#> $conf.int
 #> [1] 2.376868 3.519063
 #> 
 #> $alternative
@@ -140,7 +140,7 @@ The two intervals are similar.
 ``` r
 as.numeric(exactTest$conf.int)
 #> [1] 2.728337 3.673456
-likelihoodTest$CI
+likelihoodTest$conf.int
 #> [1] 2.735731 3.666063
 ```
 
@@ -153,7 +153,7 @@ exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2,  alternative = "tw
 likelihoodTest <- gaussian_variance_lr_test(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 1.929274 4.293414
-likelihoodTest$CI
+likelihoodTest$conf.int
 #> [1] 1.875392 4.121238
 ```
 

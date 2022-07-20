@@ -9,7 +9,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
 
   # Compare with t test
@@ -20,8 +20,8 @@ for (alt in c("two.sided", "greater", "less")) {
   })
 
   # .0499 instead of .05 b/c of floating point error associated with convergence.
-  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] - .Machine$double.eps
+  CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$conf.int[2] - .Machine$double.eps
   test_that("Check CI", {
     expect_true(ifelse(is.finite(CI1), gaussian_mu_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
     expect_true(ifelse(is.finite(CI2), gaussian_mu_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
@@ -40,7 +40,7 @@ for (alt in c("two.sided", "greater")) {
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
 
   # Compare with t test
@@ -50,8 +50,8 @@ for (alt in c("two.sided", "greater")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
-  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] - .Machine$double.eps
+  CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gaussian_mu_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gaussian_mu_lr_test(x, CI2, alt)$p.value, .05)
@@ -70,7 +70,7 @@ for (alt in c("two.sided", "less")) {
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
 
   # Compare with t test
@@ -80,8 +80,8 @@ for (alt in c("two.sided", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
-  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] - .Machine$double.eps
+  CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gaussian_mu_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gaussian_mu_lr_test(x, CI2, alt)$p.value, .05)
@@ -131,7 +131,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
 
   # Compare with chi square test for variance
@@ -142,8 +142,8 @@ for (alt in c("two.sided", "greater", "less")) {
   })
 
   # .0499 instead of .05 b/c of floating point error associated with convergence.
-  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] - .Machine$double.eps
+  CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$conf.int[2] - .Machine$double.eps
   test_that("Check CI", {
     expect_true(ifelse(is.finite(CI1), gaussian_variance_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
     expect_true(ifelse(is.finite(CI2), gaussian_variance_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
@@ -162,7 +162,7 @@ for (alt in c("two.sided", "greater")) {
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
 
   # Compare with chi square test for variance
@@ -172,8 +172,8 @@ for (alt in c("two.sided", "greater")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
-  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] - .Machine$double.eps
+  CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gaussian_variance_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gaussian_variance_lr_test(x, CI2, alt)$p.value, .05)
@@ -192,7 +192,7 @@ for (alt in c("two.sided", "less")) {
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
     expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
 
   # Compare with chi square test for variance
@@ -202,8 +202,8 @@ for (alt in c("two.sided", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
-  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] - .Machine$double.eps
+  CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gaussian_variance_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gaussian_variance_lr_test(x, CI2, alt)$p.value, .05)

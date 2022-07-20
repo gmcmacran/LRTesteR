@@ -99,7 +99,7 @@ likelihoodTest <- gaussian_mu_lr_test(x = x, mu = 2.5, alternative = "two.sided"
 The two intervals are similar.
 ```{r MDPart2}
 as.numeric(exactTest$conf.int)
-likelihoodTest$CI
+likelihoodTest$conf.int
 ```
 
 Lets compare tests for variance. Again, confidence intervals  are similar.
@@ -108,7 +108,7 @@ sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2,  alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_variance_lr_test(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
-likelihoodTest$CI
+likelihoodTest$conf.int
 ```
 
 The above shows the confidence intervals produced by the likelihood method are only close approximations. The greatest strength of the likelihood method is the generality. There are a total of 11 tests and 11 confidence intervals implemented in this package. Some tests (beta, gamma, poisson) don't have other well known options.
