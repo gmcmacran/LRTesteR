@@ -7,7 +7,7 @@
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
 \usage{
-binomial_p_lr_test(x, n, p = 0.5, alternative = "two.sided")
+binomial_p_lr_test(x, n, p, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{Number of successes.}
@@ -17,9 +17,11 @@ binomial_p_lr_test(x, n, p = 0.5, alternative = "two.sided")
 \item{p}{Hypothesized probability of success.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
+
+\item{conf.level}{confidence level of the likelihood interval.}
 }
 \value{
-An S3 class containing the test statistic, p value and alternative
+An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
 hypothesis.
 }
 \description{

@@ -1,12 +1,29 @@
+#' @keywords internal
+calc_MLE_negative_binomial_p <- function(arg1, arg2) {
+  ops_p <- arg2 / (arg2 + arg1)
+  return(ops_p)
+}
+
+#' @keywords internal
+calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
+  obs_p <- calc_MLE_negative_binomial_p(arg1, arg2)
+  W <- 2 * (sum(stats::dnbinom(x = arg1, size = arg2, prob = obs_p, log = TRUE)) -
+    sum(stats::dnbinom(x = arg1, size = arg2, prob = p, log = TRUE)))
+
+  if (alternative != "two.sided") {
+    W <- sign(obs_p - p) * (W^.5)
+  }
+
+  return(W)
+}
+
 #' Test p of a negative binomial distribution using the likelihood ratio test.
 #'
+#' @inheritParams binomial_p_lr_test
 #' @param num_failures Number of failures.
 #' @param num_success Number of successes.
-#' @param p Hypothesized probability of success.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -16,67 +33,4 @@
 #' # Null is false. 25 failures before 75 successes.
 #' negative_binomial_p_lr_test(25, 75, .50, "two.sided")
 #' @export
-negative_binomial_p_lr_test <- function(num_failures, num_success, p = .50, alternative = "two.sided") {
-  if (!is.numeric(num_failures)) {
-    stop("Argument num_failures should be numeric.")
-  }
-  if (length(num_failures) != 1) {
-    stop("Argument num_failures should have length 1.")
-  }
-  if (num_failures < 0) {
-    stop("Argument num_failures should be 0 or positive.")
-  }
-  if (!is.numeric(num_success)) {
-    stop("Argument num_success should be numeric.")
-  }
-  if (length(num_success) != 1) {
-    stop("Argument num_success should have length 1.")
-  }
-  if (num_success < 0) {
-    stop("Argument num_success should be 0 or positive.")
-  }
-  if (!is.numeric(p)) {
-    stop("Argument p should be numeric.")
-  }
-  if (length(p) != 1) {
-    stop("Argument p should have length one.")
-  }
-  if (p <= 0) {
-    stop("Argument p should be positive.")
-  }
-  if (p > 1) {
-    stop("Argument p should be less than or equal to 1.")
-  }
-  if (length(alternative) != 1) {
-    stop("Argument alternative should have length one.")
-  }
-  if (!is.character(alternative)) {
-    stop("Argument alternative should be a character.")
-  }
-  if (!(alternative %in% c("two.sided", "less", "greater"))) {
-    stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
-  }
-
-  obs_p <- num_success / (num_success + num_failures)
-
-  if (alternative == "two.sided") {
-    W <- 2 * (sum(stats::dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
-      sum(stats::dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
-    p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
-  }
-  else {
-    W <- 2 * (sum(stats::dnbinom(x = num_failures, size = num_success, prob = obs_p, log = TRUE)) -
-      sum(stats::dnbinom(x = num_failures, size = num_success, prob = p, log = TRUE)))
-    W <- sign(obs_p - p) * (W^.5)
-    if (alternative == "less") {
-      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
-    }
-    if (alternative == "greater") {
-      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
-    }
-  }
-
-  out <- list(statistic = W, p.value = p.value, alternative = alternative)
-  class(out) <- "lrtest"
-  return(out)
-}
+negative_binomial_p_lr_test <- LRTesteR:::create_test_function_discrete(LRTesteR:::calc_MLE_negative_binomial_p, LRTesteR:::calc_test_stat_negative_binomial_p, num_failures, num_success)
