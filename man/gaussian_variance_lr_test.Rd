@@ -15,7 +15,7 @@ gaussian_variance_lr_test(
 )
 }
 \arguments{
-\item{x}{a (non-empty) numeric vector of data values.}
+\item{x}{a numeric vector of at least 50 data values.}
 
 \item{sigma.squared}{a number indicating the tested value of sigma squared.}
 

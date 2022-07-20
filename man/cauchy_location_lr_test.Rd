@@ -2,7 +2,7 @@
 % Please edit documentation in R/cauchy_tests.R
 \name{cauchy_location_lr_test}
 \alias{cauchy_location_lr_test}
-\title{Test the shape1 parameter of a beta distribution using the likelihood ratio test.}
+\title{Test the location parameter of a cauchy distribution using the likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -15,7 +15,7 @@ cauchy_location_lr_test(
 )
 }
 \arguments{
-\item{x}{a (non-empty) numeric vector of data values.}
+\item{x}{a numeric vector of at least 50 data values.}
 
 \item{location}{a number indicating the tested value of the location parameter.}
 
@@ -28,7 +28,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the shape1 parameter of a beta distribution using the likelihood ratio test.
+Test the location parameter of a cauchy distribution using the likelihood ratio test.
 }
 \examples{
 library(LRTesteR)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/cauchy_tests.R
 \name{cauchy_scale_lr_test}
 \alias{cauchy_scale_lr_test}
-\title{Test the shape1 parameter of a beta distribution using the likelihood ratio test.}
+\title{Test the scale parameter of a cauchy distribution using the likelihood ratio test.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -10,20 +10,20 @@
 cauchy_scale_lr_test(x, scale, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a (non-empty) numeric vector of data values.}
+\item{x}{a numeric vector of at least 50 data values.}
+
+\item{scale}{a number indicating the tested value of the scale parameter.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 
 \item{conf.level}{confidence level of the likelihood interval.}
-
-\item{location}{a number indicating the tested value of the location parameter.}
 }
 \value{
 An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
 hypothesis.
 }
 \description{
-Test the shape1 parameter of a beta distribution using the likelihood ratio test.
+Test the scale parameter of a cauchy distribution using the likelihood ratio test.
 }
 \examples{
 library(LRTesteR)

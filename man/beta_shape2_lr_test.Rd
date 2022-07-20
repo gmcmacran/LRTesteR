@@ -10,7 +10,7 @@
 beta_shape2_lr_test(x, shape2, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a (non-empty) numeric vector of data values.}
+\item{x}{a numeric vector of at least 50 data values.}
 
 \item{shape2}{a number indicating the tested value of the shape2 parameter.}
 

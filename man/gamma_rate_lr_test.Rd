@@ -10,7 +10,7 @@
 gamma_rate_lr_test(x, rate, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a (non-empty) numeric vector of data values.}
+\item{x}{a numeric vector of at least 50 data values.}
 
 \item{rate}{a number indicating the tested value of the rate parameter.}
 
