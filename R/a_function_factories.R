@@ -32,9 +32,45 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
   if (!is.numeric(LB)) {
     stop("LB should be numeric.")
   }
+  
+  calc_CI <- function(x, alternative, conf.level) {
+    alpha <- 1 - conf.level
+    
+    calc_left_side_CI <- function(alpha) {
+      helper <- function(param) {
+        W <- calc_test_stat(x, param, "less")
+        out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
+        return(out)
+      }
+      out <- stats::uniroot(helper, lower = pmax(-9999999, LB), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      return(out)
+    }
+    calc_right_side_CI <- function(alpha) {
+      helper <- function(param) {
+        W <- calc_test_stat(x, param, "less")
+        out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
+        return(out)
+      }
+      out <- stats::uniroot(helper, lower = pmax(-9999999, LB), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      return(out)
+    }
+    
+    if (alternative == "two.sided") {
+      alpha <- alpha / 2
+      CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
+    }
+    else if (alternative == "less") {
+      CI <- c(LB, calc_right_side_CI(alpha))
+    }
+    else {
+      CI <- c(calc_left_side_CI(alpha), Inf)
+    }
+    
+    return(CI)
+  }
 
   # Build function
-  args <- rlang::pairlist2(x = , holder = , alternative = "two.sided")
+  args <- rlang::pairlist2(x = , holder = , alternative = "two.sided", conf.level = 0.95)
   names(args)[2] <- rlang::as_string(p0)
 
   body <- rlang::expr({
@@ -62,9 +98,19 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
     if (!(alternative %in% c("two.sided", "less", "greater"))) {
       stop("Argument alternative should be 'two.sided', 'less', or 'greater.'")
     }
+    if (length(conf.level) != 1) {
+      stop("conf.level should have length one.")
+    }
+    if (!is.numeric(conf.level)) {
+      stop("conf.level should be numeric.")
+    }
+    if (conf.level <= 0 | conf.level >= 1) {
+      stop("conf.level should between zero and one.")
+    }
 
     W <- calc_test_stat(x, !!p0, alternative)
 
+    # calculate p value
     if (alternative == "two.sided") {
       p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
     }
@@ -74,13 +120,16 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
     else {
       p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
+    
+    CI <- calc_CI(x, alternative, conf.level)
 
-    out <- list(statistic = W, p.value = p.value, alternative = alternative)
+    out <- list(statistic = W, p.value = p.value, CI = CI, alternative = alternative)
     class(out) <- "lrtest"
     return(out)
   })
 
-  exec_env <- rlang::new_environment(data = list(LB = LB, calc_test_stat = calc_test_stat), parent = rlang::base_env())
+  exec_globals <- list(LB = LB, calc_test_stat = calc_test_stat, calc_CI = calc_CI)
+  exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
 
   f <- rlang::new_function(args, body, env = exec_env)
 
