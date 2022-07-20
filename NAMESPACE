@@ -3,6 +3,8 @@
 export(beta_shape1_lr_test)
 export(beta_shape2_lr_test)
 export(binomial_p_lr_test)
+export(cauchy_location_lr_test)
+export(cauchy_scale_lr_test)
 export(exponentail_rate_lr_test)
 export(gamma_rate_lr_test)
 export(gamma_scale_lr_test)
