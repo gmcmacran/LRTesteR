@@ -49,8 +49,8 @@ for (alt in c("two.sided", "greater", "less")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   test_02 <- exact_test(50, 50, .50, alt)
@@ -58,6 +58,15 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(test$p.value > .05)
     expect_true(abs(test$p.value - test_02$p.value) < .04)
   })
+
+  # .0499 instead of .05 b/c of floating point error associated with convergence.
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] - .Machine$double.eps
+  test_that("Check CI", {
+    expect_true(ifelse(is.finite(CI1), negative_binomial_p_lr_test(50, 50, CI1, alt)$p.value, .05) >= .0499)
+    expect_true(ifelse(is.finite(CI2), negative_binomial_p_lr_test(50, 50, CI2, alt)$p.value, .05) >= .0499)
+  })
+  rm(CI1, CI2)
 }
 
 ###############################################
@@ -68,8 +77,8 @@ for (alt in c("two.sided", "greater")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   test_02 <- exact_test(10, 50, .50, alt)
@@ -77,6 +86,17 @@ for (alt in c("two.sided", "greater")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] - .Machine$double.eps
+  pval <- pmin(
+    ifelse(is.finite(CI1), negative_binomial_p_lr_test(10, 50, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), negative_binomial_p_lr_test(10, 50, CI2, alt)$p.value, .05)
+  )
+  test_that("Check CI", {
+    expect_true(pval <= .0500001)
+  })
+  rm(CI1, CI2, pval)
 }
 
 for (alt in c("two.sided", "less")) {
@@ -84,8 +104,8 @@ for (alt in c("two.sided", "less")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   test_02 <- exact_test(90, 50, .50, alt)
@@ -93,6 +113,17 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] - .Machine$double.eps
+  pval <- pmin(
+    ifelse(is.finite(CI1), negative_binomial_p_lr_test(90, 50, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), negative_binomial_p_lr_test(90, 50, CI2, alt)$p.value, .05)
+  )
+  test_that("Check CI", {
+    expect_true(pval <= .0500001)
+  })
+  rm(CI1, CI2, pval)
 }
 
 ###############################################
@@ -100,26 +131,26 @@ for (alt in c("two.sided", "less")) {
 ###############################################
 
 test_that("failure input checking works", {
-  expect_error(negative_binomial_p_lr_test("foo"), "Argument num_failures should be numeric.")
-  expect_error(negative_binomial_p_lr_test(c(5, 4)), "Argument num_failures should have length 1.")
-  expect_error(negative_binomial_p_lr_test(-2), "Argument num_failures should be 0 or positive.")
+  expect_error(negative_binomial_p_lr_test("foo"), "First argument should be numeric.")
+  expect_error(negative_binomial_p_lr_test(c(5, 4)), "First argument should have length 1.")
+  expect_error(negative_binomial_p_lr_test(2.5), "First argument should be an integer.")
+  expect_error(negative_binomial_p_lr_test(-1), "First argument should be 0 or above.")
 })
 
 test_that("success input checking works", {
-  expect_error(negative_binomial_p_lr_test(5, "foo"), "Argument num_success should be numeric.")
-  expect_error(negative_binomial_p_lr_test(5, c(5, 4)), "Argument num_success should have length 1.")
-  expect_error(negative_binomial_p_lr_test(5, -1), "Argument num_success should be 0 or positive.")
+  expect_error(negative_binomial_p_lr_test(1, "foo"), "Second argument should be numeric.")
+  expect_error(negative_binomial_p_lr_test(1, c(5, 4)), "Second argument should have length 1.")
+  expect_error(negative_binomial_p_lr_test(1, 2.5), "Second argument should be an integer.")
+  expect_error(negative_binomial_p_lr_test(1, -1), "Second argument should be 0 or above.")
 })
 
-set.seed(1)
 test_that("p input checking works", {
-  expect_error(negative_binomial_p_lr_test(5, 6, "foo"), "Argument p should be numeric.")
-  expect_error(negative_binomial_p_lr_test(5, 6, c(.5, .6)), "Argument p should have length one.")
-  expect_error(negative_binomial_p_lr_test(5, 6, 0), "Argument p should be positive.")
-  expect_error(negative_binomial_p_lr_test(5, 6, 1.01), "Argument p should be less than or equal to 1.")
+  expect_error(negative_binomial_p_lr_test(1, 1, "foo"), "Argument p should be numeric.")
+  expect_error(negative_binomial_p_lr_test(1, 1, c(.5, .6)), "Argument p should have length one.")
+  expect_error(negative_binomial_p_lr_test(1, 1, -.1), "Argument p should be between 0 and 1.")
+  expect_error(negative_binomial_p_lr_test(1, 1, 1.01), "Argument p should be between 0 and 1.")
 })
 
-set.seed(1)
 test_that("alternative input checking works", {
   expect_error(negative_binomial_p_lr_test(5, 6, .5, c("two.sided", "less")), "Argument alternative should have length one.")
   expect_error(negative_binomial_p_lr_test(5, 6, .5, 1), "Argument alternative should be a character.")
