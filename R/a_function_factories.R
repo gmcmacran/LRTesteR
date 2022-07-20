@@ -1,6 +1,6 @@
 # fix check.
 # Not actually global.
-utils::globalVariables(c("x", "alternative", "conf.level"))
+utils::globalVariables(c("x", "alternative", "conf.level", "p"))
 
 #' @keywords internal
 #' A function factory
@@ -237,6 +237,9 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
     if (!!arg1 != as.integer(!!arg1)) {
       stop("First argument should be an integer.")
     }
+    if (!!arg1 < 0) {
+      stop("First argument should be 0 or above.")
+    }
     if (length(!!arg2) != 1) {
       stop("Second argument should have length 1.")
     }
@@ -245,6 +248,9 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
     }
     if (!!arg2 != as.integer(!!arg2)) {
       stop("Second argument should be an integer.")
+    }
+    if (!!arg2 < 0) {
+      stop("Second argument should be 0 or above.")
     }
     if (!is.numeric(p)) {
       stop("Argument p should be numeric.")
