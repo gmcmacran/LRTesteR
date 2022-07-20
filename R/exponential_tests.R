@@ -14,12 +14,10 @@ calc_test_stat_exponentail_rate <- function(x, rate, alternative) {
 
 #' Test the rate of a exponential distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param rate a number indicating the tested value of rate.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'

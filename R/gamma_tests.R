@@ -39,12 +39,10 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
 
 #' Test the shape parameter of a gamma distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param shape a number indicating the tested value of the shape parameter.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -99,7 +97,7 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
     return(profile_shape)
   }
 
-  profile_shape <- get_profile_shape(x, scale)
+  profile_shape <- get_profile_shape(x, obs_shape)
 
   W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
     sum(stats::dgamma(x = x, shape = profile_shape, scale = scale, log = TRUE)))
@@ -113,12 +111,10 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
 
 #' Test the scale parameter of a gamma distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param scale a number indicating the tested value of the scale parameter.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -188,12 +184,10 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
 
 #' Test the rate parameter of a gamma distribution using the likelihood ratio test.
 #'
-#' @param x a (non-empty) numeric vector of data values.
+#' @inheritParams gaussian_mu_lr_test
 #' @param rate a number indicating the tested value of the rate parameter.
-#' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
-#' @return An S3 class containing the test statistic, p value and alternative
-#' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
 #' @examples
 #' library(LRTesteR)
 #'

@@ -8,8 +8,8 @@ for (alt in c("two.sided", "greater", "less")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   # Compare with t test
@@ -18,6 +18,15 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(test$p.value > .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  # .0499 instead of .05 b/c of floating point error associated with convergence.
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] + .Machine$double.eps
+  test_that("Check CI", {
+    expect_true(ifelse(is.finite(CI1), gaussian_mu_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
+    expect_true(ifelse(is.finite(CI2), gaussian_mu_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
+  })
+  rm(CI1, CI2)
 }
 
 ###############################################
@@ -30,8 +39,8 @@ for (alt in c("two.sided", "greater")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   # Compare with t test
@@ -40,6 +49,17 @@ for (alt in c("two.sided", "greater")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] + .Machine$double.eps
+  pval <- pmin(
+    ifelse(is.finite(CI1), gaussian_mu_lr_test(x, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), gaussian_mu_lr_test(x, CI2, alt)$p.value, .05)
+  )
+  test_that("Check CI", {
+    expect_true(pval <= .0500001)
+  })
+  rm(CI1, CI2, pval)
 }
 
 for (alt in c("two.sided", "less")) {
@@ -49,8 +69,8 @@ for (alt in c("two.sided", "less")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   # Compare with t test
@@ -59,6 +79,17 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] + .Machine$double.eps
+  pval <- pmin(
+    ifelse(is.finite(CI1), gaussian_mu_lr_test(x, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), gaussian_mu_lr_test(x, CI2, alt)$p.value, .05)
+  )
+  test_that("Check CI", {
+    expect_true(pval <= .0500001)
+  })
+  rm(CI1, CI2, pval)
 }
 
 ###############################################
@@ -83,6 +114,14 @@ test_that("alternative input checking works", {
   expect_error(gaussian_mu_lr_test(rnorm(50), 0, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gaussian_mu_lr_test(rnorm(50), 1, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(gaussian_mu_lr_test(rnorm(50), 1, "less", "foo"), "conf.level should be numeric.")
+  expect_error(gaussian_mu_lr_test(rnorm(50), 1, "less", 0), "conf.level should between zero and one.")
+  expect_error(gaussian_mu_lr_test(rnorm(50), 1, "less", 1), "conf.level should between zero and one.")
+})
+
 ###############################################
 # Null True
 ###############################################
@@ -93,8 +132,8 @@ for (alt in c("two.sided", "greater", "less")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   # Compare with chi square test for variance
@@ -115,8 +154,8 @@ for (alt in c("two.sided", "greater")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   # Compare with chi square test for variance
@@ -125,6 +164,17 @@ for (alt in c("two.sided", "greater")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] + .Machine$double.eps
+  pval <- pmin(
+    ifelse(is.finite(CI1), gaussian_variance_lr_test(x, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), gaussian_variance_lr_test(x, CI2, alt)$p.value, .05)
+  )
+  test_that("Check CI", {
+    expect_true(pval <= .0500001)
+  })
+  rm(CI1, CI2, pval)
 }
 
 for (alt in c("two.sided", "less")) {
@@ -134,8 +184,8 @@ for (alt in c("two.sided", "less")) {
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
-    expect_true(length(test) == 3)
-    expect_true(all(names(test) == c("statistic", "p.value", "alternative")))
+    expect_true(length(test) == 4)
+    expect_true(all(names(test) == c("statistic", "p.value", "CI", "alternative")))
   })
 
   # Compare with chi square test for variance
@@ -144,6 +194,17 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
+  CI2 <- test$CI[2] + .Machine$double.eps
+  pval <- pmin(
+    ifelse(is.finite(CI1), gaussian_variance_lr_test(x, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), gaussian_variance_lr_test(x, CI2, alt)$p.value, .05)
+  )
+  test_that("Check CI", {
+    expect_true(pval <= .0500001)
+  })
+  rm(CI1, CI2, pval)
 }
 
 ###############################################
@@ -167,4 +228,12 @@ test_that("alternative input checking works", {
   expect_error(gaussian_variance_lr_test(rnorm(50), 1, c("two.sided", "less")), "Argument alternative should have length one.")
   expect_error(gaussian_variance_lr_test(rnorm(50), 1, 1), "Argument alternative should be a character.")
   expect_error(gaussian_variance_lr_test(rnorm(50), 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
+})
+
+set.seed(1)
+test_that("alternative input checking works", {
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "less", "foo"), "conf.level should be numeric.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "less", 0), "conf.level should between zero and one.")
+  expect_error(gaussian_variance_lr_test(rnorm(50), 1, "less", 1), "conf.level should between zero and one.")
 })
