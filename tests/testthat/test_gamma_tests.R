@@ -18,7 +18,7 @@ for (alt in c("two.sided", "greater", "less")) {
 
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   test_that("Check CI", {
     expect_true(ifelse(is.finite(CI1), gamma_shape_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
     expect_true(ifelse(is.finite(CI2), gamma_shape_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
@@ -45,7 +45,7 @@ for (alt in c("two.sided", "greater")) {
   })
 
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gamma_shape_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gamma_shape_lr_test(x, CI2, alt)$p.value, .05)
@@ -72,7 +72,7 @@ for (alt in c("two.sided", "less")) {
   })
 
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gamma_shape_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gamma_shape_lr_test(x, CI2, alt)$p.value, .05)
@@ -134,7 +134,7 @@ for (alt in c("two.sided", "greater", "less")) {
 
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   test_that("Check CI", {
     expect_true(ifelse(is.finite(CI1), gamma_scale_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
     expect_true(ifelse(is.finite(CI2), gamma_scale_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
@@ -161,7 +161,7 @@ for (alt in c("two.sided", "greater")) {
   })
 
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gamma_scale_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gamma_scale_lr_test(x, CI2, alt)$p.value, .05)
@@ -188,7 +188,7 @@ for (alt in c("two.sided", "less")) {
   })
 
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gamma_scale_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gamma_scale_lr_test(x, CI2, alt)$p.value, .05)
@@ -250,7 +250,7 @@ for (alt in c("two.sided", "greater", "less")) {
 
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   test_that("Check CI", {
     expect_true(ifelse(is.finite(CI1), gamma_rate_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
     expect_true(ifelse(is.finite(CI2), gamma_rate_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
@@ -277,7 +277,7 @@ for (alt in c("two.sided", "greater")) {
   })
 
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gamma_rate_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gamma_rate_lr_test(x, CI2, alt)$p.value, .05)
@@ -304,7 +304,7 @@ for (alt in c("two.sided", "less")) {
   })
 
   CI1 <- test$CI[1] + .Machine$double.eps # Avoid boundary
-  CI2 <- test$CI[2] + .Machine$double.eps
+  CI2 <- test$CI[2] - .Machine$double.eps
   pval <- pmin(
     ifelse(is.finite(CI1), gamma_rate_lr_test(x, CI1, alt)$p.value, .05),
     ifelse(is.finite(CI2), gamma_rate_lr_test(x, CI2, alt)$p.value, .05)
