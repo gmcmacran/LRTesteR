@@ -139,13 +139,11 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
 #' @keywords internal
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
-create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2, LB = 0, UB = 1) {
+create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) {
   force(calc_MLE)
   force(calc_test_stat)
   arg1 <- rlang::ensym(arg1)
   arg2 <- rlang::ensym(arg2)
-  force(LB)
-  force(UB)
 
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
@@ -159,19 +157,8 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2, 
   }
   rm(args)
 
-  if (length(LB) != 1) {
-    stop("LB should have length one.")
-  }
-  if (!is.numeric(LB)) {
-    stop("LB should be numeric.")
-  }
-
-  if (length(UB) != 1) {
-    stop("UB should have length one.")
-  }
-  if (!is.numeric(UB)) {
-    stop("UB should be numeric.")
-  }
+  LB <- 0
+  UB <- 1
 
   calc_CI <- function(arg1, arg2, alternative, conf.level) {
     alpha <- 1 - conf.level
@@ -183,8 +170,8 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2, 
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      searchLB <- LB + 10*.Machine$double.eps
-      searchUB <- UB - 10*.Machine$double.eps
+      searchLB <- LB + 10 * .Machine$double.eps
+      searchUB <- UB - 10 * .Machine$double.eps
       out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
       return(out)
     }
@@ -194,8 +181,8 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2, 
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      searchLB <- LB + 10*.Machine$double.eps
-      searchUB <- UB - 10*.Machine$double.eps
+      searchLB <- LB + 10 * .Machine$double.eps
+      searchUB <- UB - 10 * .Machine$double.eps
       out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
       return(out)
     }

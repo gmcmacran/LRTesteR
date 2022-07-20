@@ -34,4 +34,4 @@ calc_test_stat_binomial_p <- function(arg1, arg2, p, alternative) {
 #' # Null is false. 75 successes. 100 trials
 #' binomial_p_lr_test(75, 100, .50, "two.sided")
 #' @export
-binomial_p_lr_test <- LRTesteR:::create_test_function_discrete(LRTesteR:::calc_MLE_binomial_p, LRTesteR:::calc_test_stat_binomial_p, x, n, 0, 1)
+binomial_p_lr_test <- LRTesteR:::create_test_function_discrete(LRTesteR:::calc_MLE_binomial_p, LRTesteR:::calc_test_stat_binomial_p, x, n)
