@@ -140,22 +140,43 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
 create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) {
-  force(calc_MLE)
-  force(calc_test_stat)
   arg1 <- rlang::ensym(arg1)
   arg2 <- rlang::ensym(arg2)
+
+  # Confirm function looks right
+  if (!inherits(calc_MLE, "function")) {
+    stop("Argument calc_MLE must be a function.")
+  }
+  args <- names(formals((calc_MLE)))
+  if (args[1] != "arg1") {
+    stop("calc_MLE's first argument is not arg1.")
+  }
+  if (args[2] != "arg2") {
+    stop("calc_MLE's second argument is not arg2.")
+  }
+  rm(args)
 
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
   }
-
-  # Confirm function looks right
   args <- names(formals(calc_test_stat))
+  if (args[1] != "arg1") {
+    stop("calc_test_stat's first argument is not arg1.")
+  }
+  if (args[2] != "arg2") {
+    stop("calc_test_stat's second argument is not arg2.")
+  }
+  if (args[3] != "p") {
+    stop("calc_test_stat's third argument is not p.")
+  }
   if (args[4] != "alternative") {
-    stop("calc_test_stat's third argument is not alternative.")
+    stop("calc_test_stat's fourth argument is not alternative.")
   }
   rm(args)
+
+  force(calc_MLE)
+  force(calc_test_stat)
 
   LB <- 0
   UB <- 1
