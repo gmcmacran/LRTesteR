@@ -135,3 +135,162 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
 
   return(f)
 }
+
+#' @keywords internal
+#' A function factory
+#' Function to return a function that performs likelihood ratio test.
+create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2, LB = 0, UB = 1) {
+  force(calc_MLE)
+  force(calc_test_stat)
+  arg1 <- rlang::ensym(arg1)
+  arg2 <- rlang::ensym(arg2)
+  force(LB)
+  force(UB)
+  
+  # Confirm function looks right
+  if (!inherits(calc_test_stat, "function")) {
+    stop("Argument calc_test_stat must be a function.")
+  }
+  
+  # Confirm function looks right
+  args <- names(formals(calc_test_stat))
+  if (args[4] != "alternative") {
+    stop("calc_test_stat's third argument is not alternative.")
+  }
+  rm(args)
+  
+  if (length(LB) != 1) {
+    stop("LB should have length one.")
+  }
+  if (!is.numeric(LB)) {
+    stop("LB should be numeric.")
+  }
+  
+  if (length(UB) != 1) {
+    stop("UB should have length one.")
+  }
+  if (!is.numeric(UB)) {
+    stop("UB should be numeric.")
+  }
+  
+  calc_CI <- function(arg1, arg2, alternative, conf.level) {
+    alpha <- 1 - conf.level
+    ops_p <- calc_MLE(arg1, arg2)
+    
+    calc_left_side_CI <- function(alpha) {
+      helper <- function(param) {
+        W <- calc_test_stat(arg1, arg2, param, "less")
+        out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
+        return(out)
+      }
+      searchLB <- LB + .Machine$double.eps
+      searchUB <- UB - .Machine$double.eps
+      out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
+      return(out)
+    }
+    calc_right_side_CI <- function(alpha) {
+      helper <- function(param) {
+        W <- calc_test_stat(arg1, arg2, param, "less")
+        out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
+        return(out)
+      }
+      searchLB <- LB + .Machine$double.eps
+      searchUB <- UB - .Machine$double.eps
+      out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
+      return(out)
+    }
+    
+    if (alternative == "two.sided") {
+      alpha <- alpha / 2
+      CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
+    }
+    else if (alternative == "less") {
+      CI <- c(LB, calc_right_side_CI(alpha))
+    }
+    else {
+      CI <- c(calc_left_side_CI(alpha), UB)
+    }
+    
+    return(CI)
+  }
+  
+  # Build function
+  args <- rlang::pairlist2(holder1 = , holder2 = , p = ,alternative = "two.sided", conf.level = 0.95)
+  names(args)[1] <- rlang::as_string(arg1)
+  names(args)[2] <- rlang::as_string(arg2)
+  
+  body <- rlang::expr({
+    if (length(!!arg1) != 1) {
+      stop("First argument should have length 1.")
+    }
+    if (!is.numeric(!!arg1)) {
+      stop("First argument should be numeric.")
+    }
+    if (!!arg1 != as.integer(!!arg1)) {
+      stop("First argument should be an integer.")
+    }
+    if (length(!!arg2) != 1) {
+      stop("Second argument should have length 1.")
+    }
+    if (!is.numeric(!!arg2)) {
+      stop("Second argument should be numeric.")
+    }
+    if (!!arg2 != as.integer(!!arg2)) {
+      stop("Second argument should be an integer.")
+    }
+    if (!is.numeric(p)) {
+      stop("Argument p should be numeric.")
+    }
+    if (length(p) != 1) {
+      stop("Argument p should have length one.")
+    }
+    if (p < 0 | p > 1) {
+      stop("Argument p should be between 0 and 1.")
+    }
+    if (length(alternative) != 1) {
+      stop("Argument alternative should have length one.")
+    }
+    if (!is.character(alternative)) {
+      stop("Argument alternative should be a character.")
+    }
+    if (!(alternative %in% c("two.sided", "less", "greater"))) {
+      stop("Argument alternative should be 'two.sided', 'less', or 'greater'")
+    }
+    if (length(conf.level) != 1) {
+      stop("conf.level should have length one.")
+    }
+    if (!is.numeric(conf.level)) {
+      stop("conf.level should be numeric.")
+    }
+    if (conf.level <= 0 | conf.level >= 1) {
+      stop("conf.level should between zero and one.")
+    }
+    
+    W <- calc_test_stat(!!arg1, !!arg2, p, alternative)
+    
+    # calculate p value
+    if (alternative == "two.sided") {
+      p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
+    }
+    else if (alternative == "less") {
+      p.value <- stats::pnorm(q = W, lower.tail = TRUE)
+    }
+    else {
+      p.value <- stats::pnorm(q = W, lower.tail = FALSE)
+    }
+    
+    print("hit CI")
+    CI <- calc_CI(!!arg1, !!arg2, alternative, conf.level)
+    
+    out <- list(statistic = W, p.value = p.value, CI = CI, alternative = alternative)
+    class(out) <- "lrtest"
+    return(out)
+  })
+  
+  exec_globals <- list(LB = LB, UB = UB, calc_MLE = calc_MLE, calc_test_stat = calc_test_stat, calc_CI = calc_CI)
+  exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
+  
+  f <- rlang::new_function(args, body, env = exec_env)
+  
+  return(f)
+}
