@@ -164,7 +164,7 @@ likelihoodTest$conf.int
 ```
 
 The greatest strength of the likelihood method is the generality. There
-are a total of 12 tests and 12 confidence intervals implemented in this
+are a total of 13 tests and 13 confidence intervals implemented in this
 package. Some tests (cauchy, beta, gamma, poisson) don’t have other well
 known options.
 
