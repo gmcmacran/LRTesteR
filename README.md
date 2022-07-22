@@ -21,26 +21,26 @@ type I and type II error rates can be found
 All functions match popular tests in R. If you are familiar with t.test
 and binom.test, you already know how to use these functions.
 
-# Implemented Tests
+# Implemented Tests and Confidence Intervals
 
 -   beta
-    -   shape 1 test
-    -   shape 2 test
+    -   shape 1
+    -   shape 2
 -   binomial
-    -   p test
+    -   p
 -   exponential
-    -   rate test
+    -   rate
 -   gamma
-    -   rate test
-    -   scale test
-    -   shape test
+    -   rate
+    -   scale
+    -   shape
 -   Gaussian
-    -   mu test
-    -   variance test
+    -   mu
+    -   variance
 -   negative binomial
-    -   p test
+    -   p
 -   Poisson
-    -   lambda test
+    -   lambda
 -   Cauchy
     -   location
     -   scale
@@ -79,25 +79,25 @@ poisson_lambda_lr_test(x = x, lambda = 1, alternative = "two.sided")
 Because we generated the data, we know the true value of lambda is one.
 The p value is above 05%.
 
-# Example 2: Test rate of an exponential distribution
+# Example 2: Confidence Interval
 
-This time, lets run a test where the null is false. Below the true rate
-is 3 and the rejected null tests a rate of 1.
+To get a confidence interval, set the conf.level to the desired
+confidence. The alternative argument controls left, right or two sided
+intervals. Below gets a 90% confidence interval for scale from a Cauchy
+random variable. The true value is contained in the interval.
 
 ``` r
-library(LRTesteR)
-
 set.seed(1)
-x <- rexp(n = 100, rate = 3)
-exponentail_rate_lr_test(x = x, rate = 1, alternative = "two.sided")
+x <- rcauchy(n = 100, location = 3, scale = 5)
+cauchy_scale_lr_test(x = x, scale = 1, alternative = "two.sided", conf.level = .90)
 #> $statistic
-#> [1] 82.39116
+#> [1] 140.5185
 #> 
 #> $p.value
-#> [1] 1.116523e-19
+#> [1] 2.050328e-32
 #> 
 #> $conf.int
-#> [1] 2.376868 3.519063
+#> [1] 4.640072 7.283762
 #> 
 #> $alternative
 #> [1] "two.sided"
@@ -108,11 +108,11 @@ exponentail_rate_lr_test(x = x, rate = 1, alternative = "two.sided")
 
 # Mathematical Details
 
-The strength of the likelihood ratio test is its generality. It is a a
+The strength of the likelihood ratio test is its generality. It is a
 recipe to create hypothesis tests and confidence intervals in many
 different settings. Sometimes the test is the only known procedure. When
-there are many procedures, likelihood ratio tests tend to have very good
-**asymptotic** type I error rates.
+there are many procedures, likelihood ratio tests have very competitive
+**asymptotic** power.
 
 The weakness of the likelihood ratio test is it depends on two
 assumptions:
@@ -126,7 +126,6 @@ are **close** to alpha and coverage rates are **close** to the
 confidence level. This is the reason all tests require a sample size of
 at least 50. For the second condition, the parameter must not be near
 the boundary of the parameter space. How near is too near depends on N.
-There is no clear cut off point.
 
 As implemented, all functions depend on the
 *χ*<sup>2</sup>
@@ -163,10 +162,22 @@ likelihoodTest$conf.int
 #> [1] 1.875392 4.121238
 ```
 
-The greatest strength of the likelihood method is the generality. There
-are a total of 13 tests and 13 confidence intervals implemented in this
-package. Some tests (cauchy, beta, gamma, poisson) don’t have other well
-known options.
+Changing to p for a binomial distribution, the confidence intervals are
+similar yet again.
 
-Estimated asymptotic type I and type II error rates can be found
+``` r
+sigma2 <- 1.5^2 # Variance, not standard deviation.
+exactTest <- stats::binom.test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- binomial_p_lr_test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
+as.numeric(exactTest$conf.int)
+#> [1] 0.1003022 0.3371831
+likelihoodTest$conf.int
+#> [1] 0.1056842 0.3242910
+```
+
+When exact methods are known, use them. The utility of the likelihood
+based approach is its generality. Many tests in this package (cauchy,
+beta, gamma, poisson) don’t have other well known options.
+
+Asymptotic type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
