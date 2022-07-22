@@ -102,24 +102,25 @@ test_that("n input checking works", {
   expect_error(binomial_p_lr_test(1, c(5, 4)), "Second argument should have length 1.")
   expect_error(binomial_p_lr_test(1, 2.5), "Second argument should be an integer.")
   expect_error(binomial_p_lr_test(1, -1), "Second argument should be 0 or above.")
+  expect_error(binomial_p_lr_test(1, 10), "At least 50 trials should be done for likelihood ratio test.")
 })
 
 test_that("p input checking works", {
-  expect_error(binomial_p_lr_test(1, 1, "foo"), "Argument p should be numeric.")
-  expect_error(binomial_p_lr_test(1, 1, c(.5, .6)), "Argument p should have length one.")
-  expect_error(binomial_p_lr_test(1, 1, -.1), "Argument p should be between 0 and 1.")
-  expect_error(binomial_p_lr_test(1, 1, 1.01), "Argument p should be between 0 and 1.")
+  expect_error(binomial_p_lr_test(1, 50, "foo"), "Argument p should be numeric.")
+  expect_error(binomial_p_lr_test(1, 50, c(.5, .6)), "Argument p should have length one.")
+  expect_error(binomial_p_lr_test(1, 50, -.1), "Argument p should be between 0 and 1.")
+  expect_error(binomial_p_lr_test(1, 50, 1.01), "Argument p should be between 0 and 1.")
 })
 
 test_that("alternative input checking works", {
-  expect_error(binomial_p_lr_test(5, 10, .5, c("two.sided", "less")), "Argument alternative should have length one.")
-  expect_error(binomial_p_lr_test(5, 10, .5, 1), "Argument alternative should be a character.")
-  expect_error(binomial_p_lr_test(5, 10, .5, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater'")
+  expect_error(binomial_p_lr_test(5, 50, .5, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(binomial_p_lr_test(5, 50, .5, 1), "Argument alternative should be a character.")
+  expect_error(binomial_p_lr_test(5, 50, .5, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater'")
 })
 
 test_that("conf.level input checking works", {
-  expect_error(binomial_p_lr_test(5, 10, .5, "less", c(.50, .75)), "conf.level should have length one.")
-  expect_error(binomial_p_lr_test(5, 10, .5, "less", "foo"), "conf.level should be numeric.")
-  expect_error(binomial_p_lr_test(5, 10, .5, "less", 0), "conf.level should between zero and one.")
-  expect_error(binomial_p_lr_test(5, 10, .5, "less", 1), "conf.level should between zero and one.")
+  expect_error(binomial_p_lr_test(5, 50, .5, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(binomial_p_lr_test(5, 50, .5, "less", "foo"), "conf.level should be numeric.")
+  expect_error(binomial_p_lr_test(5, 50, .5, "less", 0), "conf.level should between zero and one.")
+  expect_error(binomial_p_lr_test(5, 50, .5, "less", 1), "conf.level should between zero and one.")
 })

@@ -181,6 +181,15 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   LB <- 0
   UB <- 1
 
+  if (rlang::as_string(arg2) == "n") {
+    # binomial case
+    sizeCheck <- rlang::expr(!!arg2 < 50)
+  } else if (rlang::as_string(arg2) == "num_success") {
+    # negative binomial case
+    sizeCheck <- rlang::expr(!!arg1 + !!arg2 < 50)
+  }
+
+
   calc_CI <- function(arg1, arg2, alternative, conf.level) {
     alpha <- 1 - conf.level
     ops_p <- calc_MLE(arg1, arg2)
@@ -251,6 +260,9 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
     }
     if (!!arg2 < 0) {
       stop("Second argument should be 0 or above.")
+    }
+    if (!!sizeCheck) {
+      stop("At least 50 trials should be done for likelihood ratio test.")
     }
     if (!is.numeric(p)) {
       stop("Argument p should be numeric.")
