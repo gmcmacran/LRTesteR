@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio test and associated confidence intervals for many common distributions. All tests and CIs rely on the chi-square approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
+LRTesteR provides likelihood ratio test and associated confidence intervals for many common distributions. All tests and CIs rely on the $$\chi^2$$ approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 All functions match popular tests in R. If you are familiar with t.test and binom.test, you already know how to use these functions.
 
@@ -68,17 +68,19 @@ To test lambda, simply call poisson_lambda_lr_test.
 ```{r example1Part2}
 poisson_lambda_lr_test(x = x, lambda = 1, alternative = "two.sided")
 ```
-Because we generated the data, we know the true value of lambda is one. The p value is above 05%.
+Because we generated the data, we know the true value of lambda is one. The p value is above 5%.
 
 # Example 2: Confidence Interval
 
-To get a confidence interval, set the conf.level to the desired confidence. The alternative argument controls left, right or two sided intervals. Below gets a 90% confidence interval for scale from a Cauchy random variable. The true value is contained in the interval.
+To get a confidence interval, set the conf.level to the desired confidence. Below gets a two sided 90% confidence interval for scale from a Cauchy random variable.
 
 ```{r example2Part1}
 set.seed(1)
 x <- rcauchy(n = 100, location = 3, scale = 5)
 cauchy_scale_lr_test(x = x, scale = 1, alternative = "two.sided", conf.level = .90)
 ```
+
+Setting alternative to "less" gets a lower one sided interval. Setting it to "greater" gets an upper one sided interval.
 
 # Mathematical Details
 

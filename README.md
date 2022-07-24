@@ -13,9 +13,10 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 
 LRTesteR provides likelihood ratio test and associated confidence
 intervals for many common distributions. All tests and CIs rely on the
-chi-square approximation even when exact sampling distributions are
-known. Tests require a sample size of at least 50. Estimated asymptotic
-type I and type II error rates can be found
+*χ*<sup>2</sup>
+approximation even when exact sampling distributions are known. Tests
+require a sample size of at least 50. Estimated asymptotic type I and
+type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 All functions match popular tests in R. If you are familiar with t.test
@@ -77,14 +78,13 @@ poisson_lambda_lr_test(x = x, lambda = 1, alternative = "two.sided")
 ```
 
 Because we generated the data, we know the true value of lambda is one.
-The p value is above 05%.
+The p value is above 5%.
 
 # Example 2: Confidence Interval
 
 To get a confidence interval, set the conf.level to the desired
-confidence. The alternative argument controls left, right or two sided
-intervals. Below gets a 90% confidence interval for scale from a Cauchy
-random variable. The true value is contained in the interval.
+confidence. Below gets a two sided 90% confidence interval for scale
+from a Cauchy random variable.
 
 ``` r
 set.seed(1)
@@ -105,6 +105,9 @@ cauchy_scale_lr_test(x = x, scale = 1, alternative = "two.sided", conf.level = .
 #> attr(,"class")
 #> [1] "lrtest"
 ```
+
+Setting alternative to “less” gets a lower one sided interval. Setting
+it to “greater” gets an upper one sided interval.
 
 # Mathematical Details
 
