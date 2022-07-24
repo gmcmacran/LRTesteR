@@ -184,9 +184,19 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   if (rlang::as_string(arg2) == "n") {
     # binomial case
     sizeCheck <- rlang::expr(!!arg2 < 50)
+    rangeCheck <- rlang::expr(
+      if (!!arg1 > !!arg2) {
+        stop("Argument x cannot be larger than n.")
+      }
+    )
   } else if (rlang::as_string(arg2) == "num_success") {
     # negative binomial case
     sizeCheck <- rlang::expr(!!arg1 + !!arg2 < 50)
+    rangeCheck <- rlang::expr(
+      if (!!arg2 <= 1) {
+        stop("There must be at least one success.")
+      }
+    )
   }
 
 
@@ -219,13 +229,28 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
 
     if (alternative == "two.sided") {
       alpha <- alpha / 2
-      CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
+      # deal with edge case of MLE on boundary
+      if (ops_p == 1) {
+        CI <- c(calc_left_side_CI(alpha), UB)
+      } else if (ops_p == 0) {
+        CI <- c(LB, calc_right_side_CI(alpha))
+      } else {
+        CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
+      }
     }
     else if (alternative == "less") {
-      CI <- c(LB, calc_right_side_CI(alpha))
+      if (ops_p == 1) {
+        CI <- c(calc_left_side_CI(alpha), UB)
+      } else {
+        CI <- c(LB, calc_right_side_CI(alpha))
+      }
     }
     else {
-      CI <- c(calc_left_side_CI(alpha), UB)
+      if (ops_p == 0) {
+        CI <- c(LB, calc_right_side_CI(alpha))
+      } else {
+        CI <- c(calc_left_side_CI(alpha), UB)
+      }
     }
 
     return(CI)
@@ -264,6 +289,8 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
     if (!!sizeCheck) {
       stop("At least 50 trials should be done for likelihood ratio test.")
     }
+    !!rangeCheck
+
     if (!is.numeric(p)) {
       stop("Argument p should be numeric.")
     }

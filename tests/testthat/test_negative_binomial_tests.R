@@ -143,6 +143,7 @@ test_that("success input checking works", {
   expect_error(negative_binomial_p_lr_test(1, 2.5), "Second argument should be an integer.")
   expect_error(negative_binomial_p_lr_test(1, -1), "Second argument should be 0 or above.")
   expect_error(negative_binomial_p_lr_test(1, 10), "At least 50 trials should be done for likelihood ratio test.")
+  expect_error(negative_binomial_p_lr_test(50, 0), "There must be at least one success.")
 })
 
 test_that("p input checking works", {
