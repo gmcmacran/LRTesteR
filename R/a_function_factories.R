@@ -219,13 +219,28 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
 
     if (alternative == "two.sided") {
       alpha <- alpha / 2
-      CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
+      # deal with edge case of MLE on boundary
+      if (ops_p == 1) {
+        CI <- c(calc_left_side_CI(alpha), UB)
+      } else if (ops_p == 0) {
+        CI <- c(LB, calc_right_side_CI(alpha))
+      } else {
+        CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
+      }
     }
     else if (alternative == "less") {
-      CI <- c(LB, calc_right_side_CI(alpha))
+      if (ops_p == 1) {
+        CI <- c(calc_left_side_CI(alpha), UB)
+      } else {
+        CI <- c(LB, calc_right_side_CI(alpha))
+      }
     }
     else {
-      CI <- c(calc_left_side_CI(alpha), UB)
+      if (ops_p == 0) {
+        CI <- c(LB, calc_right_side_CI(alpha))
+      } else {
+        CI <- c(calc_left_side_CI(alpha), UB)
+      }
     }
 
     return(CI)
