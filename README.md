@@ -169,7 +169,6 @@ Changing to p for a binomial distribution, the confidence intervals are
 similar yet again.
 
 ``` r
-sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- stats::binom.test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- binomial_p_lr_test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
