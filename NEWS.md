@@ -4,7 +4,7 @@
 * Modify readme more.
 
 # LRTesteR 0.2
-* Move to function factory.
+* Move to function factories.
 * Improve readme.
 * Add confidence intervals.
 
