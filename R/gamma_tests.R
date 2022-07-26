@@ -84,6 +84,7 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
   obs_scale <- 1 / obs_rate
 
   get_profile_shape <- function(x, scale) {
+    scale <- pmax(scale, .0000001) # Avoid underflow in bounds of search
     geo_mean <- function(x) {
       return(exp(mean(log(x))))
     }
@@ -97,7 +98,7 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
     return(profile_shape)
   }
 
-  profile_shape <- get_profile_shape(x, obs_shape)
+  profile_shape <- get_profile_shape(x, scale)
 
   W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
     sum(stats::dgamma(x = x, shape = profile_shape, scale = scale, log = TRUE)))
@@ -157,6 +158,7 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
 
   get_profile_shape <- function(x, rate) {
     scale <- 1 / rate
+    scale <- pmax(scale, .0000001) # Avoid underflow in bounds of search
     geo_mean <- function(x) {
       return(exp(mean(log(x))))
     }

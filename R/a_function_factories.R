@@ -42,7 +42,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 20 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
@@ -51,7 +51,7 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 10 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 20 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
       return(out)
     }
 
