@@ -438,7 +438,7 @@ create_test_function_continuous_one_way <- function(calc_test_stat, calc_individ
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
-      tempCI <- calc_individual_CI(tempX, 0, "two.sided", individual.conf.level)
+      tempCI <- calc_individual_CI(tempX, 1, "two.sided", individual.conf.level)
       tempCI <- tempCI$conf.int
       CI[[l]] <- tempCI
     }

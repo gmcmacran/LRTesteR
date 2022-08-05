@@ -77,21 +77,21 @@ gaussian_variance_lr_test <- LRTesteR:::create_test_function_continuous(LRTesteR
 
 #' @keywords internal
 calc_test_stat_normal_mu_one_way <- function(x, fctr) {
+  # Null
   obs_mean <- base::mean(x)
 
   profile_sd <- (sum((x - obs_mean)^2) / length(x))^.5
 
-  group_means <- vector(mode = "numeric", length = length(levels(fctr)))
-
   W1 <- sum(stats::dnorm(x = x, mean = obs_mean, sd = profile_sd, log = TRUE))
 
+  # alt
+  group_means <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in 1:length(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
     temp <- base::mean(tempX)
     group_means[i] <- temp
-    names(group_means)[i] <- l
   }
 
   SS <- 0
@@ -149,3 +149,66 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' gaussian_mu_one_way(x, fctr, .95)
 #' @export
 gaussian_mu_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_lr_test)
+
+#' @keywords internal
+calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
+  # null
+  profile_mean <- base::mean(x)
+
+  obs_sd <- (sum((x - profile_mean)^2) / length(x))^.5
+
+  W1 <- sum(stats::dnorm(x = x, mean = profile_mean, sd = obs_sd, log = TRUE))
+
+  # alt
+  group_means <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_sds <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in 1:length(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    temp <- base::mean(tempX)
+    group_means[i] <- temp
+    group_sds[i] <- (sum((tempX - group_means[i])^2) / length(tempX))^.5
+  }
+
+  likelihoods <- vector(mode = "numeric", length = length(group_means))
+  for (i in 1:length(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    temp <- sum(stats::dnorm(x = tempX, mean = group_means[i], sd = group_sds[i], log = TRUE))
+    likelihoods[i] <- temp
+  }
+  W2 <- sum(likelihoods)
+
+  W <- 2 * (W2 - W1)
+
+  return(W)
+}
+
+#' Test equality of variances of gaussian distributions using the likelihood ratio test.
+#'
+#' @inheritParams gaussian_mu_lr_test
+#' @inherit gaussian_mu_lr_test return
+#' @inherit gaussian_mu_lr_test source
+#' @details
+#' Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
+#' Alternative: At least on variance is not equal.
+#' @examples
+#' library(LRTesteR)
+#'
+#' # Null is true
+#' set.seed(1)
+#' x <- rnorm(150, 1, 1)
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' gaussian_variance_one_way(x, fctr, .95)
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- c(rnorm(50, 1, 1), rnorm(50, 1, 2), rnorm(50, 1, 3))
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' gaussian_variance_one_way(x, fctr, .95)
+#' @export
+gaussian_variance_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_lr_test)
