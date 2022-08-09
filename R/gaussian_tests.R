@@ -15,7 +15,7 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
   return(W)
 }
 
-#' Test the mean of a gaussian distribution using the likelihood ratio test.
+#' Test the mean of a gaussian distribution.
 #'
 #' @param x a numeric vector of at least 50 data values.
 #' @param mu a number indicating the tested value of mu.
@@ -30,14 +30,14 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_mu_lr_test(x, 0, "two.sided")
+#' gaussian_mu_one_sample(x, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 3, 1)
-#' gaussian_mu_lr_test(x, 0, "greater")
+#' gaussian_mu_one_sample(x, 0, "greater")
 #' @export
-gaussian_mu_lr_test <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_normal_mu, mu)
+gaussian_mu_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_normal_mu, mu)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
@@ -54,26 +54,26 @@ calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
   return(W)
 }
 
-#' Test the variance of a gaussian distribution using the likelihood ratio test.
+#' Test the variance of a gaussian distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param sigma.squared a number indicating the tested value of sigma squared.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_variance_lr_test(x, 1, "two.sided")
+#' gaussian_variance_one_sample(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 0, 2)
-#' gaussian_variance_lr_test(x, 1, "greater")
+#' gaussian_variance_one_sample(x, 1, "greater")
 #' @export
-gaussian_variance_lr_test <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_normal_sigma.squared, sigma.squared, 0)
+gaussian_variance_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_normal_sigma.squared, sigma.squared, 0)
 
 #' @keywords internal
 calc_test_stat_normal_mu_one_way <- function(x, fctr) {
@@ -119,7 +119,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of means of gaussian distributions using the likelihood ratio test.
+#' Test equality of means of gaussian distributions.
 #'
 #' @param x a numeric vector of at least 50 data values per group.
 #' @param fctr a factor vector indicating groups.
@@ -148,7 +148,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gaussian_mu_one_way(x, fctr, .95)
 #' @export
-gaussian_mu_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_lr_test)
+gaussian_mu_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
@@ -184,7 +184,7 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of variances of gaussian distributions using the likelihood ratio test.
+#' Test equality of variances of gaussian distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -209,4 +209,4 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gaussian_variance_one_way(x, fctr, .95)
 #' @export
-gaussian_variance_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_lr_test)
+gaussian_variance_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_one_sample)

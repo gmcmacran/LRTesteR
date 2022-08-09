@@ -37,12 +37,12 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
   return(W)
 }
 
-#' Test the shape parameter of a gamma distribution using the likelihood ratio test.
+#' Test the shape parameter of a gamma distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param shape a number indicating the tested value of the shape parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -110,12 +110,12 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
   return(W)
 }
 
-#' Test the scale parameter of a gamma distribution using the likelihood ratio test.
+#' Test the scale parameter of a gamma distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param scale a number indicating the tested value of the scale parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -184,12 +184,12 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
   return(W)
 }
 
-#' Test the rate parameter of a gamma distribution using the likelihood ratio test.
+#' Test the rate parameter of a gamma distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param rate a number indicating the tested value of the rate parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'

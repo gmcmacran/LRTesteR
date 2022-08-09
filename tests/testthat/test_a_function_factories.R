@@ -131,7 +131,7 @@ calc_test_stat <- function(x, fctr) {
   return(W)
 }
 
-f <- LRTesteR:::create_test_function_continuous_one_way(calc_test_stat, gaussian_mu_lr_test)
+f <- LRTesteR:::create_test_function_continuous_one_way(calc_test_stat, gaussian_mu_one_sample)
 test_that("Check structure.", {
   expect_true(class(f) == "function")
   expect_true(all(names(formals(f)) == c("x", "fctr", "conf.level")))
