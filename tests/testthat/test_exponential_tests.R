@@ -147,3 +147,100 @@ test_that("conf.level input checking works", {
   expect_error(exponentail_rate_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")
   expect_error(exponentail_rate_lr_test(x, 1, "less", 1), "conf.level should between zero and one.")
 })
+
+###############################################
+# Null True
+###############################################
+set.seed(1)
+x <- rpois(150, 1)
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- poisson_lambda_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(class(test) == "lrtest")
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+dat <- data.frame(fctr = fctr, x = x)
+model_00 <- glm(x ~ 1, data = dat, family = poisson(link = "identity"))
+model_01 <- glm(x ~ fctr, data = dat, family = poisson(link = "identity"))
+
+test_02 <- lmtest::lrtest(model_00, model_01)
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
+})
+
+# make sure CIs match
+CI1 <- unname(test$conf.ints[[1]])
+CI2 <- poisson_lambda_lr_test(x[which(fctr == 1)], 2, test$alternative, test$individ.conf)$conf.int
+test_that("Check CI", {
+  expect_equal(CI1, CI2)
+})
+rm(CI1, CI2, dat, model_00, model_01)
+
+###############################################
+# Null False
+###############################################
+
+set.seed(1)
+x <- c(rpois(50, 1), rpois(50, 1.50), rpois(50, 2))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- poisson_lambda_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(class(test) == "lrtest")
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+dat <- data.frame(fctr = fctr, x = x)
+model_00 <- glm(x ~ 1, data = dat, family = poisson(link = "identity"))
+model_01 <- glm(x ~ fctr, data = dat, family = poisson(link = "identity"))
+
+test_02 <- lmtest::lrtest(model_00, model_01)
+test_that("Check contents", {
+  expect_true(test$p.value < .05)
+  expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
+})
+
+# make sure CIs match
+CI1 <- unname(test$conf.ints[[1]])
+CI2 <- poisson_lambda_lr_test(x[which(fctr == 1)], 2, test$alternative, test$individ.conf)$conf.int
+test_that("Check CI", {
+  expect_equal(CI1, CI2)
+})
+rm(CI1, CI2, dat, model_00, model_01)
+
+###############################################
+# Input checking
+###############################################
+test_that("x input checking works", {
+  expect_error(poisson_lambda_one_way(c()), "Argument x should have at least 50 data points.")
+  expect_error(poisson_lambda_one_way(rep("foo", 50)), "Argument x should be numeric.")
+})
+
+set.seed(1)
+x <- rnorm(100)
+fctr1 <- factor(rep(1, 100), levels = c("1", "2", "3"))
+fctr2 <- factor(c(rep(1, 60), rep(2, 40)), levels = c("1", "2", "3"))
+test_that("fctr input checking works", {
+  expect_error(poisson_lambda_one_way(x, "foo"), "Argument fctr should have same length as x.")
+  expect_error(poisson_lambda_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
+  expect_error(poisson_lambda_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
+  expect_error(poisson_lambda_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
+  expect_error(poisson_lambda_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+})
+rm(fctr1, fctr2)
+
+fctr <- c(rep(1, 50), rep(2, 50))
+fctr <- factor(fctr, levels = c("1", "2"))
+test_that("conf.level input checking works", {
+  expect_error(poisson_lambda_one_way(x, fctr, c(.50, .75)), "conf.level should have length one.")
+  expect_error(poisson_lambda_one_way(x, fctr, "foo"), "conf.level should be numeric.")
+  expect_error(poisson_lambda_one_way(x, fctr, 0), "conf.level should between zero and one.")
+  expect_error(poisson_lambda_one_way(x, fctr, 1), "conf.level should between zero and one.")
+})
