@@ -10,12 +10,15 @@
 gaussian_variance_one_way(x, fctr, conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of at least 50 data values per group.}
 
-\item{conf.level}{confidence level of the likelihood interval.}
+\item{fctr}{a factor vector indicating groups.}
+
+\item{conf.level}{overall confidence level of the likelihood intervals. Uses Bonferroni correction.}
 }
 \value{
-An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
+An S3 class containing the test statistic, p value, list of likelihood based confidence intervals,
+overall confidence level, individual confidence level of each interval and alternative
 hypothesis.
 }
 \description{

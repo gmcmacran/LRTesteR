@@ -10,7 +10,7 @@
 gaussian_mu_one_way(x, fctr, conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of at least 50 data values per group.}
 
 \item{fctr}{a factor vector indicating groups.}
 
@@ -26,7 +26,7 @@ Test equality of means of gaussian distributions using the likelihood ratio test
 }
 \details{
 Null: All mus are equal. (mu1 = mu2 ... muk).
-Alternative: At least on mu is not equal.
+Alternative: At least one mu is not equal.
 }
 \examples{
 library(LRTesteR)
