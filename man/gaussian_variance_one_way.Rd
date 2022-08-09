@@ -26,7 +26,7 @@ Test equality of variances of gaussian distributions.
 }
 \details{
 Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
-Alternative: At least on variance is not equal.
+Alternative: At least one variance is not equal.
 }
 \examples{
 library(LRTesteR)
