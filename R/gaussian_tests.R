@@ -191,7 +191,7 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way source
 #' @details
 #' Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
-#' Alternative: At least on variance is not equal.
+#' Alternative: At least one variance is not equal.
 #' @examples
 #' library(LRTesteR)
 #'
