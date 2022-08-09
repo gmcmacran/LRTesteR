@@ -2,7 +2,7 @@
 % Please edit documentation in R/exponential_tests.R
 \name{exponentail_rate_lr_test}
 \alias{exponentail_rate_lr_test}
-\title{Test the rate of a exponential distribution using the likelihood ratio test.}
+\title{Test the rate of a exponential distribution.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -23,7 +23,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the rate of a exponential distribution using the likelihood ratio test.
+Test the rate of a exponential distribution.
 }
 \examples{
 library(LRTesteR)

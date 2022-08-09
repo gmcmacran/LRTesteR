@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaussian_tests.R
 \name{gaussian_mu_one_way}
 \alias{gaussian_mu_one_way}
-\title{Test equality of means of gaussian distributions using the likelihood ratio test.}
+\title{Test equality of means of gaussian distributions.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -22,7 +22,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of means of gaussian distributions using the likelihood ratio test.
+Test equality of means of gaussian distributions.
 }
 \details{
 Null: All mus are equal. (mu1 = mu2 ... muk).

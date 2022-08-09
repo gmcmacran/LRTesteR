@@ -2,7 +2,7 @@
 % Please edit documentation in R/cauchy_tests.R
 \name{cauchy_scale_lr_test}
 \alias{cauchy_scale_lr_test}
-\title{Test the scale parameter of a cauchy distribution using the likelihood ratio test.}
+\title{Test the scale parameter of a cauchy distribution.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -23,7 +23,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the scale parameter of a cauchy distribution using the likelihood ratio test.
+Test the scale parameter of a cauchy distribution.
 }
 \examples{
 library(LRTesteR)

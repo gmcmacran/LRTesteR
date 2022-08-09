@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaussian_tests.R
 \name{gaussian_variance_one_way}
 \alias{gaussian_variance_one_way}
-\title{Test equality of variances of gaussian distributions using the likelihood ratio test.}
+\title{Test equality of variances of gaussian distributions.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -22,7 +22,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of variances of gaussian distributions using the likelihood ratio test.
+Test equality of variances of gaussian distributions.
 }
 \details{
 Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
