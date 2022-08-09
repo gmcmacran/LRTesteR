@@ -6,10 +6,10 @@ utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
 create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
-  force(calc_test_stat)
   p0 <- rlang::ensym(p0)
   force(LB)
 
+  force(calc_test_stat)
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
@@ -23,6 +23,9 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
   }
   if (args[3] != "alternative") {
     stop("calc_test_stat's third argument is not alternative.")
+  }
+  if (length(args) != 3) {
+    stop("calc_test_stat has too many arguments.")
   }
   rm(args)
 
@@ -143,6 +146,7 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   arg1 <- rlang::ensym(arg1)
   arg2 <- rlang::ensym(arg2)
 
+  force(calc_MLE)
   # Confirm function looks right
   if (!inherits(calc_MLE, "function")) {
     stop("Argument calc_MLE must be a function.")
@@ -154,8 +158,12 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   if (args[2] != "arg2") {
     stop("calc_MLE's second argument is not arg2.")
   }
+  if (length(args) != 2) {
+    stop("calc_MLE has too many arguments.")
+  }
   rm(args)
 
+  force(calc_test_stat)
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
@@ -173,10 +181,10 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   if (args[4] != "alternative") {
     stop("calc_test_stat's fourth argument is not alternative.")
   }
+  if (length(args) != 4) {
+    stop("calc_test_stat has too many arguments.")
+  }
   rm(args)
-
-  force(calc_MLE)
-  force(calc_test_stat)
 
   LB <- 0
   UB <- 1
@@ -351,8 +359,6 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
 # depends on single sample tests for CIs.
 create_test_function_continuous_one_way <- function(calc_test_stat, calc_individual_CI) {
   force(calc_test_stat)
-  force(calc_individual_CI)
-
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
@@ -369,6 +375,7 @@ create_test_function_continuous_one_way <- function(calc_test_stat, calc_individ
   }
   rm(args)
 
+  force(calc_individual_CI)
   # Confirm function looks right
   if (!inherits(calc_individual_CI, "function")) {
     stop("Argument calc_individual_CI must be a function.")
