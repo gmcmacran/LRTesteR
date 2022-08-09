@@ -2,7 +2,7 @@
 % Please edit documentation in R/cauchy_tests.R
 \name{cauchy_location_lr_test}
 \alias{cauchy_location_lr_test}
-\title{Test the location parameter of a cauchy distribution using the likelihood ratio test.}
+\title{Test the location parameter of a cauchy distribution.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -28,7 +28,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the location parameter of a cauchy distribution using the likelihood ratio test.
+Test the location parameter of a cauchy distribution.
 }
 \examples{
 library(LRTesteR)

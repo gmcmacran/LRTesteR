@@ -12,12 +12,12 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
   return(W)
 }
 
-#' Test lambda of a poisson distribution using the likelihood ratio test.
+#' Test lambda of a poisson distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param lambda a number indicating the tested value of lambda
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'

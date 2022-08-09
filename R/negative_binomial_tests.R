@@ -17,13 +17,13 @@ calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
   return(W)
 }
 
-#' Test p of a negative binomial distribution using the likelihood ratio test.
+#' Test p of a negative binomial distribution.
 #'
 #' @inheritParams binomial_p_lr_test
 #' @param num_failures Number of failures.
 #' @param num_success Number of successes.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'

@@ -62,12 +62,12 @@ calc_test_stat_cauchy_location <- function(x, location, alternative) {
   return(W)
 }
 
-#' Test the location parameter of a cauchy distribution using the likelihood ratio test.
+#' Test the location parameter of a cauchy distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param location a number indicating the tested value of the location parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -147,12 +147,12 @@ calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
   return(W)
 }
 
-#' Test the scale parameter of a cauchy distribution using the likelihood ratio test.
+#' Test the scale parameter of a cauchy distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param scale a number indicating the tested value of the scale parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'

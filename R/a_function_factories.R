@@ -1,15 +1,15 @@
 # fix check.
 # Not actually global.
-utils::globalVariables(c("x", "alternative", "conf.level", "p"))
+utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
 
 #' @keywords internal
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
 create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
-  force(calc_test_stat)
   p0 <- rlang::ensym(p0)
   force(LB)
 
+  force(calc_test_stat)
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
@@ -23,6 +23,9 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
   }
   if (args[3] != "alternative") {
     stop("calc_test_stat's third argument is not alternative.")
+  }
+  if (length(args) != 3) {
+    stop("calc_test_stat has too many arguments.")
   }
   rm(args)
 
@@ -143,6 +146,7 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   arg1 <- rlang::ensym(arg1)
   arg2 <- rlang::ensym(arg2)
 
+  force(calc_MLE)
   # Confirm function looks right
   if (!inherits(calc_MLE, "function")) {
     stop("Argument calc_MLE must be a function.")
@@ -154,8 +158,12 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   if (args[2] != "arg2") {
     stop("calc_MLE's second argument is not arg2.")
   }
+  if (length(args) != 2) {
+    stop("calc_MLE has too many arguments.")
+  }
   rm(args)
 
+  force(calc_test_stat)
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
     stop("Argument calc_test_stat must be a function.")
@@ -173,10 +181,10 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   if (args[4] != "alternative") {
     stop("calc_test_stat's fourth argument is not alternative.")
   }
+  if (length(args) != 4) {
+    stop("calc_test_stat has too many arguments.")
+  }
   rm(args)
-
-  force(calc_MLE)
-  force(calc_test_stat)
 
   LB <- 0
   UB <- 1
@@ -340,6 +348,114 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
   })
 
   exec_globals <- list(LB = LB, UB = UB, calc_MLE = calc_MLE, calc_test_stat = calc_test_stat, calc_CI = calc_CI)
+  exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
+
+  f <- rlang::new_function(args, body, env = exec_env)
+
+  return(f)
+}
+
+# A function factory
+# depends on single sample tests for CIs.
+create_test_function_continuous_one_way <- function(calc_test_stat, calc_individual_CI) {
+  force(calc_test_stat)
+  # Confirm function looks right
+  if (!inherits(calc_test_stat, "function")) {
+    stop("Argument calc_test_stat must be a function.")
+  }
+  args <- names(formals(calc_test_stat))
+  if (args[1] != "x") {
+    stop("calc_test_stat's first argument is not x.")
+  }
+  if (args[2] != "fctr") {
+    stop("calc_test_stat's second argument is not fctr.")
+  }
+  if (length(args) != 2) {
+    stop("calc_test_stat has too many arguments.")
+  }
+  rm(args)
+
+  force(calc_individual_CI)
+  # Confirm function looks right
+  if (!inherits(calc_individual_CI, "function")) {
+    stop("Argument calc_individual_CI must be a function.")
+  }
+  args <- names(formals(calc_individual_CI))
+  if (args[1] != "x") {
+    stop("calc_individual_CI's first argument is not x.")
+  }
+  if (args[3] != "alternative") {
+    stop("calc_individual_CI's third argument is not alternative.")
+  }
+  if (args[4] != "conf.level") {
+    stop("calc_individual_CI's fourth argument is not conf.level.")
+  }
+  if (length(args) != 4) {
+    stop("calc_individual_CI has too many arguments.")
+  }
+  rm(args)
+
+  # Build function
+  args <- rlang::pairlist2(x = , fctr = , conf.level = 0.95)
+
+  body <- rlang::expr({
+    if (length(x) < 50) {
+      stop("Argument x should have at least 50 data points.")
+    }
+    if (!is.numeric(x)) {
+      stop("Argument x should be numeric.")
+    }
+    if (length(fctr) != length(x)) {
+      stop("Argument fctr should have same length as x.")
+    }
+    if (!is.factor(fctr)) {
+      stop("Argument fctr should be a factor.")
+    }
+    if (length(base::unique(fctr)) < 2) {
+      stop("Argument fctr should have at least two unique values.")
+    }
+    if (any(as.vector(by(x, fctr, length)) < 50)) {
+      stop("Each groups needs to contain at least 50 points for CIs to be accurate.")
+    }
+    if (length(conf.level) != 1) {
+      stop("conf.level should have length one.")
+    }
+    if (!is.numeric(conf.level)) {
+      stop("conf.level should be numeric.")
+    }
+    if (conf.level <= 0 | conf.level >= 1) {
+      stop("conf.level should between zero and one.")
+    }
+
+    W <- calc_test_stat(x, fctr)
+
+    # Under null, 1 parameter (overall value) is allowed to vary
+    # Under alternative, parameter for each group is allowed to vary
+    df <- length(levels(fctr)) - 1
+
+    p.value <- stats::pchisq(q = W, df = df, lower.tail = FALSE)
+
+    # Bonferroni correction and convert back to confidence
+    alpha <- 1 - conf.level
+    alpha <- alpha / length(levels(fctr))
+    individual.conf.level <- 1 - alpha
+
+    CI <- list()
+    for (i in 1:length(levels(fctr))) {
+      l <- levels(fctr)[i]
+      index <- which(fctr == l)
+      tempX <- x[index]
+      tempCI <- calc_individual_CI(tempX, 1, "two.sided", individual.conf.level)
+      tempCI <- tempCI$conf.int
+      CI[[l]] <- tempCI
+    }
+
+    out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
+    class(out) <- "lrtest"
+    return(out)
+  })
+
+  exec_globals <- list(calc_test_stat = calc_test_stat, calc_individual_CI = calc_individual_CI)
   exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
 
   f <- rlang::new_function(args, body, env = exec_env)

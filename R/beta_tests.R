@@ -49,12 +49,12 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
   return(W)
 }
 
-#' Test the shape1 parameter of a beta distribution using the likelihood ratio test.
+#' Test the shape1 parameter of a beta distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param shape1 a number indicating the tested value of the shape1 parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -120,12 +120,12 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
   return(W)
 }
 
-#' Test the shape2 parameter of a beta distribution using the likelihood ratio test.
+#' Test the shape2 parameter of a beta distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param shape2 a number indicating the tested value of the shape2 parameter.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'

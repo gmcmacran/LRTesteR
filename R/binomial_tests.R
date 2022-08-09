@@ -17,14 +17,14 @@ calc_test_stat_binomial_p <- function(arg1, arg2, p, alternative) {
   return(W)
 }
 
-#' Test p of a binomial distribution using the likelihood ratio test.
+#' Test p of a binomial distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param x Number of successes.
 #' @param n Number of trials.
 #' @param p Hypothesized probability of success.
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
