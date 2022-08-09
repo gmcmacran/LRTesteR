@@ -121,7 +121,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 
 #' Test equality of means of gaussian distributions using the likelihood ratio test.
 #'
-#' @param x a numeric vector of at least 50 data values.
+#' @param x a numeric vector of at least 50 data values per group.
 #' @param fctr a factor vector indicating groups.
 #' @param conf.level overall confidence level of the likelihood intervals. Uses Bonferroni correction.
 #' @return An S3 class containing the test statistic, p value, list of likelihood based confidence intervals,
@@ -129,7 +129,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' hypothesis.
 #' @details
 #' Null: All mus are equal. (mu1 = mu2 ... muk).
-#' Alternative: At least on mu is not equal.
+#' Alternative: At least one mu is not equal.
 #' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' @examples
 #' library(LRTesteR)
@@ -160,23 +160,21 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
   W1 <- sum(stats::dnorm(x = x, mean = profile_mean, sd = obs_sd, log = TRUE))
 
   # alt
-  group_means <- vector(mode = "numeric", length = length(levels(fctr)))
+  profile_mean_HA <- base::mean(x)
   group_sds <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in 1:length(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    temp <- base::mean(tempX)
-    group_means[i] <- temp
-    group_sds[i] <- (sum((tempX - group_means[i])^2) / length(tempX))^.5
+    group_sds[i] <- (sum((tempX - profile_mean_HA)^2) / length(tempX))^.5
   }
 
-  likelihoods <- vector(mode = "numeric", length = length(group_means))
+  likelihoods <- vector(mode = "numeric", length = length(group_sds))
   for (i in 1:length(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    temp <- sum(stats::dnorm(x = tempX, mean = group_means[i], sd = group_sds[i], log = TRUE))
+    temp <- sum(stats::dnorm(x = tempX, mean = profile_mean_HA, sd = group_sds[i], log = TRUE))
     likelihoods[i] <- temp
   }
   W2 <- sum(likelihoods)
@@ -188,9 +186,9 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 
 #' Test equality of variances of gaussian distributions using the likelihood ratio test.
 #'
-#' @inheritParams gaussian_mu_lr_test
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inheritParams gaussian_mu_one_way
+#' @inherit gaussian_mu_one_way return
+#' @inherit gaussian_mu_one_way source
 #' @details
 #' Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
 #' Alternative: At least on variance is not equal.
