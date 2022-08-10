@@ -239,7 +239,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
       est_rate <- estimates[1] # pooled rate
       est_shapes <- estimates[2:length(estimates)]
 
-      likelihoods <- vector(mode = "numeric", length = length(fctr))
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
@@ -249,8 +249,24 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
       likelihoods <- -1 * sum(likelihoods)
       return(likelihoods)
     }
-    # starting points (MLEs from above)
-    start <- c(obs_rate, rep(obs_shape, length(levels(fctr))))
+    # starting points
+    shapes <- vector(mode = "numeric", length = length(levels(fctr)))
+    for (i in 1:length(shapes)) {
+      l <- levels(fctr)[i]
+      index <- which(fctr == l)
+      tempX <- x[index]
+
+      s <- log(mean(tempX)) - mean(log(tempX))
+      shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
+      # newton updates
+      for (j in 1:10) {
+        shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      }
+      shapes[i] <- shape
+      rm(j, shape)
+    }
+
+    start <- c(obs_rate, shapes)
     group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
     return(group_MLEs)
   }
@@ -335,7 +351,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
       est_shape <- estimates[1] # pooled shape
       est_scales <- estimates[2:length(estimates)]
 
-      likelihoods <- vector(mode = "numeric", length = length(fctr))
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
@@ -431,7 +447,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
       est_shape <- estimates[1] # pooled shape
       est_rates <- estimates[2:length(estimates)]
 
-      likelihoods <- vector(mode = "numeric", length = length(fctr))
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
