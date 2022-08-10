@@ -66,7 +66,7 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All variances are equal. (lambda_1 = lambda_2 ... lambda_k).
+#' Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
 #' Alternative: At least one lambda is not equal.
 #' @examples
 #' library(LRTesteR)
