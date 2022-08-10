@@ -12,12 +12,12 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
   return(W)
 }
 
-#' Test lambda of a poisson distribution using the likelihood ratio test.
+#' Test lambda of a poisson distribution.
 #'
-#' @inheritParams gaussian_mu_lr_test
+#' @inheritParams gaussian_mu_one_sample
 #' @param lambda a number indicating the tested value of lambda
-#' @inherit gaussian_mu_lr_test return
-#' @inherit gaussian_mu_lr_test source
+#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_one_sample source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -32,3 +32,57 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
 #' poisson_lambda_lr_test(x, 1, "greater")
 #' @export
 poisson_lambda_lr_test <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 0)
+
+#' @keywords internal
+calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
+  # Null
+  obs_lambda <- base::mean(x)
+
+  W1 <- sum(stats::dpois(x = x, lambda = obs_lambda, log = TRUE))
+
+  # alt
+  group_lambdas <- vector(mode = "numeric", length = length(levels(fctr)))
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in 1:length(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    temp <- base::mean(tempX)
+    group_lambdas[i] <- temp
+    temp <- sum(stats::dpois(x = tempX, lambda = group_lambdas[i], log = TRUE))
+    likelihoods[i] <- temp
+  }
+
+  W2 <- sum(likelihoods)
+
+  W <- 2 * (W2 - W1)
+
+  return(W)
+}
+
+#' Test equality of lambda of poisson distributions.
+#'
+#' @inheritParams gaussian_mu_one_way
+#' @inherit gaussian_mu_one_way return
+#' @inherit gaussian_mu_one_way source
+#' @details
+#' Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
+#' Alternative: At least one lambda is not equal.
+#' @examples
+#' library(LRTesteR)
+#'
+#' # Null is true
+#' set.seed(1)
+#' x <- rpois(150, 1)
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' poisson_lambda_one_way(x, fctr, .95)
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- c(rpois(50, 1), rpois(50, 2), rpois(50, 3))
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' poisson_lambda_one_way(x, fctr, .95)
+#' @export
+poisson_lambda_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_lr_test)

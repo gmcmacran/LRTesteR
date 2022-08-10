@@ -2,7 +2,7 @@
 % Please edit documentation in R/gamma_tests.R
 \name{gamma_rate_lr_test}
 \alias{gamma_rate_lr_test}
-\title{Test the rate parameter of a gamma distribution using the likelihood ratio test.}
+\title{Test the rate parameter of a gamma distribution.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -23,7 +23,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the rate parameter of a gamma distribution using the likelihood ratio test.
+Test the rate parameter of a gamma distribution.
 }
 \examples{
 library(LRTesteR)
