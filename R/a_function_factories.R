@@ -61,11 +61,9 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
     if (alternative == "two.sided") {
       alpha <- alpha / 2
       CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
-    }
-    else if (alternative == "less") {
+    } else if (alternative == "less") {
       CI <- c(LB, calc_right_side_CI(alpha))
-    }
-    else {
+    } else {
       CI <- c(calc_left_side_CI(alpha), Inf)
     }
 
@@ -116,11 +114,9 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
     # calculate p value
     if (alternative == "two.sided") {
       p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
-    }
-    else if (alternative == "less") {
+    } else if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
-    }
-    else {
+    } else {
       p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
 
@@ -245,15 +241,13 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
       } else {
         CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
       }
-    }
-    else if (alternative == "less") {
+    } else if (alternative == "less") {
       if (ops_p == 1) {
         CI <- c(calc_left_side_CI(alpha), UB)
       } else {
         CI <- c(LB, calc_right_side_CI(alpha))
       }
-    }
-    else {
+    } else {
       if (ops_p == 0) {
         CI <- c(LB, calc_right_side_CI(alpha))
       } else {
@@ -332,11 +326,9 @@ create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) 
     # calculate p value
     if (alternative == "two.sided") {
       p.value <- stats::pchisq(q = W, df = 1, lower.tail = FALSE)
-    }
-    else if (alternative == "less") {
+    } else if (alternative == "less") {
       p.value <- stats::pnorm(q = W, lower.tail = TRUE)
-    }
-    else {
+    } else {
       p.value <- stats::pnorm(q = W, lower.tail = FALSE)
     }
 
