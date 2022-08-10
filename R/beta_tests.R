@@ -291,7 +291,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
       est_shape1 <- estimates[1] # pooled shape1
       est_shape2s <- estimates[2:length(estimates)]
 
-      likelihoods <- vector(mode = "numeric", length = length(fctr))
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
