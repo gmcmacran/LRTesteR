@@ -24,14 +24,14 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rpois(100, 1)
-#' poisson_lambda_lr_test(x, 1, "two.sided")
+#' poisson_lambda_one_sample(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rpois(100, 2)
-#' poisson_lambda_lr_test(x, 1, "greater")
+#' poisson_lambda_one_sample(x, 1, "greater")
 #' @export
-poisson_lambda_lr_test <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 0)
+poisson_lambda_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 0)
 
 #' @keywords internal
 calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
@@ -85,4 +85,4 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' poisson_lambda_one_way(x, fctr, .95)
 #' @export
-poisson_lambda_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_lr_test)
+poisson_lambda_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_one_sample)

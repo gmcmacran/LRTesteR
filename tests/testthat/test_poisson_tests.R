@@ -52,7 +52,7 @@ exact_test <- function(x, lambda, alternative) {
 for (alt in c("two.sided", "greater", "less")) {
   set.seed(2)
   x <- rpois(200, 1)
-  test <- poisson_lambda_lr_test(x, 1, alt)
+  test <- poisson_lambda_one_sample(x, 1, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -70,8 +70,8 @@ for (alt in c("two.sided", "greater", "less")) {
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   test_that("Check CI", {
-    expect_true(ifelse(is.finite(CI1), poisson_lambda_lr_test(x, CI1, alt)$p.value, .05) >= .0499)
-    expect_true(ifelse(is.finite(CI2), poisson_lambda_lr_test(x, CI2, alt)$p.value, .05) >= .0499)
+    expect_true(ifelse(is.finite(CI1), poisson_lambda_one_sample(x, CI1, alt)$p.value, .05) >= .0499)
+    expect_true(ifelse(is.finite(CI2), poisson_lambda_one_sample(x, CI2, alt)$p.value, .05) >= .0499)
   })
   rm(CI1, CI2)
 }
@@ -82,7 +82,7 @@ for (alt in c("two.sided", "greater", "less")) {
 for (alt in c("two.sided", "greater")) {
   set.seed(1)
   x <- rpois(2000, 3)
-  test <- poisson_lambda_lr_test(x, 1, alt)
+  test <- poisson_lambda_one_sample(x, 1, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -99,8 +99,8 @@ for (alt in c("two.sided", "greater")) {
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
-    ifelse(is.finite(CI1), poisson_lambda_lr_test(x, CI1, alt)$p.value, .05),
-    ifelse(is.finite(CI2), poisson_lambda_lr_test(x, CI2, alt)$p.value, .05)
+    ifelse(is.finite(CI1), poisson_lambda_one_sample(x, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), poisson_lambda_one_sample(x, CI2, alt)$p.value, .05)
   )
   test_that("Check CI", {
     expect_true(pval <= .0500001)
@@ -111,7 +111,7 @@ for (alt in c("two.sided", "greater")) {
 for (alt in c("two.sided", "less")) {
   set.seed(1)
   x <- rpois(200, 1)
-  test <- poisson_lambda_lr_test(x, 3, alt)
+  test <- poisson_lambda_one_sample(x, 3, alt)
 
   test_that("Check structure.", {
     expect_true(class(test) == "lrtest")
@@ -128,8 +128,8 @@ for (alt in c("two.sided", "less")) {
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
-    ifelse(is.finite(CI1), poisson_lambda_lr_test(x, CI1, alt)$p.value, .05),
-    ifelse(is.finite(CI2), poisson_lambda_lr_test(x, CI2, alt)$p.value, .05)
+    ifelse(is.finite(CI1), poisson_lambda_one_sample(x, CI1, alt)$p.value, .05),
+    ifelse(is.finite(CI2), poisson_lambda_one_sample(x, CI2, alt)$p.value, .05)
   )
   test_that("Check CI", {
     expect_true(pval <= .0500001)
@@ -141,29 +141,29 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(poisson_lambda_lr_test(c()), "Argument x should have at least 50 data points.")
-  expect_error(poisson_lambda_lr_test(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(poisson_lambda_one_sample(c()), "Argument x should have at least 50 data points.")
+  expect_error(poisson_lambda_one_sample(rep("foo", 50)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 x <- rpois(50, lambda = 1)
 test_that("lambda input checking works", {
-  expect_error(poisson_lambda_lr_test(x, c(1, 2)), "The tested parameter should have length one.")
-  expect_error(poisson_lambda_lr_test(x, "foo"), "The tested parameter should be numeric.")
-  expect_error(poisson_lambda_lr_test(x, 0), "The tested parameter should be above 0.")
+  expect_error(poisson_lambda_one_sample(x, c(1, 2)), "The tested parameter should have length one.")
+  expect_error(poisson_lambda_one_sample(x, "foo"), "The tested parameter should be numeric.")
+  expect_error(poisson_lambda_one_sample(x, 0), "The tested parameter should be above 0.")
 })
 
 test_that("alternative input checking works", {
-  expect_error(poisson_lambda_lr_test(x, 1, c("two.sided", "less")), "Argument alternative should have length one.")
-  expect_error(poisson_lambda_lr_test(x, 1, 1), "Argument alternative should be a character.")
-  expect_error(poisson_lambda_lr_test(x, 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
+  expect_error(poisson_lambda_one_sample(x, 1, c("two.sided", "less")), "Argument alternative should have length one.")
+  expect_error(poisson_lambda_one_sample(x, 1, 1), "Argument alternative should be a character.")
+  expect_error(poisson_lambda_one_sample(x, 1, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.")
 })
 
 test_that("conf.level input checking works", {
-  expect_error(poisson_lambda_lr_test(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
-  expect_error(poisson_lambda_lr_test(x, 1, "less", "foo"), "conf.level should be numeric.")
-  expect_error(poisson_lambda_lr_test(x, 1, "less", 0), "conf.level should between zero and one.")
-  expect_error(poisson_lambda_lr_test(x, 1, "less", 1), "conf.level should between zero and one.")
+  expect_error(poisson_lambda_one_sample(x, 1, "less", c(.50, .75)), "conf.level should have length one.")
+  expect_error(poisson_lambda_one_sample(x, 1, "less", "foo"), "conf.level should be numeric.")
+  expect_error(poisson_lambda_one_sample(x, 1, "less", 0), "conf.level should between zero and one.")
+  expect_error(poisson_lambda_one_sample(x, 1, "less", 1), "conf.level should between zero and one.")
 })
 
 ###############################################
@@ -193,7 +193,7 @@ test_that("Check contents", {
 
 # make sure CIs match
 CI1 <- unname(test$conf.ints[[1]])
-CI2 <- poisson_lambda_lr_test(x[which(fctr == 1)], 2, test$alternative, test$individ.conf)$conf.int
+CI2 <- poisson_lambda_one_sample(x[which(fctr == 1)], 2, test$alternative, test$individ.conf)$conf.int
 test_that("Check CI", {
   expect_equal(CI1, CI2)
 })
@@ -227,7 +227,7 @@ test_that("Check contents", {
 
 # make sure CIs match
 CI1 <- unname(test$conf.ints[[1]])
-CI2 <- poisson_lambda_lr_test(x[which(fctr == 1)], 2, test$alternative, test$individ.conf)$conf.int
+CI2 <- poisson_lambda_one_sample(x[which(fctr == 1)], 2, test$alternative, test$individ.conf)$conf.int
 test_that("Check CI", {
   expect_equal(CI1, CI2)
 })
