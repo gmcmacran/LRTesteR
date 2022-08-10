@@ -27,17 +27,17 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
   obs_shape2 <- MLEs[2]
   rm(MLEs)
 
-  get_profile_shape2 <- function(x, shape1) {
+  get_profile_shape2 <- function(x, MLE) {
     # negative log likelihood
     profile_helper <- function(shape2) {
       return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
     }
 
-    profile_shape2 <- stats::optim(shape1, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    profile_shape2 <- stats::optim(MLE, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
 
     return(profile_shape2)
   }
-  profile_shape2 <- get_profile_shape2(x, shape1)
+  profile_shape2 <- get_profile_shape2(x, obs_shape2)
 
   W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
     sum(stats::dbeta(x = x, shape1 = shape1, shape2 = profile_shape2, log = TRUE)))
@@ -98,17 +98,17 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
   obs_shape1 <- MLEs[1]
   obs_shape2 <- MLEs[2]
 
-  get_profile_shape2 <- function(x, shape2) {
+  get_profile_shape1 <- function(x, MLE) {
     # negative log likelihood
     profile_helper <- function(shape1) {
       return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
     }
 
-    profile_shape2 <- stats::optim(shape2, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    profile_shape1 <- stats::optim(MLE, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
 
-    return(profile_shape2)
+    return(profile_shape1)
   }
-  profile_shape1 <- get_profile_shape2(x, shape2)
+  profile_shape1 <- get_profile_shape1(x, obs_shape1)
 
   W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
     sum(stats::dbeta(x = x, shape1 = profile_shape1, shape2 = shape2, log = TRUE)))
@@ -179,7 +179,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
       est_shape2 <- estimates[1] # pooled shape2
       est_shape1s <- estimates[2:length(estimates)]
 
-      likelihoods <- vector(mode = "numeric", length = length(fctr))
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
@@ -189,8 +189,21 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
       likelihoods <- -1 * sum(likelihoods)
       return(likelihoods)
     }
-    # starting points (MLEs from above)
-    start <- c(obs_shape2, rep(obs_shape1, length(levels(fctr))))
+
+    # MOMs
+    shape1s <- vector(mode = "numeric", length = length(levels(fctr)))
+    for (i in 1:length(shape1s)) {
+      l <- levels(fctr)[i]
+      index <- which(fctr == l)
+      tempX <- x[index]
+      xbar <- base::mean(tempX)
+      vbar <- stats::var(tempX)
+      C <- (xbar * (1 - xbar)) / vbar - 1
+      shape1s[i] <- xbar * C
+    }
+
+    # starting points (MLE for pooled estimate and group wise MOMs)
+    start <- c(obs_shape2, shape1s)
     group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
     return(group_MLEs)
   }
@@ -288,8 +301,19 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
       likelihoods <- -1 * sum(likelihoods)
       return(likelihoods)
     }
+    # MOMs
+    shape2s <- vector(mode = "numeric", length = length(levels(fctr)))
+    for (i in 1:length(shape2s)) {
+      l <- levels(fctr)[i]
+      index <- which(fctr == l)
+      tempX <- x[index]
+      xbar <- base::mean(tempX)
+      vbar <- stats::var(tempX)
+      C <- (xbar * (1 - xbar)) / vbar - 1
+      shape2s[i] <- (1 - xbar) * C
+    }
     # starting points (MLEs from above)
-    start <- c(obs_shape1, rep(obs_shape2, length(levels(fctr))))
+    start <- c(obs_shape1, shape2s)
     group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
     return(group_MLEs)
   }
