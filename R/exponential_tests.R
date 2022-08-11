@@ -60,7 +60,7 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of lambda of poisson distributions.
+#' Test equality of lambdas of poisson distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
