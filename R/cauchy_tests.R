@@ -74,14 +74,14 @@ calc_test_stat_cauchy_location <- function(x, location, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 1, scale = 2)
-#' cauchy_location_lr_test(x, 1, "two.sided")
+#' cauchy_location_one_sample(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 3, scale = 2)
-#' cauchy_location_lr_test(x, 1, "greater")
+#' cauchy_location_one_sample(x, 1, "greater")
 #' @export
-cauchy_location_lr_test <- LRTesteR:::create_test_function_one(LRTesteR:::calc_test_stat_cauchy_location, location)
+cauchy_location_one_sample <- LRTesteR:::create_test_function_one(LRTesteR:::calc_test_stat_cauchy_location, location)
 
 #' @keywords internal
 calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
@@ -159,11 +159,11 @@ calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 1, scale = 2)
-#' cauchy_scale_lr_test(x, 2, "two.sided")
+#' cauchy_scale_one_sample(x, 2, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 3, scale = 2)
-#' cauchy_scale_lr_test(x, 1, "greater")
+#' cauchy_scale_one_sample(x, 1, "greater")
 #' @export
-cauchy_scale_lr_test <- LRTesteR:::create_test_function_one(LRTesteR:::calc_test_stat_cauchy_scale, scale, 0)
+cauchy_scale_one_sample <- LRTesteR:::create_test_function_one(LRTesteR:::calc_test_stat_cauchy_scale, scale, 0)
