@@ -85,6 +85,10 @@ test_that("calc_test_stat input checking works", {
 })
 rm(helper_one, helper_two, helper_three, helper_four, helper_five)
 
+test_that("binom and neg binom arg check", {
+  expect_error(LRTesteR:::create_test_function_one_sample_case_two(calc_MLE, calc_test_stat, x, foo), "Arg2 is not n or num_successes.")
+})
+
 ###############################################
 # Test Results
 ###############################################
