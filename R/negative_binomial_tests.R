@@ -19,7 +19,7 @@ calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
 
 #' Test p of a negative binomial distribution.
 #'
-#' @inheritParams binomial_p_lr_test
+#' @inheritParams binomial_p_one_sample
 #' @param num_failures Number of failures.
 #' @param num_success Number of successes.
 #' @inherit gaussian_mu_one_sample return
