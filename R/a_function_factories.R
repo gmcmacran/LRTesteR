@@ -195,7 +195,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
         stop("Argument x cannot be larger than n.")
       }
     )
-  } else if (rlang::as_string(arg2) == "num_success") {
+  } else if (rlang::as_string(arg2) == "num_successes") {
     # negative binomial case
     sizeCheck <- rlang::expr(!!arg1 + !!arg2 < 50)
     rangeCheck <- rlang::expr(
@@ -507,12 +507,12 @@ create_test_function_continuous_one_way_case_two <- function(calc_test_stat, cal
         stop("No values in  x can be larger than values in n.")
       }
     )
-  } else if (rlang::as_string(arg2) == "num_success") {
+  } else if (rlang::as_string(arg2) == "num_successes") {
     # negative binomial case
     sizeCheck <- rlang::expr(sum(!!arg1 + !!arg2) < 50)
     rangeCheck <- rlang::expr(
       if (any(!!arg2 < 1)) {
-        stop("There must be at least one success in num_success per group.")
+        stop("There must be at least one success in num_successes per group.")
       }
     )
   }
