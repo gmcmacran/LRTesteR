@@ -33,4 +33,4 @@ calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
 #' # Null is false. 25 failures before 75 successes.
 #' negative_binomial_p_lr_test(25, 75, .50, "two.sided")
 #' @export
-negative_binomial_p_lr_test <- LRTesteR:::create_test_function_discrete(LRTesteR:::calc_MLE_negative_binomial_p, LRTesteR:::calc_test_stat_negative_binomial_p, num_failures, num_success)
+negative_binomial_p_lr_test <- LRTesteR:::create_test_function_one_sample_case_two(LRTesteR:::calc_MLE_negative_binomial_p, LRTesteR:::calc_test_stat_negative_binomial_p, num_failures, num_success)

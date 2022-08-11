@@ -68,7 +68,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 #' x <- rbeta(100, shape1 = 3, shape2 = 2)
 #' beta_shape1_one_sample(x, 1, "greater")
 #' @export
-beta_shape1_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_beta_shape1, shape1, 0)
+beta_shape1_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape1, shape1, 0)
 
 #' @keywords internal
 calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
@@ -139,7 +139,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 #' x <- rbeta(100, shape1 = 1, shape2 = 3)
 #' beta_shape2_one_sample(x, 1, "greater")
 #' @export
-beta_shape2_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_beta_shape2, shape2, 0)
+beta_shape2_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape2, shape2, 0)
 
 #' @keywords internal
 calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
