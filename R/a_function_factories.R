@@ -203,6 +203,8 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
         stop("There must be at least one success.")
       }
     )
+  } else {
+    stop("Arg2 is not n or num_successes.")
   }
 
 
@@ -496,9 +498,9 @@ create_test_function_continuous_one_way_case_two <- function(calc_test_stat, cal
     stop("calc_individual_CI has too many arguments.")
   }
   rm(args)
+
   arg1 <- rlang::sym(names(formals(calc_individual_CI))[1])
   arg2 <- rlang::sym(names(formals(calc_individual_CI))[2])
-
   if (rlang::as_string(arg2) == "n") {
     # binomial case
     sizeCheck <- rlang::expr(sum(!!arg2) < 50)
@@ -515,6 +517,8 @@ create_test_function_continuous_one_way_case_two <- function(calc_test_stat, cal
         stop("There must be at least one success in num_successes per group.")
       }
     )
+  } else {
+    stop("arg2 was not n or num_successes.")
   }
 
   # Build function
