@@ -5,7 +5,8 @@ utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
 #' @keywords internal
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
-create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
+#' Main work hourse of one sample tests
+create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -Inf) {
   p0 <- rlang::ensym(p0)
   force(LB)
 
@@ -138,7 +139,8 @@ create_test_function_continuous <- function(calc_test_stat, p0, LB = -Inf) {
 #' @keywords internal
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
-create_test_function_discrete <- function(calc_MLE, calc_test_stat, arg1, arg2) {
+#' binomial and negative binomial special case.
+create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, arg1, arg2) {
   arg1 <- rlang::ensym(arg1)
   arg2 <- rlang::ensym(arg2)
 

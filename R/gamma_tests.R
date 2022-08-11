@@ -56,7 +56,7 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
 #' x <- rgamma(100, shape = 3, scale = 2)
 #' gamma_shape_one_sample(x, 1, "greater")
 #' @export
-gamma_shape_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_gamma_shape, shape, 0)
+gamma_shape_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_shape, shape, 0)
 
 #' @keywords internal
 calc_test_stat_gamma_scale <- function(x, scale, alternative) {
@@ -129,7 +129,7 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
 #' x <- rgamma(100, shape = 1, scale = 2)
 #' gamma_scale_one_sample(x, 1, "greater")
 #' @export
-gamma_scale_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_gamma_scale, scale, 0)
+gamma_scale_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_scale, scale, 0)
 
 #' @keywords internal
 calc_test_stat_gamma_rate <- function(x, rate, alternative) {
@@ -203,7 +203,7 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
 #' x <- rgamma(100, shape = 1, rate = 2)
 #' gamma_rate_one_sample(x, 1, "greater")
 #' @export
-gamma_rate_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_gamma_rate, rate, 0)
+gamma_rate_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_rate, rate, 0)
 
 #' @keywords internal
 calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
