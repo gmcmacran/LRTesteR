@@ -31,7 +31,7 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
 #' x <- rpois(100, 2)
 #' poisson_lambda_one_sample(x, 1, "greater")
 #' @export
-poisson_lambda_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 0)
+poisson_lambda_one_sample <- LRTesteR:::create_test_function_one(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 0)
 
 #' @keywords internal
 calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {

@@ -31,7 +31,7 @@ calc_test_stat_exponential_rate <- function(x, rate, alternative) {
 #' x <- rexp(100, 3)
 #' exponential_rate_one_sample(x, 1, "greater")
 #' @export
-exponential_rate_one_sample <- LRTesteR:::create_test_function_continuous(LRTesteR:::calc_test_stat_exponential_rate, rate, 0)
+exponential_rate_one_sample <- LRTesteR:::create_test_function_one(LRTesteR:::calc_test_stat_exponential_rate, rate, 0)
 
 #' @keywords internal
 calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
