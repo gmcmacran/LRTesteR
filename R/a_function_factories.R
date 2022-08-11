@@ -5,7 +5,7 @@ utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
 #' @keywords internal
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
-#' Main work horse of one sample tests. 
+#' Main work horse of one sample tests.
 create_test_function_one <- function(calc_test_stat, p0, LB = -Inf) {
   p0 <- rlang::ensym(p0)
   force(LB)
