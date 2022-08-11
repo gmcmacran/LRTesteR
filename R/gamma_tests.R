@@ -290,7 +290,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of shape of gamma distributions.
+#' Test equality of shapes of gamma distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -386,7 +386,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of scale of gamma distributions.
+#' Test equality of scales of gamma distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -482,7 +482,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of rate of gamma distributions.
+#' Test equality of rates of gamma distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return

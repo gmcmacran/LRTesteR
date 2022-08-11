@@ -227,7 +227,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of shape 1 of beta distributions.
+#' Test equality of shape 1s of beta distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -337,7 +337,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of shape 2 of beta distributions.
+#' Test equality of shape 2s of beta distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return

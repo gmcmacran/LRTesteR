@@ -2,7 +2,7 @@
 % Please edit documentation in R/gamma_tests.R
 \name{gamma_scale_one_way}
 \alias{gamma_scale_one_way}
-\title{Test equality of scale of gamma distributions.}
+\title{Test equality of scales of gamma distributions.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -22,7 +22,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of scale of gamma distributions.
+Test equality of scales of gamma distributions.
 }
 \details{
 Null: All scales are equal. (scale_1 = scale_2 ... scale_k).

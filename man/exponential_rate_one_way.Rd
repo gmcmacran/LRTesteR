@@ -2,7 +2,7 @@
 % Please edit documentation in R/exponential_tests.R
 \name{exponential_rate_one_way}
 \alias{exponential_rate_one_way}
-\title{Test equality of lambda of poisson distributions.}
+\title{Test equality of lambdas of poisson distributions.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -22,7 +22,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of lambda of poisson distributions.
+Test equality of lambdas of poisson distributions.
 }
 \details{
 Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).

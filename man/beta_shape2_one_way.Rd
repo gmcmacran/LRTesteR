@@ -2,7 +2,7 @@
 % Please edit documentation in R/beta_tests.R
 \name{beta_shape2_one_way}
 \alias{beta_shape2_one_way}
-\title{Test equality of shape 2 of beta distributions.}
+\title{Test equality of shape 2s of beta distributions.}
 \source{
 \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 }
@@ -22,7 +22,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of shape 2 of beta distributions.
+Test equality of shape 2s of beta distributions.
 }
 \details{
 Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
