@@ -7,7 +7,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gaussian_mu_one_sample(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -38,7 +38,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gaussian_mu_one_sample(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -68,7 +68,7 @@ for (alt in c("two.sided", "less")) {
   test <- gaussian_mu_one_sample(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -129,7 +129,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gaussian_variance_one_sample(x, 9, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -160,7 +160,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gaussian_variance_one_sample(x, 8, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -190,7 +190,7 @@ for (alt in c("two.sided", "less")) {
   test <- gaussian_variance_one_sample(x, 10, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -253,7 +253,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gaussian_mu_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -287,7 +287,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gaussian_mu_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -350,7 +350,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gaussian_variance_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -381,7 +381,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gaussian_variance_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })

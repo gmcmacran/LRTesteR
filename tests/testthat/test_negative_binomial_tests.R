@@ -48,7 +48,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- negative_binomial_p_one_sample(50, 50, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_two", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -76,7 +76,7 @@ for (alt in c("two.sided", "greater")) {
   test <- negative_binomial_p_one_sample(10, 50, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_two", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -103,7 +103,7 @@ for (alt in c("two.sided", "less")) {
   test <- negative_binomial_p_one_sample(90, 50, .50, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_two", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -176,7 +176,7 @@ fctr <- factor(1:length(num_failures))
 test <- negative_binomial_p_one_way(num_failures, num_success, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_two", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -204,7 +204,7 @@ fctr <- factor(1:length(num_failures))
 test <- negative_binomial_p_one_way(num_failures, num_success, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_two", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })

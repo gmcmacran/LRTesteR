@@ -7,7 +7,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gamma_shape_one_sample(x, 10, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -35,7 +35,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gamma_shape_one_sample(x, 10, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -62,7 +62,7 @@ for (alt in c("two.sided", "less")) {
   test <- gamma_shape_one_sample(x, 10, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -121,7 +121,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gamma_scale_one_sample(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -149,7 +149,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gamma_scale_one_sample(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -176,7 +176,7 @@ for (alt in c("two.sided", "less")) {
   test <- gamma_scale_one_sample(x, 3, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -235,7 +235,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- gamma_rate_one_sample(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -263,7 +263,7 @@ for (alt in c("two.sided", "greater")) {
   test <- gamma_rate_one_sample(x, 1, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -290,7 +290,7 @@ for (alt in c("two.sided", "less")) {
   test <- gamma_rate_one_sample(x, 3, alt)
 
   test_that("Check structure.", {
-    expect_true(class(test) == "lrtest")
+    expect_true(all(class(test) == c("one_sample_case_one", "lrtest")))
     expect_true(length(test) == 4)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
   })
@@ -350,7 +350,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_shape_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -378,7 +378,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_shape_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -435,7 +435,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_scale_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -463,7 +463,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_scale_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -520,7 +520,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_rate_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
@@ -548,7 +548,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_rate_one_way(x, fctr, .95)
 
 test_that("Check structure.", {
-  expect_true(class(test) == "lrtest")
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
   expect_true(length(test) == 6)
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
