@@ -124,7 +124,7 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
     CI <- calc_CI(x, alternative, conf.level)
 
     out <- list(statistic = W, p.value = p.value, conf.int = CI, alternative = alternative)
-    class(out) <- "lrtest"
+    class(out) <- c("one_sample_case_one", "lrtest")
     return(out)
   })
 
@@ -339,7 +339,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     CI <- calc_CI(!!arg1, !!arg2, alternative, conf.level)
 
     out <- list(statistic = W, p.value = p.value, conf.int = CI, alternative = alternative)
-    class(out) <- "lrtest"
+    class(out) <- c("one_sample_case_two", "lrtest")
     return(out)
   })
 
@@ -447,7 +447,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     }
 
     out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
-    class(out) <- "lrtest"
+    class(out) <- c("one_way_case_one", "lrtest")
     return(out)
   })
 
@@ -602,7 +602,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     }
 
     out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
-    class(out) <- "lrtest"
+    class(out) <- c("one_way_case_two", "lrtest")
     return(out)
   })
 
