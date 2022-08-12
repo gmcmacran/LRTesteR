@@ -85,4 +85,4 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' exponential_rate_one_way(x, fctr, .95)
 #' @export
-exponential_rate_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_exponential_rate_one_way, exponential_rate_one_sample)
+exponential_rate_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_exponential_rate_one_way, exponential_rate_one_sample)

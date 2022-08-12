@@ -315,7 +315,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gamma_shape_one_way(x, fctr, .95)
 #' @export
-gamma_shape_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_gamma_shape_one_way, gamma_shape_one_sample)
+gamma_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_shape_one_way, gamma_shape_one_sample)
 
 #' @keywords internal
 calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
@@ -411,7 +411,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gamma_scale_one_way(x, fctr, .95)
 #' @export
-gamma_scale_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_gamma_scale_one_way, gamma_scale_one_sample)
+gamma_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_scale_one_way, gamma_scale_one_sample)
 
 #' @keywords internal
 calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
@@ -507,4 +507,4 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gamma_rate_one_way(x, fctr, .95)
 #' @export
-gamma_rate_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_gamma_rate_one_way, gamma_rate_one_sample)
+gamma_rate_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_rate_one_way, gamma_rate_one_sample)

@@ -276,7 +276,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' cauchy_location_one_way(x, fctr, .95)
 #' @export
-cauchy_location_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_cauchy_location_one_way, cauchy_location_one_sample)
+cauchy_location_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_location_one_way, cauchy_location_one_sample)
 
 #' @keywords internal
 calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
@@ -387,4 +387,4 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' cauchy_scale_one_way(x, fctr, .95)
 #' @export
-cauchy_scale_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_cauchy_scale_one_way, cauchy_scale_one_sample)
+cauchy_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_scale_one_way, cauchy_scale_one_sample)

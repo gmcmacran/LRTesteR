@@ -84,4 +84,4 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
 #' fctr <- factor(1:length(x))
 #' binomial_p_one_way(x, n, fctr, .95)
 #' @export
-binomial_p_one_way <- LRTesteR:::create_test_function_continuous_one_way_case_two(LRTesteR:::calc_test_stat_p_one_way, binomial_p_one_sample)
+binomial_p_one_way <- LRTesteR:::create_test_function_one_way_case_two(LRTesteR:::calc_test_stat_p_one_way, binomial_p_one_sample)

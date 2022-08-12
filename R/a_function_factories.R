@@ -353,7 +353,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
 
 # A function factory
 # depends on single sample tests for CIs.
-create_test_function_continuous_one_way <- function(calc_test_stat, calc_individual_CI) {
+create_test_function_one_way_case_one <- function(calc_test_stat, calc_individual_CI) {
   force(calc_test_stat)
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
@@ -459,7 +459,7 @@ create_test_function_continuous_one_way <- function(calc_test_stat, calc_individ
   return(f)
 }
 
-create_test_function_continuous_one_way_case_two <- function(calc_test_stat, calc_individual_CI) {
+create_test_function_one_way_case_two <- function(calc_test_stat, calc_individual_CI) {
   force(calc_test_stat)
   force(calc_individual_CI)
   # Confirm function looks right

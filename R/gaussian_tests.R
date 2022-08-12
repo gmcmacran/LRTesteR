@@ -148,7 +148,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gaussian_mu_one_way(x, fctr, .95)
 #' @export
-gaussian_mu_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample)
+gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
@@ -209,4 +209,4 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' gaussian_variance_one_way(x, fctr, .95)
 #' @export
-gaussian_variance_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_one_sample)
+gaussian_variance_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_one_sample)
