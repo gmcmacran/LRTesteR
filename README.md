@@ -57,24 +57,13 @@ set.seed(1)
 x <- rpois(n = 100, lambda = 1)
 ```
 
-To test lambda, simply call poisson_lambda_lr_test.
+To test lambda, simply call poisson_lambda_one_sample.
 
 ``` r
-poisson_lambda_lr_test(x = x, lambda = 1, alternative = "two.sided")
-#> $statistic
-#> [1] 0.009966832
-#> 
-#> $p.value
-#> [1] 0.9204761
-#> 
-#> $conf.int
-#> [1] 0.8256173 1.2199816
-#> 
-#> $alternative
-#> [1] "two.sided"
-#> 
-#> attr(,"class")
-#> [1] "lrtest"
+poisson_lambda_one_sample(x = x, lambda = 1, alternative = "two.sided")
+#> [1] "Likelihood Statistic: 0.01"
+#> [1] "p value: 0.92"
+#> [1] "Confidence Interval: (0.826, 1.22)"
 ```
 
 Because we generated the data, we know the true value of lambda is one.
@@ -89,25 +78,34 @@ from a Cauchy random variable.
 ``` r
 set.seed(1)
 x <- rcauchy(n = 100, location = 3, scale = 5)
-cauchy_scale_lr_test(x = x, scale = 1, alternative = "two.sided", conf.level = .90)
-#> $statistic
-#> [1] 140.5185
-#> 
-#> $p.value
-#> [1] 2.050328e-32
-#> 
-#> $conf.int
-#> [1] 4.640072 7.283762
-#> 
-#> $alternative
-#> [1] "two.sided"
-#> 
-#> attr(,"class")
-#> [1] "lrtest"
+cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level = .90)
+#> [1] "Likelihood Statistic: 1.21"
+#> [1] "p value: 0.271"
+#> [1] "Confidence Interval: (4.64, 7.284)"
 ```
 
 Setting alternative to “less” gets a lower one sided interval. Setting
 it to “greater” gets an upper one sided interval.
+
+# Example 3: One Way Analysis
+
+One way ANOVA is generalized to all distributions. Here gamma random
+variables are created with different shapes. The one way test has a
+small p value and provides confidence intervals with 95% confidence for
+the whole set.
+
+``` r
+set.seed(1)
+x <- c(rgamma(50, 1, 2), rgamma(50, 2, 2), rgamma(50, 3, 2))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+gamma_shape_one_way(x, fctr, .95)
+#> [1] "Likelihood Statistic: 68.59"
+#> [1] "p value: 0"
+#> [1] "Confidence Interval for group 1: (0.65, 1.515)"
+#> [1] "Confidence Interval for group 2: (1.376, 3.376)"
+#> [1] "Confidence Interval for group 3: (1.691, 4.192)"
+```
 
 # Mathematical Details
 
@@ -140,7 +138,7 @@ with mu equal to 3 and standard deviation equal to 2.
 set.seed(1)
 x <- rnorm(n = 50, mean = 3, sd = 2)
 exactTest <- t.test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- gaussian_mu_lr_test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- gaussian_mu_one_sample(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 ```
 
 The two intervals are similar.
@@ -158,7 +156,7 @@ similar.
 ``` r
 sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2,  alternative = "two.sided", conf.level = .95)
-likelihoodTest <- gaussian_variance_lr_test(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- gaussian_variance_one_sample(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 1.929274 4.293414
 likelihoodTest$conf.int
@@ -170,7 +168,7 @@ similar yet again.
 
 ``` r
 exactTest <- stats::binom.test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- binomial_p_lr_test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- binomial_p_one_sample(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 0.1003022 0.3371831
 likelihoodTest$conf.int
