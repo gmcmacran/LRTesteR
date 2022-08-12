@@ -257,8 +257,10 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All locations are equal. (location_1 = location_2 ... location_k).
-#' Alternative: At least one location is not equal.
+#' \itemize{
+#' \item All locations are equal. (location_1 = location_2 ... location_k).
+#' \item Alternative: At least one location is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -368,8 +370,10 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
-#' Alternative: At least one scale is not equal.
+#' \itemize{
+#' \item Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
+#' \item Alternative: At least one scale is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'

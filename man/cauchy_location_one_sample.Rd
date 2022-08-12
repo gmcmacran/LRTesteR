@@ -4,7 +4,11 @@
 \alias{cauchy_location_one_sample}
 \title{Test the location parameter of a cauchy distribution.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 cauchy_location_one_sample(

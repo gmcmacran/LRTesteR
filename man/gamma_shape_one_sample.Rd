@@ -4,7 +4,11 @@
 \alias{gamma_shape_one_sample}
 \title{Test the shape parameter of a gamma distribution.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 gamma_shape_one_sample(x, shape, alternative = "two.sided", conf.level = 0.95)

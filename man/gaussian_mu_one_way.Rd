@@ -4,7 +4,11 @@
 \alias{gaussian_mu_one_way}
 \title{Test equality of means of gaussian distributions.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 gaussian_mu_one_way(x, fctr, conf.level = 0.95)
@@ -25,8 +29,10 @@ hypothesis.
 Test equality of means of gaussian distributions.
 }
 \details{
-Null: All mus are equal. (mu1 = mu2 ... muk).
-Alternative: At least one mu is not equal.
+\itemize{
+\item Null: All mus are equal. (mu1 = mu2 ... muk).
+\item Alternative: At least one mu is not equal.
+}
 }
 \examples{
 library(LRTesteR)

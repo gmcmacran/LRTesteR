@@ -4,7 +4,11 @@
 \alias{beta_shape1_one_sample}
 \title{Test the shape1 parameter of a beta distribution.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 beta_shape1_one_sample(x, shape1, alternative = "two.sided", conf.level = 0.95)

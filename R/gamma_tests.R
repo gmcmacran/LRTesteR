@@ -296,8 +296,10 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
-#' Alternative: At least one shape is not equal.
+#' \itemize{
+#' \item Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
+#' \item Alternative: At least one shape is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -392,8 +394,10 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
-#' Alternative: At least one scale is not equal.
+#' \itemize{
+#' \item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
+#' \item Alternative: At least one scale is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -488,8 +492,10 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
-#' Alternative: At least one rate is not equal.
+#' \itemize{
+#' \item Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
+#' \item Alternative: At least one rate is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
