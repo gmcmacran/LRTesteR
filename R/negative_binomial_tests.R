@@ -84,4 +84,4 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
 #' fctr <- factor(1:length(num_failures))
 #' negative_binomial_p_one_way(num_failures, num_successes, fctr, .95)
 #' @export
-negative_binomial_p_one_way <- LRTesteR:::create_test_function_continuous_one_way_case_two(LRTesteR:::calc_test_stat_negative_binomial_p_one_way, negative_binomial_p_one_sample)
+negative_binomial_p_one_way <- LRTesteR:::create_test_function_one_way_case_two(LRTesteR:::calc_test_stat_negative_binomial_p_one_way, negative_binomial_p_one_sample)

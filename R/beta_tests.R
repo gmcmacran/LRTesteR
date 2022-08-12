@@ -252,7 +252,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' beta_shape1_one_way(x, fctr, .95)
 #' @export
-beta_shape1_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample)
+beta_shape1_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample)
 
 calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # null
@@ -362,4 +362,4 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' beta_shape2_one_way(x, fctr, .95)
 #' @export
-beta_shape2_one_way <- create_test_function_continuous_one_way(LRTesteR:::calc_test_stat_beta_shape2_one_way, beta_shape2_one_sample)
+beta_shape2_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape2_one_way, beta_shape2_one_sample)
