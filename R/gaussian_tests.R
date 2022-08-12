@@ -23,7 +23,11 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' @param conf.level confidence level of the likelihood interval.
 #' @return An S3 class containing the test statistic, p value, likelihood based confidence interval, and alternative
 #' hypothesis.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' @source \itemize{
+#' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
+#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -128,9 +132,15 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' overall confidence level, individual confidence level of each interval and alternative
 #' hypothesis.
 #' @details
-#' Null: All mus are equal. (mu1 = mu2 ... muk).
-#' Alternative: At least one mu is not equal.
-#' @source \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' \itemize{
+#' \item Null: All mus are equal. (mu1 = mu2 ... muk).
+#' \item Alternative: At least one mu is not equal.
+#' }
+#' @source \itemize{
+#' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
+#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -190,8 +200,10 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
-#' Alternative: At least one variance is not equal.
+#' \itemize{
+#' \item Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
+#' \item Alternative: At least one variance is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'

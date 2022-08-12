@@ -233,8 +233,10 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All shape1s are equal. (shape1_1 = shape1_2 ... shape1_k).
-#' Alternative: At least one shape1 is not equal.
+#' \itemize{
+#' \item Null: All shape1s are equal. (shape1_1 = shape1_2 ... shape1_k).
+#' \item Alternative: At least one shape1 is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -343,8 +345,10 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
 #' @details
-#' Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
-#' Alternative: At least one shape2 is not equal.
+#' \itemize{
+#' \item Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
+#' \item Alternative: At least one shape2 is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'

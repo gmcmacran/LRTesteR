@@ -4,7 +4,11 @@
 \alias{binomial_p_one_way}
 \title{Test equality of ps from binomial distributions.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 binomial_p_one_way(x, n, fctr, conf.level = 0.95)

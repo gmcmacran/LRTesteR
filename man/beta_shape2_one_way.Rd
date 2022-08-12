@@ -4,7 +4,11 @@
 \alias{beta_shape2_one_way}
 \title{Test equality of shape 2s of beta distributions.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 beta_shape2_one_way(x, fctr, conf.level = 0.95)
@@ -25,8 +29,10 @@ hypothesis.
 Test equality of shape 2s of beta distributions.
 }
 \details{
-Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
-Alternative: At least one shape2 is not equal.
+\itemize{
+\item Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
+\item Alternative: At least one shape2 is not equal.
+}
 }
 \examples{
 library(LRTesteR)

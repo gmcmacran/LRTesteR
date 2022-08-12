@@ -4,7 +4,11 @@
 \alias{gamma_scale_one_way}
 \title{Test equality of scales of gamma distributions.}
 \source{
-\url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\itemize{
+\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+\item Yudi Pawitan. In All Likelihood. Oxford University Press.
+\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+}
 }
 \usage{
 gamma_scale_one_way(x, fctr, conf.level = 0.95)
@@ -25,8 +29,10 @@ hypothesis.
 Test equality of scales of gamma distributions.
 }
 \details{
-Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
-Alternative: At least one scale is not equal.
+\itemize{
+\item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
+\item Alternative: At least one scale is not equal.
+}
 }
 \examples{
 library(LRTesteR)
