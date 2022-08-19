@@ -29,6 +29,7 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
 
   W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
     sum(stats::dgamma(x = x, shape = shape, rate = profile_rate, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_shape - shape) * W^.5
@@ -102,6 +103,7 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
 
   W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, scale = obs_scale, log = TRUE)) -
     sum(stats::dgamma(x = x, shape = profile_shape, scale = scale, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_scale - scale) * W^.5
@@ -176,6 +178,7 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
 
   W <- 2 * (sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE)) -
     sum(stats::dgamma(x = x, shape = profile_shape, rate = rate, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_rate - rate) * W^.5
@@ -286,6 +289,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
@@ -384,6 +388,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
@@ -482,6 +487,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }

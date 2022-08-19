@@ -4,6 +4,7 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
 
   W <- 2 * (sum(stats::dpois(x = x, lambda = obs_lambda, log = TRUE)) -
     sum(stats::dpois(x = x, lambda = lambda, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_lambda - lambda) * W^.5
@@ -56,6 +57,7 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }

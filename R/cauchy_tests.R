@@ -54,6 +54,7 @@ calc_test_stat_cauchy_location <- function(x, location, alternative) {
 
   W <- 2 * (sum(stats::dcauchy(x = x, location = obs_location, scale = obs_scale, log = TRUE)) -
     sum(stats::dcauchy(x = x, location = location, scale = profile_scale, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_location - location) * W^.5
@@ -139,6 +140,7 @@ calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
 
   W <- 2 * (sum(stats::dcauchy(x = x, location = obs_location, scale = obs_scale, log = TRUE)) -
     sum(stats::dcauchy(x = x, location = profile_location, scale = scale, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_scale - scale) * W^.5
@@ -218,17 +220,40 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
       likelihoods <- -1 * sum(likelihoods)
       return(likelihoods)
     }
-    # starting points
+    # starting points and bounds on location
     locations <- vector(mode = "numeric", length = length(levels(fctr)))
+    searchLB <- vector(mode = "numeric", length = length(levels(fctr)))
+    searchUB <- vector(mode = "numeric", length = length(levels(fctr)))
     for (i in 1:length(locations)) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
       locations[i] <- base::mean(tempX, trim = .38)
+      searchLB[i] <- -999999
+      searchUB[i] <- 999999
     }
 
+    # bounding scale by widest range possible range
+    scaleLB <- base::min(base::abs(x - base::mean(x, trim = .38)))
+    scaleUB <- base::max(base::abs(x - base::mean(x, trim = .38)))
+    for (i in 1:length(levels(fctr))) {
+      l <- levels(fctr)[i]
+      index <- which(fctr == l)
+      tempX <- x[index]
+      scaleLB <- pmin(base::min(base::abs(tempX - locations[i])), scaleLB)
+      scaleUB <- pmax(base::max(base::abs(tempX - locations[i])), scaleUB)
+    }
+
+    # combine bounds.
+    # scale first b/c of how neg_log_likelihood splits arguments
+    searchLB <- c(scaleLB, searchLB)
+    searchUB <- c(scaleUB, searchUB)
+    rm(scaleLB, scaleUB)
+
     start <- c(obs_scale, locations)
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+
+    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = searchLB, upper = searchUB, method = "L-BFGS-B", control = list(factr = 1e4))$par
+
     return(group_MLEs)
   }
 
@@ -247,6 +272,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
@@ -330,18 +356,34 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
       likelihoods <- -1 * sum(likelihoods)
       return(likelihoods)
     }
-    # starting points
+    # starting points and bounds on scales
     scales <- vector(mode = "numeric", length = length(levels(fctr)))
+    searchLB <- vector(mode = "numeric", length = length(levels(fctr)))
+    searchUB <- vector(mode = "numeric", length = length(levels(fctr)))
     for (i in 1:length(scales)) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
       tempLocation <- base::mean(tempX, trim = .38)
       scales[i] <- stats::median(base::abs(tempX - tempLocation))
+      searchLB[i] <- base::min(base::abs(tempX - tempLocation))
+      searchUB[i] <- base::max(base::abs(tempX - tempLocation))
     }
 
+    # Add bound on pooled location
+    # location first b/c of how neg_log_likelihood splits arguments
+    searchLB <- c(-999999, searchLB)
+    searchUB <- c(999999, searchUB)
+
     start <- c(obs_location, scales)
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = searchLB, upper = searchUB, method = "L-BFGS-B", control = list(factr = 1e4))$par
+
+    neg_log_likelihood(start)
+    neg_log_likelihood(group_MLEs)
+
+    start
+    group_MLEs
+
     return(group_MLEs)
   }
 
@@ -360,6 +402,7 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }

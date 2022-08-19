@@ -9,6 +9,7 @@ calc_test_stat_binomial_p <- function(arg1, arg2, p, alternative) {
   obs_p <- calc_MLE_binomial_p(arg1, arg2)
   W <- 2 * (sum(stats::dbinom(x = arg1, size = arg2, p = obs_p, log = TRUE)) -
     sum(stats::dbinom(x = arg1, size = arg2, p = p, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_p - p) * W^.5
@@ -57,6 +58,7 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }

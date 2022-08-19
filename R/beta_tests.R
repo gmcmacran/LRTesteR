@@ -2,8 +2,8 @@
 calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
   get_MLEs <- function(x) {
     neg_log_likelihood <- function(MLEs) {
-      est_shape1 <- MLEs[1]
-      est_shape2 <- MLEs[2]
+      est_shape1 <- pmax(MLEs[1], .0001)
+      est_shape2 <- pmax(MLEs[2], .0001)
 
       objective <- -1 * sum(stats::dbeta(x = x, shape1 = est_shape1, shape2 = est_shape2, log = TRUE))
 
@@ -30,6 +30,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
   get_profile_shape2 <- function(x, MLE) {
     # negative log likelihood
     profile_helper <- function(shape2) {
+      shape2 <- pmax(shape2, .0001)
       return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
     }
 
@@ -41,6 +42,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 
   W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
     sum(stats::dbeta(x = x, shape1 = shape1, shape2 = profile_shape2, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_shape1 - shape1) * W^.5
@@ -74,8 +76,8 @@ beta_shape1_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LR
 calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
   get_MLEs <- function(x) {
     neg_log_likelihood <- function(MLEs) {
-      est_shape1 <- MLEs[1]
-      est_shape2 <- MLEs[2]
+      est_shape1 <- pmax(MLEs[1], .0001)
+      est_shape2 <- pmax(MLEs[2], .0001)
 
       objective <- -1 * sum(stats::dbeta(x = x, shape1 = est_shape1, shape2 = est_shape2, log = TRUE))
 
@@ -101,6 +103,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
   get_profile_shape1 <- function(x, MLE) {
     # negative log likelihood
     profile_helper <- function(shape1) {
+      shape1 <- pmax(shape1, .0001)
       return(-1 * sum(stats::dbeta(x = x, shape1 = shape1, shape2 = shape2, log = TRUE)))
     }
 
@@ -112,6 +115,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 
   W <- 2 * (sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE)) -
     sum(stats::dbeta(x = x, shape1 = profile_shape1, shape2 = shape2, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_shape2 - shape2) * W^.5
@@ -146,8 +150,8 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   # null
   get_MLEs <- function(x) {
     neg_log_likelihood <- function(MLEs) {
-      est_shape1 <- MLEs[1]
-      est_shape2 <- MLEs[2]
+      est_shape1 <- pmax(MLEs[1], .0001)
+      est_shape2 <- pmax(MLEs[2], .0001)
 
       objective <- -1 * sum(stats::dbeta(x = x, shape1 = est_shape1, shape2 = est_shape2, log = TRUE))
 
@@ -176,8 +180,8 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   # alt
   get_group_MLEs <- function(x, fctr) {
     neg_log_likelihood <- function(estimates) {
-      est_shape2 <- estimates[1] # pooled shape2
-      est_shape1s <- estimates[2:length(estimates)]
+      est_shape2 <- pmax(estimates[1], .0001) # pooled shape2
+      est_shape1s <- pmax(estimates[2:length(estimates)], .0001)
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
@@ -223,6 +227,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
@@ -260,8 +265,8 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # null
   get_MLEs <- function(x) {
     neg_log_likelihood <- function(MLEs) {
-      est_shape1 <- MLEs[1]
-      est_shape2 <- MLEs[2]
+      est_shape1 <- pmax(MLEs[1], .0001)
+      est_shape2 <- pmax(MLEs[2], .0001)
 
       objective <- -1 * sum(stats::dbeta(x = x, shape1 = est_shape1, shape2 = est_shape2, log = TRUE))
 
@@ -290,8 +295,8 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # alt
   get_group_MLEs <- function(x, fctr) {
     neg_log_likelihood <- function(estimates) {
-      est_shape1 <- estimates[1] # pooled shape1
-      est_shape2s <- estimates[2:length(estimates)]
+      est_shape1 <- pmax(estimates[1], .0001) # pooled shape1
+      est_shape2s <- pmax(estimates[2:length(estimates)], .0001)
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in 1:length(likelihoods)) {
@@ -335,6 +340,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }

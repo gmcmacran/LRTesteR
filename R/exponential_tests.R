@@ -4,6 +4,7 @@ calc_test_stat_exponential_rate <- function(x, rate, alternative) {
 
   W <- 2 * (sum(stats::dexp(x = x, rate = obs_rate, log = TRUE)) -
     sum(stats::dexp(x = x, rate = rate, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_rate - rate) * W^.5
@@ -56,6 +57,7 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
