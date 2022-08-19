@@ -9,6 +9,7 @@ calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
   obs_p <- calc_MLE_negative_binomial_p(arg1, arg2)
   W <- 2 * (sum(stats::dnbinom(x = arg1, size = arg2, prob = obs_p, log = TRUE)) -
     sum(stats::dnbinom(x = arg1, size = arg2, prob = p, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_p - p) * (W^.5)
@@ -56,6 +57,7 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }

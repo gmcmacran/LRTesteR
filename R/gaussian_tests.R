@@ -7,6 +7,7 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 
   W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
     sum(stats::dnorm(x = x, mean = mu, sd = profile_sd, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_mean - mu) * W^.5
@@ -50,6 +51,7 @@ calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
 
   W <- 2 * (sum(stats::dnorm(x = x, mean = obs_mean, sd = obs_sd, log = TRUE)) -
     sum(stats::dnorm(x = x, mean = obs_mean, sd = sigma.squared^.5, log = TRUE)))
+  W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_sd^2 - sigma.squared) * W^.5
@@ -119,6 +121,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
@@ -190,6 +193,7 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
+  W <- pmax(W, 0)
 
   return(W)
 }
