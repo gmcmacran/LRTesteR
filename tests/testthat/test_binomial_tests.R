@@ -197,14 +197,14 @@ rm(CI1, CI2, dat, model_00, model_01)
 # Input checking
 ###############################################
 test_that("First argument input checking works", {
-  expect_error(binomial_p_one_way(c()), "First argument should have positive length.")
-  expect_error(binomial_p_one_way("foo"), "First argument should be numeric.")
-  expect_error(binomial_p_one_way(1.5), "First argument should only contain integers.")
-  expect_error(binomial_p_one_way(-1L), "All elements in first argument should be 0 or above.")
+  expect_error(binomial_p_one_way(c(), c()), "First argument should have positive length.")
+  expect_error(binomial_p_one_way("foo", "bar"), "First argument should be numeric.")
+  expect_error(binomial_p_one_way(1.5, 3), "First argument should only contain integers.")
+  expect_error(binomial_p_one_way(-1L, 3), "All elements in first argument should be 0 or above.")
 })
 
 test_that("Second argument input checking works", {
-  expect_error(binomial_p_one_way(10, c()), "Second argument should have positive length.")
+  expect_error(binomial_p_one_way(c(10, 10), 20), "The first two arguments should have the same length.")
   expect_error(binomial_p_one_way(10, "foo"), "Second argument should be numeric.")
   expect_error(binomial_p_one_way(10, 1.5), "Second argument should only contain integers.")
   expect_error(binomial_p_one_way(10, -1L), "All elements in second argument should be 0 or above.")
