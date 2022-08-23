@@ -6,8 +6,8 @@ for (alt in c("two.sided", "greater", "less")) {
 
   test_that("Check structure.", {
     expect_true(all(class(test) == c("one_sample_case_two", "lrtest")))
-    expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
+    expect_true(length(test) == 5)
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
   # Compare with exact test
@@ -35,8 +35,8 @@ for (alt in c("two.sided", "greater")) {
 
   test_that("Check structure.", {
     expect_true(all(class(test) == c("one_sample_case_two", "lrtest")))
-    expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
+    expect_true(length(test) == 5)
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
   # Compare with exact test
@@ -63,8 +63,8 @@ for (alt in c("two.sided", "less")) {
 
   test_that("Check structure.", {
     expect_true(all(class(test) == c("one_sample_case_two", "lrtest")))
-    expect_true(length(test) == 4)
-    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "alternative")))
+    expect_true(length(test) == 5)
+    expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
   # Compare with exact test

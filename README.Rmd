@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio test and associated confidence intervals for many common distributions. All tests and CIs rely on the $$\chi^2$$ approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
+LRTesteR provides likelihood ratio test and associated confidence intervals for many common distributions. All tests and CIs rely on the $\chi^2$ approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 All functions match popular tests in R. If you are familiar with t.test and binom.test, you already know how to use these functions.
 
@@ -106,7 +106,7 @@ The weakness of the likelihood ratio test is it depends on two assumptions:
 
 For the first condition, type I error rates and confidence interval coverage rates improve as N increases. For a given N, type I error rates are **close** to alpha and coverage rates are **close** to the confidence level. This is the reason all tests require a sample size of at least 50. For the second condition, the parameter must not be near the boundary of the parameter space. How near is too near depends on N.
 
-As implemented, all functions depend on the $$\chi^2$$ approximation. To get a sense of performance, lets compare the likelihood method to the exact method. Here, X is normally distributed with mu equal to 3 and standard deviation equal to 2.
+As implemented, all functions depend on the $\chi^2$ approximation. To get a sense of performance, lets compare the likelihood method to the exact method. Here, X is normally distributed with mu equal to 3 and standard deviation equal to 2.
 
 ```{r MDPart1}
 set.seed(1)

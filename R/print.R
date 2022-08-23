@@ -21,11 +21,14 @@ print.lrtest <- function(x, ...) {
   print(paste("Likelihood Statistic:", round(x$statistic, 2), sep = " "))
   print(paste("p value:", round(x$p.value, 3), sep = " "))
   if (class(x)[1] %in% c("one_sample_case_one", "one_sample_case_two")) {
+    print(paste("Confidence Level: ", round(x[["conf.level"]][1], 3) * 100, "%", sep = ""))
     print(paste("Confidence Interval: (", round(x[["conf.int"]][1], 3), ", ", round(x[["conf.int"]][2], 3), ")", sep = ""))
   } else {
     CIs <- x$conf.ints
+    print(paste("Confidence Level Of Set: ", round(x[["overall.conf"]][1], 3) * 100, "%", sep = ""))
+    print(paste("Individual Confidence Level: ", round(x[["individ.conf"]][1], 3) * 100, "%", sep = ""))
     for (i in 1:length(CIs)) {
-      print(paste("Confidence Interval for group ", names(CIs)[i], ": (", round(CIs[[i]][1], 3), ", ", round(CIs[[i]][2], 3), ")", sep = ""))
+      print(paste("Confidence Interval For Group ", names(CIs)[i], ": (", round(CIs[[i]][1], 3), ", ", round(CIs[[i]][2], 3), ")", sep = ""))
     }
   }
 }

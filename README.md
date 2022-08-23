@@ -13,7 +13,7 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 
 LRTesteR provides likelihood ratio test and associated confidence
 intervals for many common distributions. All tests and CIs rely on the
-*χ*<sup>2</sup>
+![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
 approximation even when exact sampling distributions are known. Tests
 require a sample size of at least 50. Estimated asymptotic type I and
 type II error rates can be found
@@ -63,6 +63,7 @@ To test lambda, simply call poisson_lambda_one_sample.
 poisson_lambda_one_sample(x = x, lambda = 1, alternative = "two.sided")
 #> [1] "Likelihood Statistic: 0.01"
 #> [1] "p value: 0.92"
+#> [1] "Confidence Level: 95%"
 #> [1] "Confidence Interval: (0.826, 1.22)"
 ```
 
@@ -81,6 +82,7 @@ x <- rcauchy(n = 100, location = 3, scale = 5)
 cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level = .90)
 #> [1] "Likelihood Statistic: 1.21"
 #> [1] "p value: 0.271"
+#> [1] "Confidence Level: 90%"
 #> [1] "Confidence Interval: (4.64, 7.284)"
 ```
 
@@ -102,9 +104,11 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 gamma_shape_one_way(x, fctr, .95)
 #> [1] "Likelihood Statistic: 68.59"
 #> [1] "p value: 0"
-#> [1] "Confidence Interval for group 1: (0.65, 1.515)"
-#> [1] "Confidence Interval for group 2: (1.376, 3.376)"
-#> [1] "Confidence Interval for group 3: (1.691, 4.192)"
+#> [1] "Confidence Level Of Set: 95%"
+#> [1] "Individual Confidence Level: 98.3%"
+#> [1] "Confidence Interval For Group 1: (0.65, 1.515)"
+#> [1] "Confidence Interval For Group 2: (1.376, 3.376)"
+#> [1] "Confidence Interval For Group 3: (1.691, 4.192)"
 ```
 
 # Mathematical Details
@@ -129,7 +133,7 @@ at least 50. For the second condition, the parameter must not be near
 the boundary of the parameter space. How near is too near depends on N.
 
 As implemented, all functions depend on the
-*χ*<sup>2</sup>
+![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
 approximation. To get a sense of performance, lets compare the
 likelihood method to the exact method. Here, X is normally distributed
 with mu equal to 3 and standard deviation equal to 2.
