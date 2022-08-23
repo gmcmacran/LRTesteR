@@ -7,8 +7,13 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
     shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
     # newton updates
-    for (i in 1:10) {
-      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    tol <- 999
+    counter <- 0
+    while (tol > .00001 & counter <= 30) {
+      shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- max(abs(shape - shape_new))
+      counter <- counter + 1
+      shape <- shape_new
     }
 
     scale <- sum(x) / (shape * length(x))
@@ -68,8 +73,13 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
     shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
     # newton updates
-    for (i in 1:10) {
-      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    tol <- 999
+    counter <- 0
+    while (tol > .00001 & counter <= 30) {
+      shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- max(abs(shape - shape_new))
+      counter <- counter + 1
+      shape <- shape_new
     }
 
     scale <- sum(x) / (shape * length(x))
@@ -142,8 +152,13 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
     shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
     # newton updates
-    for (i in 1:10) {
-      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    tol <- 999
+    counter <- 0
+    while (tol > .00001 & counter <= 30) {
+      shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- max(abs(shape - shape_new))
+      counter <- counter + 1
+      shape <- shape_new
     }
 
     scale <- sum(x) / (shape * length(x))
@@ -218,8 +233,13 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
     shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
     # newton updates
-    for (i in 1:10) {
-      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    tol <- 999
+    counter <- 0
+    while (tol > .00001 & counter <= 30) {
+      shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- max(abs(shape - shape_new))
+      counter <- counter + 1
+      shape <- shape_new
     }
 
     scale <- sum(x) / (shape * length(x))
@@ -262,11 +282,16 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
       s <- log(mean(tempX)) - mean(log(tempX))
       shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
       # newton updates
-      for (j in 1:10) {
-        shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- 999
+      counter <- 0
+      while (tol > .00001 & counter <= 30) {
+        shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+        tol <- max(abs(shape - shape_new))
+        counter <- counter + 1
+        shape <- shape_new
       }
       shapes[i] <- shape
-      rm(j, shape)
+      rm(shape)
     }
 
     start <- c(obs_rate, shapes)
@@ -333,8 +358,13 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
     shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
     # newton updates
-    for (i in 1:10) {
-      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    tol <- 999
+    counter <- 0
+    while (tol > .00001 & counter <= 30) {
+      shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- max(abs(shape - shape_new))
+      counter <- counter + 1
+      shape <- shape_new
     }
 
     scale <- sum(x) / (shape * length(x))
@@ -432,8 +462,13 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
     shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
 
     # newton updates
-    for (i in 1:10) {
-      shape <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+    tol <- 999
+    counter <- 0
+    while (tol > .00001 & counter <= 30) {
+      shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
+      tol <- max(abs(shape - shape_new))
+      counter <- counter + 1
+      shape <- shape_new
     }
 
     scale <- sum(x) / (shape * length(x))
