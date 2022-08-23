@@ -528,6 +528,9 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
   }
 
   body <- rlang::expr({
+    if (length(!!arg1) != length(!!arg2)) {
+      stop("The first two arguments should have the same length.")
+    }
     if (length(!!arg1) < 1) {
       stop("First argument should have positive length.")
     }
