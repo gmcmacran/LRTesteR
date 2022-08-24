@@ -11,7 +11,7 @@ status](https://github.com/gmcmacran/LRTesteR/workflows/R-CMD-check/badge.svg)](
 status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio test and associated confidence
+LRTesteR provides likelihood ratio tests and associated confidence
 intervals for many common distributions. All tests and CIs rely on the
 ![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
 approximation even when exact sampling distributions are known. Tests
@@ -89,7 +89,7 @@ cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level 
 Setting alternative to “less” gets a lower one sided interval. Setting
 it to “greater” gets an upper one sided interval.
 
-# Example 3: One Way Analysis
+# Example 3: One-way Analysis
 
 One way ANOVA is generalized to all distributions. Here gamma random
 variables are created with different shapes. The one way test has a

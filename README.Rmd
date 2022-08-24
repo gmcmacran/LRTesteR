@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio test and associated confidence intervals for many common distributions. All tests and CIs rely on the $\chi^2$ approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
+LRTesteR provides likelihood ratio tests and associated confidence intervals for many common distributions. All tests and CIs rely on the $\chi^2$ approximation even when exact sampling distributions are known. Tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 All functions match popular tests in R. If you are familiar with t.test and binom.test, you already know how to use these functions.
 
@@ -84,7 +84,7 @@ cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level 
 
 Setting alternative to "less" gets a lower one sided interval. Setting it to "greater" gets an upper one sided interval.
 
-# Example 3: One Way Analysis
+# Example 3: One-way Analysis
 One way ANOVA is generalized to all distributions. Here gamma random variables are created with different shapes. The one way test has a small p value and provides confidence intervals with 95% confidence for the whole set.
 
 ```{r example3Part1}
