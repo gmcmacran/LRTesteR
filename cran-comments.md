@@ -4,7 +4,6 @@
 * R Release on ubuntu (github actions)
 * R devel on ubuntu (github actions)
 * R devel on windows (win-builder)
-* R devel on debian (rhub)
 
 ## R CMD check results
 
