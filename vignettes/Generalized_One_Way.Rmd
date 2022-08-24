@@ -1,5 +1,4 @@
 ---
-title: "Generalized_One_Way"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Generalized_One_Way}
@@ -14,9 +13,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Introduction
+# Classic One-Way ANOVA
 
-As an introduction, lets start with one way ANOVA. Here 3 random variables following a normal distribution with common standard deviation are created. For this test, the null hypothesis is 
+As an introduction, lets start with one way ANOVA. Here 3 random variables following a normal distribution with a common standard deviation are created. For this test, the null hypothesis is 
 
 $$ H_{0}: \mu_0 = \mu_1 = \mu_2  $$
 
@@ -32,7 +31,7 @@ gaussian_mu_one_way(x, fctr, conf.level = 0.95)
 
 
 # Cauchy Random Variables
-Here 2 cauchy random variables following a cauchy distribution with common location and different scales are created. For this test, the null hypothesis is 
+Here 2 random variables following a cauchy distribution with a common location and different scales are created. For this test, the null hypothesis is 
 
 $$ H_{0}: \gamma_0 = \gamma_1  $$
 
