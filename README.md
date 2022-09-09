@@ -181,4 +181,6 @@ likelihoodTest$conf.int
 
 When exact methods are known, use them. The utility of the likelihood
 based approach is its generality. Many tests in this package (cauchy,
-beta, gamma, poisson) don’t have other well known options.
+beta, gamma, poisson) don’t have other well known options. Asymptotic
+type I and type II error rates can be found
+[here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
