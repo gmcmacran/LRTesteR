@@ -18,7 +18,7 @@
 #' print(test)
 #' @export
 print.lrtest <- function(x, ...) {
-  print(paste("Likelihood Statistic:", round(x$statistic, 2), sep = " "))
+  print(paste("Log Likelihood Statistic:", round(x$statistic, 2), sep = " "))
   print(paste("p value:", round(x$p.value, 3), sep = " "))
   if (class(x)[1] %in% c("one_sample_case_one", "one_sample_case_two")) {
     print(paste("Confidence Level: ", round(x[["conf.level"]][1], 3) * 100, "%", sep = ""))

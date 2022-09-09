@@ -199,7 +199,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     # negative binomial case
     sizeCheck <- rlang::expr(!!arg1 + !!arg2 < 50)
     rangeCheck <- rlang::expr(
-      if (!!arg2 <= 1) {
+      if (!!arg2 < 1) {
         stop("There must be at least one success.")
       }
     )

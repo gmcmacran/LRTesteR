@@ -61,7 +61,7 @@ To test lambda, simply call poisson_lambda_one_sample.
 
 ``` r
 poisson_lambda_one_sample(x = x, lambda = 1, alternative = "two.sided")
-#> [1] "Likelihood Statistic: 0.01"
+#> [1] "Log Likelihood Statistic: 0.01"
 #> [1] "p value: 0.92"
 #> [1] "Confidence Level: 95%"
 #> [1] "Confidence Interval: (0.826, 1.22)"
@@ -80,7 +80,7 @@ from a Cauchy random variable.
 set.seed(1)
 x <- rcauchy(n = 100, location = 3, scale = 5)
 cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level = .90)
-#> [1] "Likelihood Statistic: 1.21"
+#> [1] "Log Likelihood Statistic: 1.21"
 #> [1] "p value: 0.271"
 #> [1] "Confidence Level: 90%"
 #> [1] "Confidence Interval: (4.64, 7.284)"
@@ -102,7 +102,7 @@ x <- c(rgamma(50, 1, 2), rgamma(50, 2, 2), rgamma(50, 3, 2))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 gamma_shape_one_way(x, fctr, .95)
-#> [1] "Likelihood Statistic: 68.59"
+#> [1] "Log Likelihood Statistic: 68.59"
 #> [1] "p value: 0"
 #> [1] "Confidence Level Of Set: 95%"
 #> [1] "Individual Confidence Level: 98.3%"
@@ -181,7 +181,6 @@ likelihoodTest$conf.int
 
 When exact methods are known, use them. The utility of the likelihood
 based approach is its generality. Many tests in this package (cauchy,
-beta, gamma, poisson) don’t have other well known options.
-
-Asymptotic type I and type II error rates can be found
+beta, gamma, poisson) don’t have other well known options. Asymptotic
+type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
