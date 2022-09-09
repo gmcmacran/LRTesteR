@@ -1,5 +1,5 @@
 Package: LRTesteR
-Title: Likelihood Ratio Tests
+Title: Likelihood Ratio Tests and Confidence Intervals
 Version: 1.0.99999
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
@@ -9,7 +9,8 @@ License: GPL-3
 Encoding: UTF-8
 Imports: 
     stats,
-    rlang
+    rlang,
+    statmod
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Suggests: 
