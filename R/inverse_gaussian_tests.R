@@ -192,9 +192,9 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
     means <- vector(mode = "numeric", length = length(levels(fctr)))
     for(i in 1:length(levels(fctr))) {
       tempX <- x[which(fctr == levels(fctr)[i])]
-      means[i] <- mean(tempX)
-      C <- sum( (tempX - means[i])^2/tempX)
-      C <- (1/means[i]^2) * C
+      harmonic <- length(tempX) / sum(1 / tempX)
+      means[1] <- mean(tempX)
+      C <- length(tempX) * (1/harmonic-1/means[1])
       deno <- deno + C
     }
     profile_shape <- length(x) / deno
