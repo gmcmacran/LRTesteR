@@ -277,16 +277,16 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   # alt
   get_group_MLEs <- function(x, fctr) {
     xbar <- mean(x)
-
+    
     shapes <- vector(mode = "numeric", length = length(levels(fctr)))
     for (i in 1:length(levels(fctr))) {
       tempX <- x[which(fctr == levels(fctr)[i])]
       C <- sum((tempX - xbar)^2 / tempX)
-      C <- (1 / xbar^2) * C
-      shapes[i] <- length(tempX) / C
+      shapes[i] <- length(tempX)*(xbar^2) / C
     }
-
+    
     group_MLEs <- c(xbar, shapes)
+    return(group_MLEs)
   }
   group_MLEs <- get_group_MLEs(x, fctr)
   profile_mean_HA <- group_MLEs[1]
