@@ -43,12 +43,12 @@ set.seed(1)
 x <- rinvgauss(n = 150, mean = 1, shape = 2)
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-gamma_scale_one_way(x, fctr, .95)
+inverse_gaussian_mu_one_way(x, fctr, .95)
 
 # Null is false
 set.seed(1)
 x <- c(rinvgauss(n = 50, mean = 1, shape = 2), rinvgauss(n = 50, mean = 2, shape = 2), rinvgauss(n = 50, mean = 3, shape = 2))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-gamma_scale_one_way(x, fctr, .95)
+inverse_gaussian_mu_one_way(x, fctr, .95)
 }

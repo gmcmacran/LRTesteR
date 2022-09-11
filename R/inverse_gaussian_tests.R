@@ -183,6 +183,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   MLEs <- get_MLEs(x)
   obs_mean <- MLEs[1]
   obs_shape <- MLEs[2]
+  rm(MLEs)
   
   W1 <- sum(statmod::dinvgauss(x = x, mean = obs_mean, shape = obs_shape, log = TRUE))
   
@@ -190,18 +191,17 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   get_group_MLEs <- function(x, fctr) {
     deno <- 0
     means <- vector(mode = "numeric", length = length(levels(fctr)))
-    for(i in 1:length(levels(fctr))) {
+    for (i in 1:length(levels(fctr))) {
       tempX <- x[which(fctr == levels(fctr)[i])]
       harmonic <- length(tempX) / sum(1 / tempX)
-      means[1] <- mean(tempX)
-      C <- length(tempX) * (1/harmonic-1/means[1])
+      means[i] <- mean(tempX)
+      C <- length(tempX) * (1 / harmonic - 1 / means[i])
       deno <- deno + C
     }
     profile_shape <- length(x) / deno
     
     group_MLEs <- c(profile_shape, means)
   }
-  
   group_MLEs <- get_group_MLEs(x, fctr)
   profile_shape_HA <- group_MLEs[1]
   group_means <- group_MLEs[2:length(group_MLEs)]
@@ -237,13 +237,13 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
 #' x <- rinvgauss(n = 150, mean = 1, shape = 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_scale_one_way(x, fctr, .95)
+#' inverse_gaussian_mu_one_way(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rinvgauss(n = 50, mean = 1, shape = 2), rinvgauss(n = 50, mean = 2, shape = 2), rinvgauss(n = 50, mean = 3, shape = 2))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_scale_one_way(x, fctr, .95)
+#' inverse_gaussian_mu_one_way(x, fctr, .95)
 #' @export
 inverse_gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu_one_way, inverse_gaussian_mu_one_sample)
