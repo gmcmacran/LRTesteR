@@ -28,7 +28,7 @@ calc_test_stat_inv_gauss_mu <- function(x, mu, alternative) {
 
   W <- 2 * (sum(statmod::dinvgauss(x = x, mean = obs_mean, shape = obs_shape, log = TRUE)) -
     sum(statmod::dinvgauss(x = x, mean = mu, shape = profile_shape, log = TRUE)))
-  W <- pmax(W, 0)
+  # W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_mean - mu) * W^.5
@@ -80,7 +80,7 @@ calc_test_inv_gauss_shape <- function(x, shape, alternative) {
 
   W <- 2 * (sum(statmod::dinvgauss(x = x, mean = obs_mean, shape = obs_shape, log = TRUE)) -
     sum(statmod::dinvgauss(x = x, mean = profile_mean, shape = shape, log = TRUE)))
-  W <- pmax(W, 0)
+  # W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_shape - shape) * W^.5
@@ -134,7 +134,7 @@ calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
 
   W <- 2 * (sum(statmod::dinvgauss(x = x, mean = obs_mean, dispersion = obs_dispersion, log = TRUE)) -
     sum(statmod::dinvgauss(x = x, mean = profile_mean, dispersion = dispersion, log = TRUE)))
-  W <- pmax(W, 0)
+  # W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
     W <- sign(obs_dispersion - dispersion) * W^.5
@@ -217,7 +217,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
-  W <- pmax(W, 0)
+  # W <- pmax(W, 0)
 
   return(W)
 }
@@ -303,7 +303,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   W2 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
-  W <- pmax(W, 0)
+  # W <- pmax(W, 0)
 
   return(W)
 }
@@ -333,11 +333,103 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' set.seed(1)
 #' x <- c(
 #'   rinvgauss(n = 50, mean = 1, shape = 1),
-#'   rinvgauss(n = 50, mean = 1, shape = 2),
-#'   rinvgauss(n = 50, mean = 1, shape = 3)
+#'   rinvgauss(n = 50, mean = 1, shape = 3),
+#'   rinvgauss(n = 50, mean = 1, shape = 4)
 #' )
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' inverse_gaussian_shape_one_way(x, fctr, .95)
 #' @export
 inverse_gaussian_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_shape_one_way, inverse_gaussian_shape_one_sample)
+
+#' @keywords internal
+calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
+  # null
+  get_MLEs <- function(x) {
+    xbar <- mean(x)
+
+    harmonic <- 1 / mean(1 / x)
+    shape <- (1 / harmonic) - (1 / xbar)
+    shape <- 1 / shape
+
+    MLEs <- c(xbar, shape)
+
+    return(MLEs)
+  }
+
+  MLEs <- get_MLEs(x)
+  obs_mean <- MLEs[1]
+  obs_shape <- MLEs[2]
+  obs_dispersion <- 1 / obs_shape
+  rm(MLEs)
+
+  W1 <- sum(statmod::dinvgauss(x = x, mean = obs_mean, dispersion = obs_dispersion, log = TRUE))
+
+  # alt
+  get_group_MLEs <- function(x, fctr) {
+    xbar <- mean(x)
+
+    shapes <- vector(mode = "numeric", length = length(levels(fctr)))
+    for (i in 1:length(levels(fctr))) {
+      tempX <- x[which(fctr == levels(fctr)[i])]
+      C <- sum((tempX - xbar)^2 / tempX)
+      shapes[i] <- length(tempX) * (xbar^2) / C
+    }
+
+    group_MLEs <- c(xbar, shapes)
+    return(group_MLEs)
+  }
+  group_MLEs <- get_group_MLEs(x, fctr)
+  profile_mean_HA <- group_MLEs[1]
+  group_shapes <- group_MLEs[2:length(group_MLEs)]
+  group_dispersions <- 1 / group_shapes
+  rm(group_MLEs)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in 1:length(likelihoods)) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = profile_mean_HA, dispersion = group_dispersions[i], log = TRUE))
+  }
+  W2 <- sum(likelihoods)
+
+  W <- 2 * (W2 - W1)
+  # W <- pmax(W, 0)
+
+  return(W)
+}
+
+#' Test equality of dispersion parameters of inverse gaussian distributions.
+#'
+#' @inheritParams gaussian_mu_one_way
+#' @inherit gaussian_mu_one_way return
+#' @inherit gaussian_mu_one_way source
+#' @details
+#' \itemize{
+#' \item Null: Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
+#' \item Alternative: At least one dispersion is not equal.
+#' }
+#' @examples
+#' library(LRTesteR)
+#' library(statmod)
+#'
+#' # Null is true
+#' set.seed(1)
+#' x <- rinvgauss(n = 150, mean = 1, dispersion = 2)
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' inverse_gaussian_dispersion_one_way(x, fctr, .95)
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- c(
+#'   rinvgauss(n = 50, mean = 1, dispersion = 1),
+#'   rinvgauss(n = 50, mean = 1, dispersion = 3),
+#'   rinvgauss(n = 50, mean = 1, dispersion = 4)
+#' )
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' inverse_gaussian_dispersion_one_way(x, fctr, .95)
+#' @export
+inverse_gaussian_dispersion_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_dispersion_one_way, inverse_gaussian_dispersion_one_sample)
