@@ -46,7 +46,13 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 20 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      side_one <- helper(pmax(-9999999, LB + 20 * .Machine$double.eps))
+      side_two <- helper(9999999)
+      if (sign(side_one) != sign(side_two)) {
+        out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 20 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      } else {
+        out <- NA_real_
+      }
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
@@ -55,7 +61,13 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 20 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      side_one <- helper(pmax(-9999999, LB + 20 * .Machine$double.eps))
+      side_two <- helper(9999999)
+      if (sign(side_one) != sign(side_two)) {
+        out <- stats::uniroot(helper, lower = pmax(-9999999, LB + 20 * .Machine$double.eps), upper = 9999999, tol = .Machine$double.eps^.50)$root
+      } else {
+        out <- NA_real_
+      }
       return(out)
     }
 
@@ -220,7 +232,14 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
       }
       searchLB <- LB + 10 * .Machine$double.eps
       searchUB <- UB - 10 * .Machine$double.eps
-      out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
+      side_one <- helper(searchLB)
+      side_two <- helper(searchUB)
+
+      if (sign(side_one) != sign(side_two)) {
+        out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
+      } else {
+        out <- NA_real_
+      }
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
@@ -231,7 +250,14 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
       }
       searchLB <- LB + 10 * .Machine$double.eps
       searchUB <- UB - 10 * .Machine$double.eps
-      out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
+      side_one <- helper(searchLB)
+      side_two <- helper(searchUB)
+
+      if (sign(side_one) != sign(side_two)) {
+        out <- stats::uniroot(helper, lower = searchLB, upper = searchUB, tol = .Machine$double.eps^.50)$root
+      } else {
+        out <- NA_real_
+      }
       return(out)
     }
 

@@ -240,9 +240,13 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
+  alt2 <- ifelse(alt == "greater", "less", ifelse(alt == "less", "greater", "two.sided"))
+  test_02 <- gamma_scale_one_sample(x, 1 / 1, alt2)
   test_that("Check contents", {
     expect_true(test$p.value > .05)
+    expect_equal(test$p.value, test_02$p.value)
   })
+  rm(alt2, test_02)
 
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
@@ -268,9 +272,13 @@ for (alt in c("two.sided", "greater")) {
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
+  alt2 <- ifelse(alt == "greater", "less", ifelse(alt == "less", "greater", "two.sided"))
+  test_02 <- gamma_scale_one_sample(x, 1 / 1, alt2)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
+    expect_equal(test$p.value, test_02$p.value)
   })
+  rm(alt2, test_02)
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -295,9 +303,13 @@ for (alt in c("two.sided", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
+  alt2 <- ifelse(alt == "greater", "less", ifelse(alt == "less", "greater", "two.sided"))
+  test_02 <- gamma_scale_one_sample(x, 1 / 3, alt2)
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
+    expect_equal(test$p.value, test_02$p.value)
   })
+  rm(alt2, test_02)
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps

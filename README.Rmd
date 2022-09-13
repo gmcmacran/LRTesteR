@@ -52,6 +52,11 @@ All functions match popular tests in R. If you are familiar with t.test and bino
 * Cauchy
   + location
   + scale
+  
+* Inverse Gaussian
+  + mean
+  + shape
+  + dispersion
 
 # Example 1: Test lambda of a poisson distribution
 

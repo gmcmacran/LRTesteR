@@ -45,6 +45,10 @@ and binom.test, you already know how to use these functions.
 -   Cauchy
     -   location
     -   scale
+-   Inverse Gaussian
+    -   mean
+    -   shape
+    -   dispersion
 
 # Example 1: Test lambda of a poisson distribution
 
