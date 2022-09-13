@@ -59,21 +59,21 @@ calc_test_stat_inv_gauss_mu <- function(x, mu, alternative) {
 #' x <- rinvgauss(n = 100, mean = 3, shape = 2)
 #' inverse_gaussian_mu_one_sample(x, 1, "greater")
 #' @export
-inverse_gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu, mu, 0.001)
+inverse_gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu, mu, 0)
 
 #' @keywords internal
 calc_test_inv_gauss_shape <- function(x, shape, alternative) {
   get_MLEs <- function(x) {
     xbar <- mean(x)
     xbar <- pmax(xbar, .Machine$double.eps)
-    
+
     harmonic <- 1 / mean(1 / x)
     shape <- (1 / harmonic) - (1 / xbar)
     shape <- 1 / shape
     shape <- pmax(shape, .Machine$double.eps)
-    
+
     MLEs <- c(xbar, shape)
-    
+
     return(MLEs)
   }
 
@@ -121,14 +121,14 @@ calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
   get_MLEs <- function(x) {
     xbar <- mean(x)
     xbar <- pmax(xbar, .Machine$double.eps)
-    
+
     harmonic <- 1 / mean(1 / x)
     shape <- (1 / harmonic) - (1 / xbar)
     shape <- 1 / shape
     shape <- pmax(shape, .Machine$double.eps)
-    
+
     MLEs <- c(xbar, shape)
-    
+
     return(MLEs)
   }
 
@@ -178,14 +178,14 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   get_MLEs <- function(x) {
     xbar <- mean(x)
     xbar <- pmax(xbar, .Machine$double.eps)
-    
+
     harmonic <- 1 / mean(1 / x)
     shape <- (1 / harmonic) - (1 / xbar)
     shape <- 1 / shape
     shape <- pmax(shape, .Machine$double.eps)
-    
+
     MLEs <- c(xbar, shape)
-    
+
     return(MLEs)
   }
 
@@ -269,14 +269,14 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   get_MLEs <- function(x) {
     xbar <- mean(x)
     xbar <- pmax(xbar, .Machine$double.eps)
-    
+
     harmonic <- 1 / mean(1 / x)
     shape <- (1 / harmonic) - (1 / xbar)
     shape <- 1 / shape
     shape <- pmax(shape, .Machine$double.eps)
-    
+
     MLEs <- c(xbar, shape)
-    
+
     return(MLEs)
   }
 
@@ -362,14 +362,14 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
   get_MLEs <- function(x) {
     xbar <- mean(x)
     xbar <- pmax(xbar, .Machine$double.eps)
-    
+
     harmonic <- 1 / mean(1 / x)
     shape <- (1 / harmonic) - (1 / xbar)
     shape <- 1 / shape
     shape <- pmax(shape, .Machine$double.eps)
-    
+
     MLEs <- c(xbar, shape)
-    
+
     return(MLEs)
   }
 
