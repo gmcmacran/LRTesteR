@@ -233,7 +233,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of means of inverse gaussian distributions.
+#' Test the equality of means of inverse gaussian distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -322,7 +322,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of shapes of inverse gaussian distributions.
+#' Test the equality of shape parameters of inverse gaussian distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -417,7 +417,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of dispersion parameters of inverse gaussian distributions.
+#' Test the equality of dispersion parameters of inverse gaussian distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return

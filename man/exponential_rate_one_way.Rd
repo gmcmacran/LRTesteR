@@ -2,7 +2,7 @@
 % Please edit documentation in R/exponential_tests.R
 \name{exponential_rate_one_way}
 \alias{exponential_rate_one_way}
-\title{Test equality of lambdas of poisson distributions.}
+\title{Test the equality of rate parameters of exponential distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of lambdas of poisson distributions.
+Test the equality of rate parameters of exponential distributions.
 }
 \details{
 \itemize{

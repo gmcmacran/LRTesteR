@@ -17,6 +17,12 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .06)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -46,6 +52,12 @@ for (alt in c("two.sided", "greater")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
@@ -73,6 +85,12 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -148,6 +166,7 @@ model_01 <- glm(cbind(x, n - x) ~ fctr, data = dat, family = binomial(link = "lo
 test_02 <- lmtest::lrtest(model_00, model_01)
 test_that("Check contents", {
   expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
   expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
 })
 
@@ -181,7 +200,8 @@ model_01 <- glm(cbind(x, n - x) ~ fctr, data = dat, family = binomial(link = "lo
 
 test_02 <- lmtest::lrtest(model_00, model_01)
 test_that("Check contents", {
-  expect_true(test$p.value < .05)
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
   expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
 })
 

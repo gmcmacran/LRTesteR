@@ -2,7 +2,7 @@
 % Please edit documentation in R/gamma_tests.R
 \name{gamma_shape_one_way}
 \alias{gamma_shape_one_way}
-\title{Test equality of shapes of gamma distributions.}
+\title{Test the equality of shape parameters of gamma distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of shapes of gamma distributions.
+Test the equality of shape parameters of gamma distributions.
 }
 \details{
 \itemize{

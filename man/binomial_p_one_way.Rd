@@ -2,7 +2,7 @@
 % Please edit documentation in R/binomial_tests.R
 \name{binomial_p_one_way}
 \alias{binomial_p_one_way}
-\title{Test equality of ps from binomial distributions.}
+\title{Test the equality of p parameters of binomial distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -28,7 +28,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of ps from binomial distributions.
+Test the equality of p parameters of binomial distributions.
 }
 \examples{
 library(LRTesteR)

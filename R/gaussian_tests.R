@@ -126,7 +126,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of means of gaussian distributions.
+#' Test the equality of means of gaussian distributions.
 #'
 #' @param x a numeric vector of at least 50 data values per group.
 #' @param fctr a factor vector indicating groups.
@@ -198,7 +198,7 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of variances of gaussian distributions.
+#' Test the equality of variance parameters of gaussian distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return

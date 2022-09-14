@@ -2,7 +2,7 @@
 % Please edit documentation in R/binomial_tests.R
 \name{binomial_p_one_sample}
 \alias{binomial_p_one_sample}
-\title{Test p of a binomial distribution.}
+\title{Test the p parameter of a binomial distribution.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -29,7 +29,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test p of a binomial distribution.
+Test the p parameter of a binomial distribution.
 }
 \examples{
 library(LRTesteR)

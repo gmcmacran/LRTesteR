@@ -2,7 +2,7 @@
 % Please edit documentation in R/poisson_tests.R
 \name{poisson_lambda_one_sample}
 \alias{poisson_lambda_one_sample}
-\title{Test lambda of a poisson distribution.}
+\title{Test the lambda parameter of a poisson distribution.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -32,7 +32,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test lambda of a poisson distribution.
+Test the lambda parameter of a poisson distribution.
 }
 \examples{
 library(LRTesteR)

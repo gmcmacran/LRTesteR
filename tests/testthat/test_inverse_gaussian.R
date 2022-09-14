@@ -19,6 +19,12 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -50,6 +56,12 @@ for (alt in c("two.sided", "greater")) {
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
@@ -79,6 +91,12 @@ for (alt in c("two.sided", "less")) {
     expect_true(test$p.value <= .05)
     expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -138,6 +156,12 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(test$p.value > .05)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -162,10 +186,16 @@ for (alt in c("two.sided", "greater")) {
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
-  # Compare with t test
+
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
   })
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -190,12 +220,16 @@ for (alt in c("two.sided", "less")) {
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
 
-  # Compare with t test
-  test_02 <- stats::t.test(x, alternative = alt, mu = 3)
+
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
-    expect_true(abs(test$p.value - test_02$p.value) < .01)
   })
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -259,6 +293,12 @@ for (alt in c("two.sided", "greater", "less")) {
   })
   rm(alt2, test_02)
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -291,6 +331,12 @@ for (alt in c("two.sided", "greater")) {
   })
   rm(alt2, test_02)
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
@@ -321,6 +367,12 @@ for (alt in c("two.sided", "less")) {
     expect_equal(test$p.value, test_02$p.value)
   })
   rm(alt2, test_02)
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -384,6 +436,7 @@ model_01 <- glm(formula = x ~ fctr, data = dat, family = inverse.gaussian(link =
 test_02 <- lmtest::lrtest(model_00, model_01)
 test_that("Check contents", {
   expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
   expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
 })
 
@@ -421,7 +474,8 @@ model_01 <- glm(formula = x ~ fctr, data = dat, family = inverse.gaussian(link =
 
 test_02 <- lmtest::lrtest(model_00, model_01)
 test_that("Check contents", {
-  expect_true(test$p.value < .05)
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
   expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
 })
 
@@ -480,6 +534,7 @@ test_that("Check structure.", {
 
 test_that("Check contents", {
   expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
 })
 
 # make sure CIs match
@@ -511,7 +566,8 @@ test_that("Check structure.", {
 })
 
 test_that("Check contents", {
-  expect_true(test$p.value < .05)
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
 })
 
 # make sure CIs match
@@ -570,6 +626,7 @@ test_that("Check structure.", {
 test_02 <- inverse_gaussian_shape_one_way(x, fctr, .95)
 test_that("Check contents", {
   expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
   expect_equal(test$p.value, test_02$p.value)
 })
 rm(test_02)
@@ -604,7 +661,8 @@ test_that("Check structure.", {
 
 test_02 <- inverse_gaussian_shape_one_way(x, fctr, .95)
 test_that("Check contents", {
-  expect_true(test$p.value < .05)
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
   expect_equal(test$p.value, test_02$p.value)
 })
 rm(test_02)

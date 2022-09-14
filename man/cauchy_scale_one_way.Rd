@@ -2,7 +2,7 @@
 % Please edit documentation in R/cauchy_tests.R
 \name{cauchy_scale_one_way}
 \alias{cauchy_scale_one_way}
-\title{Test equality of scales of cauchy distributions.}
+\title{Test the equality of scale parameters of cauchy distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of scales of cauchy distributions.
+Test the equality of scale parameters of cauchy distributions.
 }
 \details{
 \itemize{

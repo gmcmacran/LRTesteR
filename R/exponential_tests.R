@@ -13,7 +13,7 @@ calc_test_stat_exponential_rate <- function(x, rate, alternative) {
   return(W)
 }
 
-#' Test the rate of a exponential distribution.
+#' Test the rate parameter of a exponential distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param rate a number indicating the tested value of rate.
@@ -62,7 +62,7 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of lambdas of poisson distributions.
+#' Test the equality of rate parameters of exponential distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
