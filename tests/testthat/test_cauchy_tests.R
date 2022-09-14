@@ -16,6 +16,12 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(test$p.value > .05)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -44,6 +50,12 @@ for (alt in c("two.sided", "greater")) {
     expect_true(test$p.value <= .05)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
@@ -70,6 +82,12 @@ for (alt in c("two.sided", "less")) {
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
   })
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -129,6 +147,12 @@ for (alt in c("two.sided", "greater", "less")) {
     expect_true(test$p.value > .05)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   # .0499 instead of .05 b/c of floating point error associated with convergence.
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -157,6 +181,12 @@ for (alt in c("two.sided", "greater")) {
     expect_true(test$p.value <= .05)
   })
 
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
+
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
   pval <- pmin(
@@ -183,6 +213,12 @@ for (alt in c("two.sided", "less")) {
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
   })
+
+  if (alt == "two.sided") {
+    test_that("check contents", {
+      expect_true(test$statistic >= 0)
+    })
+  }
 
   CI1 <- test$conf.int[1] + .Machine$double.eps # Avoid boundary
   CI2 <- test$conf.int[2] - .Machine$double.eps
@@ -243,6 +279,7 @@ test_that("Check structure.", {
 
 test_that("Check contents", {
   expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
 })
 
 # make sure CIs match
@@ -270,7 +307,8 @@ test_that("Check structure.", {
 })
 
 test_that("Check contents", {
-  expect_true(test$p.value < .05)
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
 })
 
 # make sure CIs match
@@ -329,6 +367,7 @@ test_that("Check structure.", {
 
 test_that("Check contents", {
   expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
 })
 
 # make sure CIs match
@@ -356,7 +395,8 @@ test_that("Check structure.", {
 })
 
 test_that("Check contents", {
-  expect_true(test$p.value < .05)
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
 })
 
 # make sure CIs match
