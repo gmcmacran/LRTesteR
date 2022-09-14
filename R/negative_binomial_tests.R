@@ -18,7 +18,7 @@ calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
   return(W)
 }
 
-#' Test p of a negative binomial distribution.
+#' Test the p parameter of a negative binomial distribution.
 #'
 #' @param num_failures Number of failures.
 #' @param num_successes Number of successes.
@@ -62,7 +62,7 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
   return(W)
 }
 
-#' Test equality of ps from negative binomial distributions.
+#' Test the equality of p parameters of negative binomial distributions.
 #' @param num_failures a numeric vector indicating number of failures per group.
 #' @param num_successes a numeric vector indicating number of successes per group.
 #' @inheritParams gaussian_mu_one_way

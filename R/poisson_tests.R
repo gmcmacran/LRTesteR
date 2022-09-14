@@ -13,7 +13,7 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
   return(W)
 }
 
-#' Test lambda of a poisson distribution.
+#' Test the lambda parameter of a poisson distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param lambda a number indicating the tested value of lambda
@@ -62,7 +62,7 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of lambdas of poisson distributions.
+#' Test the equality of lambda parameters of poisson distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return

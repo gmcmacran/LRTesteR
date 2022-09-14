@@ -18,7 +18,7 @@ calc_test_stat_binomial_p <- function(arg1, arg2, p, alternative) {
   return(W)
 }
 
-#' Test p of a binomial distribution.
+#' Test the p parameter of a binomial distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x Number of successes.
@@ -63,7 +63,7 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
   return(W)
 }
 
-#' Test equality of ps from binomial distributions.
+#' Test the equality of p parameters of binomial distributions.
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector indicating number of successes per group.
 #' @param n a numeric vector indicating number of attempts per group.

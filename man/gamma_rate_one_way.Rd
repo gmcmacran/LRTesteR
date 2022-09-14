@@ -2,7 +2,7 @@
 % Please edit documentation in R/gamma_tests.R
 \name{gamma_rate_one_way}
 \alias{gamma_rate_one_way}
-\title{Test equality of rates of gamma distributions.}
+\title{Test the equality of rate parameters of gamma distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of rates of gamma distributions.
+Test the equality of rate parameters of gamma distributions.
 }
 \details{
 \itemize{

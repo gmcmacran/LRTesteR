@@ -2,7 +2,7 @@
 % Please edit documentation in R/beta_tests.R
 \name{beta_shape1_one_way}
 \alias{beta_shape1_one_way}
-\title{Test equality of shape 1s of beta distributions.}
+\title{Test the equality of shape 1 parameters of beta distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of shape 1s of beta distributions.
+Test the equality of shape 1 parameters of beta distributions.
 }
 \details{
 \itemize{

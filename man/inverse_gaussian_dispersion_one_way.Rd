@@ -2,7 +2,7 @@
 % Please edit documentation in R/inverse_gaussian_tests.R
 \name{inverse_gaussian_dispersion_one_way}
 \alias{inverse_gaussian_dispersion_one_way}
-\title{Test equality of dispersion parameters of inverse gaussian distributions.}
+\title{Test the equality of dispersion parameters of inverse gaussian distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of dispersion parameters of inverse gaussian distributions.
+Test the equality of dispersion parameters of inverse gaussian distributions.
 }
 \details{
 \itemize{

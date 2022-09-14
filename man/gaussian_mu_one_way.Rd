@@ -2,7 +2,7 @@
 % Please edit documentation in R/gaussian_tests.R
 \name{gaussian_mu_one_way}
 \alias{gaussian_mu_one_way}
-\title{Test equality of means of gaussian distributions.}
+\title{Test the equality of means of gaussian distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -26,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of means of gaussian distributions.
+Test the equality of means of gaussian distributions.
 }
 \details{
 \itemize{

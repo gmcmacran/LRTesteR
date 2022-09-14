@@ -2,7 +2,7 @@
 % Please edit documentation in R/negative_binomial_tests.R
 \name{negative_binomial_p_one_way}
 \alias{negative_binomial_p_one_way}
-\title{Test equality of ps from negative binomial distributions.}
+\title{Test the equality of p parameters of negative binomial distributions.}
 \source{
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
@@ -33,7 +33,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test equality of ps from negative binomial distributions.
+Test the equality of p parameters of negative binomial distributions.
 }
 \examples{
 library(LRTesteR)

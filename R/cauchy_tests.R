@@ -277,7 +277,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of locations of cauchy distributions.
+#' Test the equality of location parameters of cauchy distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
@@ -407,7 +407,7 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
   return(W)
 }
 
-#' Test equality of scales of cauchy distributions.
+#' Test the equality of scale parameters of cauchy distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
