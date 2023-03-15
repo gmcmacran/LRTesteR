@@ -175,6 +175,7 @@ empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.lev
   }
 
   W <- calc_test_stat(x, mu, alternative)
+  W <- pmax(W, 0)
 
   # calculate p value
   if (alternative == "two.sided") {
@@ -190,5 +191,129 @@ empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.lev
   out <- list(statistic = W, p.value = p.value, conf.int = CI, conf.level = conf.level, alternative = alternative)
   class(out) <- c("one_sample_case_one", "lrtest")
 
+  return(out)
+}
+
+#' Test the equality of means of an unknown distribution.
+#'
+#' @inheritParams gaussian_mu_one_way
+#' @param x a numeric vector.
+#' @inherit gaussian_mu_one_way return
+#' @inherit gaussian_mu_one_way source
+#' @examples
+#' library(LRTesteR)
+#'
+#' # Null is true
+#' set.seed(1)
+#' x <- rnorm(150, 1, 1)
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' empirical_mean_one_way(x, fctr, .95)
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- c(rnorm(50, 1, 1), rnorm(50, 2, 1), rnorm(50, 3, 1))
+#' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' empirical_mean_one_way(x, fctr, .95)
+#' @export
+empirical_mean_one_way <- function(x, fctr, conf.level = 0.95) {
+  if (!is.numeric(x)) {
+    stop("Argument x should be numeric.")
+  }
+  if (length(fctr) != length(x)) {
+    stop("Argument fctr should have same length as x.")
+  }
+  if (!is.factor(fctr)) {
+    stop("Argument fctr should be a factor.")
+  }
+  if (length(base::unique(fctr)) < 2) {
+    stop("Argument fctr should have at least two unique values.")
+  }
+  if (length(conf.level) != 1) {
+    stop("conf.level should have length one.")
+  }
+  if (!is.numeric(conf.level)) {
+    stop("conf.level should be numeric.")
+  }
+  if (conf.level <= 0 | conf.level >= 1) {
+    stop("conf.level should between zero and one.")
+  }
+
+  calc_test_stat <- function(x, mu, alternative) {
+    calc_null_p <- function(x) {
+      lambda <- 0 # known b/c using 's xbar
+      phi <- -length(x) - lambda * mean(x)
+
+      p <- -1 / (phi + lambda * x)
+
+      # division by near zero numbers can cause -Inf and Inf
+      # underflow
+      p <- pmax(p, .Machine$double.eps)
+      p <- pmin(p, 1 - .Machine$double.eps)
+
+      return(p)
+    }
+    calc_obs_p <- function(x, fctr) {
+      p <- vector(mode = "numeric", length = length(x))
+      for (i in 1:length(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+
+        tempX <- x[index]
+        lambda <- 0 # known b/c using group's xbar
+        phi <- -length(tempX) - lambda * mean(tempX)
+
+        p[index] <- -1 / (phi + lambda * tempX)
+      }
+
+      # division by near zero numbers can cause -Inf and Inf
+      # underflow
+      p <- pmax(p, .Machine$double.eps)
+      p <- pmin(p, 1 - .Machine$double.eps)
+
+      p <- p / sum(p)
+
+      # division by near zero numbers can cause -Inf and Inf
+      # underflow
+      p <- pmax(p, .Machine$double.eps)
+      p <- pmin(p, 1 - .Machine$double.eps)
+
+      return(p)
+    }
+    null_p <- calc_null_p(x)
+    obs_p <- calc_obs_p(x, fctr)
+
+    W <- 2 * (sum(log(obs_p)) - sum(log(null_p)))
+    W <- pmax(W, 0)
+
+    return(W)
+  }
+
+  W <- calc_test_stat(x, fctr)
+
+  # Under null, 1 parameter (overall value) is allowed to vary
+  # Under alternative, parameter for each group is allowed to vary
+  df <- length(levels(fctr)) - 1
+
+  p.value <- stats::pchisq(q = W, df = df, lower.tail = FALSE)
+
+  # Bonferroni correction and convert back to confidence
+  alpha <- 1 - conf.level
+  alpha <- alpha / length(levels(fctr))
+  individual.conf.level <- 1 - alpha
+
+  CI <- list()
+  for (i in 1:length(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    tempCI <- LRTesteR::empirical_mean_one_sample(tempX, mean(tempX), "two.sided", individual.conf.level)
+    tempCI <- tempCI$conf.int
+    CI[[l]] <- tempCI
+  }
+
+  out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
+  class(out) <- c("one_way_case_one", "lrtest")
   return(out)
 }
