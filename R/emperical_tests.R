@@ -10,14 +10,14 @@
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_mean_one_sample(x, 0, "two.sided")
+#' empirical_mu_one_sample(x, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 2, 1)
-#' empirical_mean_one_sample(x, 1, "greater")
+#' empirical_mu_one_sample(x, 1, "greater")
 #' @export
-empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.level = .95) {
+empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level = .95) {
   if (!is.numeric(x)) {
     stop("Argument x should be numeric.")
   }
@@ -118,6 +118,7 @@ empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.lev
     null_p <- calc_null_p(x, mu)
 
     W <- 2 * (sum(log(obs_p)) - sum(log(null_p)))
+    W <- pmax(W, 0) # underflow
     if (alternative != "two.sided") {
       W <- sign(mean(x) - mu) * W^.5
     }
@@ -128,34 +129,25 @@ empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.lev
     alpha <- 1 - conf.level
 
     calc_left_side_CI <- function(alpha) {
-      param <- 0
       helper <- function(param) {
-        param <<- param
         W <- calc_test_stat(x, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      LB <- min(x) + 10 * .Machine$double.eps
-      UB <- max(x) - 10 * .Machine$double.eps
+      LB <- min(x) + .01
+      UB <- max(x) - .01
 
       out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50)$root
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
-      holder <- -1000
       helper <- function(param) {
         W <- calc_test_stat(x, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
-        if (is.na(out) | !is.finite(out)) {
-          holder <<- param
-        }
         return(out)
       }
-      LB <- min(x) + 10 * .Machine$double.eps
-      UB <- max(x) - 10 * .Machine$double.eps
-
-      helper(LB)
-      helper(UB)
+      LB <- min(x) + .01
+      UB <- max(x) - .01
 
       out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50)$root
 
@@ -166,16 +158,15 @@ empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.lev
       alpha <- alpha / 2
       CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
     } else if (alternative == "less") {
-      CI <- c(-Inf, calc_right_side_CI(alpha))
+      CI <- c(NA_real_, calc_right_side_CI(alpha))
     } else {
-      CI <- c(calc_left_side_CI(alpha), Inf)
+      CI <- c(calc_left_side_CI(alpha), NA_real_)
     }
 
     return(CI)
   }
 
   W <- calc_test_stat(x, mu, alternative)
-  W <- pmax(W, 0)
 
   # calculate p value
   if (alternative == "two.sided") {
@@ -208,16 +199,16 @@ empirical_mean_one_sample <- function(x, mu, alternative = "two.sided", conf.lev
 #' x <- rnorm(150, 1, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_mean_one_way(x, fctr, .95)
+#' empirical_mu_one_way(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(50, 1, 1), rnorm(50, 2, 1), rnorm(50, 3, 1))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_mean_one_way(x, fctr, .95)
+#' empirical_mu_one_way(x, fctr, .95)
 #' @export
-empirical_mean_one_way <- function(x, fctr, conf.level = 0.95) {
+empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
   if (!is.numeric(x)) {
     stop("Argument x should be numeric.")
   }
