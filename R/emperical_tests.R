@@ -180,7 +180,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   CI <- calc_CI(x, alternative, conf.level)
 
   out <- list(statistic = W, p.value = p.value, conf.int = CI, conf.level = conf.level, alternative = alternative)
-  class(out) <- c("one_sample_case_one", "lrtest")
+  class(out) <- c("one_sample_case_three", "lrtest")
 
   return(out)
 }

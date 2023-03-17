@@ -8,7 +8,7 @@
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
-\item Efron, Tibshirani. An introduction to the Bootstrap. Chapman & Hall/CRC.
+\item Efron, Tibshirani. An Introduction to the Bootstrap. Chapman & Hall/CRC.
 }
 }
 \usage{
@@ -23,7 +23,7 @@ bootstrap_one_sample(
 \arguments{
 \item{x}{a numeric vector.}
 
-\item{param}{a number indicating the tested value of the parameter}
+\item{param}{a number indicating the tested value of the parameter.}
 
 \item{param.fun}{a function to compute observed parameter.}
 
@@ -41,6 +41,7 @@ Test any parameter of an unknown distribution via bias corrected accelerated boo
 \examples{
 library(LRTesteR)
 
+# mean
 calc_stat <- function(x) {
   return(mean(x))
 }
@@ -53,5 +54,20 @@ bootstrap_one_sample(x, 0, calc_stat, "two.sided")
 # Null is false
 set.seed(1)
 x <- rnorm(25, 2, 1)
+bootstrap_one_sample(x, 1, calc_stat, "greater")
+
+# variance
+calc_stat <- function(x) {
+  return(sum((x - mean(x))^2) / length(x))
+}
+
+# Null is true
+set.seed(1)
+x <- rnorm(25, 0, 1)
+bootstrap_one_sample(x, 1, calc_stat, "two.sided")
+
+# Null is false
+set.seed(1)
+x <- rnorm(25, 0, 2)
 bootstrap_one_sample(x, 1, calc_stat, "greater")
 }

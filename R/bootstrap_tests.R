@@ -2,18 +2,19 @@
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
-#' @param param a number indicating the tested value of the parameter
+#' @param param a number indicating the tested value of the parameter.
 #' @param param.fun a function to compute observed parameter.
 #' @inherit gaussian_mu_one_sample return
 #' @source \itemize{
 #' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 #' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
-#' \item Efron, Tibshirani. An introduction to the Bootstrap. Chapman & Hall/CRC.
+#' \item Efron, Tibshirani. An Introduction to the Bootstrap. Chapman & Hall/CRC.
 #' }
 #' @examples
 #' library(LRTesteR)
 #'
+#' # mean
 #' calc_stat <- function(x) {
 #'   return(mean(x))
 #' }
@@ -26,6 +27,21 @@
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 2, 1)
+#' bootstrap_one_sample(x, 1, calc_stat, "greater")
+#'
+#' # variance
+#' calc_stat <- function(x) {
+#'   return(sum((x - mean(x))^2) / length(x))
+#' }
+#'
+#' # Null is true
+#' set.seed(1)
+#' x <- rnorm(25, 0, 1)
+#' bootstrap_one_sample(x, 1, calc_stat, "two.sided")
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- rnorm(25, 0, 2)
 #' bootstrap_one_sample(x, 1, calc_stat, "greater")
 #' @export
 bootstrap_one_sample <- function(x, param, param.fun, alternative = "two.sided", conf.level = .95) {
@@ -202,7 +218,7 @@ bootstrap_one_sample <- function(x, param, param.fun, alternative = "two.sided",
   CI <- calc_CI(x, alternative, conf.level)
 
   out <- list(statistic = W, p.value = p.value, conf.int = CI, conf.level = conf.level, alternative = alternative)
-  class(out) <- c("one_sample_case_one", "lrtest")
+  class(out) <- c("one_sample_case_four", "lrtest")
 
   return(out)
 }
