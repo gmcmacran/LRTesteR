@@ -8,6 +8,7 @@
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Efron, Tibshirani. An introduction to the Bootstrap. Chapman & Hall/CRC.
 }
 }
 \usage{

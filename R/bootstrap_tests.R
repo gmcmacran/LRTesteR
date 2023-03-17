@@ -5,7 +5,12 @@
 #' @param param a number indicating the tested value of the parameter
 #' @param param.fun a function to compute observed parameter.
 #' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @source \itemize{
+#' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
+#' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
+#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' \item Efron, Tibshirani. An introduction to the Bootstrap. Chapman & Hall/CRC.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -80,7 +85,7 @@ bootstrap_one_sample <- function(x, param, param.fun, alternative = "two.sided",
     p <- mean(paramStar < theta)
     p <- pmax(p, .Machine$double.eps)
     p <- pmin(p, 1 - .Machine$double.eps)
-    phi <- qnorm(p = p, mean = 0, sd = 1)
+    phi <- stats::qnorm(p = p, mean = 0, sd = 1)
     return(phi)
   }
 
@@ -89,7 +94,7 @@ bootstrap_one_sample <- function(x, param, param.fun, alternative = "two.sided",
     p <- mean(paramStar < obsTheta)
     p <- pmax(p, .Machine$double.eps)
     p <- pmin(p, 1 - .Machine$double.eps)
-    z0 <- qnorm(p = p, mean = 0, sd = 1)
+    z0 <- stats::qnorm(p = p, mean = 0, sd = 1)
     return(z0)
   }
 
@@ -151,21 +156,21 @@ bootstrap_one_sample <- function(x, param, param.fun, alternative = "two.sided",
     }
 
     calc_left_side_CI <- function(alpha) {
-      zAlpha <- qnorm(p = alpha, mean = 0, sd = 1)
+      zAlpha <- stats::qnorm(p = alpha, mean = 0, sd = 1)
 
       zFinal <- (z0 + zAlpha) / (1 - a * (z0 + zAlpha))
       zFinal <- z0 + zFinal
-      prob <- pnorm(q = zFinal)
+      prob <- stats::pnorm(q = zFinal)
 
       out <- min(paramStar[ps >= prob])
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
-      zAlpha <- qnorm(p = 1 - alpha, mean = 0, sd = 1)
+      zAlpha <- stats::qnorm(p = 1 - alpha, mean = 0, sd = 1)
 
       zFinal <- (z0 + zAlpha) / (1 - a * (z0 + zAlpha))
       zFinal <- z0 + zFinal
-      prob <- pnorm(q = zFinal)
+      prob <- stats::pnorm(q = zFinal)
 
       out <- max(paramStar[ps <= prob])
       return(out)
