@@ -41,33 +41,22 @@ Test any parameter of an unknown distribution via bias corrected accelerated boo
 \examples{
 library(LRTesteR)
 
+
+# Null is true
+set.seed(1)
+x <- rnorm(25, 0, 1)
 # mean
 calc_stat <- function(x) {
   return(mean(x))
 }
-
-# Null is true
-set.seed(1)
-x <- rnorm(25, 0, 1)
 bootstrap_one_sample(x, 0, calc_stat, "two.sided")
 
 # Null is false
 set.seed(1)
-x <- rnorm(25, 2, 1)
-bootstrap_one_sample(x, 1, calc_stat, "greater")
-
+x <- rnorm(25, 0, 2)
 # variance
 calc_stat <- function(x) {
   return(sum((x - mean(x))^2) / length(x))
 }
-
-# Null is true
-set.seed(1)
-x <- rnorm(25, 0, 1)
-bootstrap_one_sample(x, 1, calc_stat, "two.sided")
-
-# Null is false
-set.seed(1)
-x <- rnorm(25, 0, 2)
 bootstrap_one_sample(x, 1, calc_stat, "greater")
 }
