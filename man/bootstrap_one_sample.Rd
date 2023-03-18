@@ -15,7 +15,7 @@
 bootstrap_one_sample(
   x,
   param,
-  param.fun,
+  stat.fun,
   alternative = "two.sided",
   conf.level = 0.95
 )
@@ -25,7 +25,7 @@ bootstrap_one_sample(
 
 \item{param}{a number indicating the tested value of the parameter.}
 
-\item{param.fun}{a function to compute observed parameter.}
+\item{stat.fun}{a function to compute observed parameter.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 
