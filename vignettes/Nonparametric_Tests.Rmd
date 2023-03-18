@@ -1,0 +1,62 @@
+---
+title: "Nonparametric Tests"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Nonparametric Tests}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Empirical Likelihood Test
+
+This test does not require any assumption about the underlying distribution. To get a sense of performance, lets compare it to two parametric tests. When the assumptions are correct, the parametric tests have more power and smaller confidence intervals. The important question is how similar is the empirical likelihood test to the parametric test.
+
+When the data are normal, there is little difference between the two tests.
+
+```{r part1}
+library(LRTesteR)
+
+set.seed(2)
+x <- rnorm(50, 0, 1)
+gaussian_mu_one_sample(x, 0, "two.sided")
+```
+
+
+```{r part2}
+empirical_mu_one_sample(x, 0, "two.sided")
+```
+
+The inverse gaussian test is a right skewed distribution. Again results are similar.
+
+```{r part3}
+library(statmod)
+set.seed(2)
+x <- rinvgauss(50, 2, 3)
+inverse_gaussian_mu_one_sample(x, 2, "two.sided")
+```
+
+```{r part4}
+empirical_mu_one_sample(x, 2, "two.sided")
+```
+
+## Bootstrapping
+The bootstrapping test replaces distributional assumptions with compute cycles. Further, it is open to any statistic. Here, interquartile range is tested. 
+
+```{r part5}
+calc_IQR <- function(x) {
+  stat <-quantile(x, .75) - quantile(x, .25)
+  return(stat)
+}
+
+set.seed(2)
+x <- rnorm(50, 0, 1)
+bootstrap_one_sample(x, 1, calc_IQR, "two.sided")
+```
+For reference, the true interquartile range is `r round(qnorm(.75) - qnorm(.25), 2)`.

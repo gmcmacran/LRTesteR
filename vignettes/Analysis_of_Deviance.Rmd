@@ -61,6 +61,6 @@ poisson_lambda_one_way(x, fctr, conf.level = 0.95)
 
 # Mathematical Details
 
-All one way tests have a null hypothesis the groups share a common value of the parameter. The alternative is at least one group's parameter is unequal to the others.  If the test involves a nuisance parameter, it is assumed common across groups. Some tests are more robust against violations of this assumption than others. 
+All one way tests have a null hypothesis the groups share a common value of the parameter. The alternative is at least one group's parameter is unequal to the others.  If the test involves a nuisance parameter, it is assumed equal across groups. Some tests are more robust against violations of this assumption than others.
 
 All functions apply the Bonferroni correction to the set of confidence intervals. To have accurate coverage rates, each group requires 50 data points or more.

@@ -12,67 +12,67 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 <!-- badges: end -->
 
 LRTesteR provides likelihood ratio tests and associated confidence
-intervals for many common distributions. All tests and CIs rely on the
+intervals for many common distributions. All parametric tests and
+confidence intervals rely on the
 ![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
-approximation even when exact sampling distributions are known. Tests
-require a sample size of at least 50. Estimated asymptotic type I and
-type II error rates can be found
+approximation even when exact sampling distributions are known.
+Parametric tests require a sample size of at least 50. Estimated
+asymptotic type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 All functions match popular tests in R. If you are familiar with t.test
 and binom.test, you already know how to use these functions.
 
-# Implemented Tests and Confidence Intervals
+# Nonparametric Tests and Confidence Intervals
 
--   beta
-    -   shape 1
-    -   shape 2
--   binomial
-    -   p
--   exponential
-    -   rate
--   gamma
-    -   rate
-    -   scale
-    -   shape
--   Gaussian
-    -   mu
-    -   variance
--   negative binomial
-    -   p
--   Poisson
-    -   lambda
--   Cauchy
-    -   location
-    -   scale
--   Inverse Gaussian
-    -   mean
-    -   shape
-    -   dispersion
+- Empirical Likelihood
+  - mean
+- Bootstrapping
+  - any statistic
+
+# Parametric Tests and Confidence Intervals
+
+- Beta
+  - shape 1
+  - shape 2
+- Binomial
+  - p
+- Exponential
+  - rate
+- Gamma
+  - rate
+  - scale
+  - shape
+- Gaussian
+  - mu
+  - variance
+- Negative Binomial
+  - p
+- Poisson
+  - lambda
+- Cauchy
+  - location
+  - scale
+- Inverse Gaussian
+  - mean
+  - shape
+  - dispersion
 
 # Example 1: Test lambda of a poisson distribution
 
-Lets create some data to work with.
+To test lambda, simply call poisson_lambda_one_sample.
 
 ``` r
 library(LRTesteR)
 
 set.seed(1)
 x <- rpois(n = 100, lambda = 1)
-```
-
-To test lambda, simply call poisson_lambda_one_sample.
-
-``` r
 poisson_lambda_one_sample(x = x, lambda = 1, alternative = "two.sided")
 #> [1] "Log Likelihood Statistic: 0.01"
 #> [1] "p value: 0.92"
 #> [1] "Confidence Level: 95%"
 #> [1] "Confidence Interval: (0.826, 1.22)"
 ```
-
-Because we generated the data, we know the true value of lambda is one.
-The p value is above 5%.
 
 # Example 2: Confidence Interval
 
@@ -90,12 +90,29 @@ cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level 
 #> [1] "Confidence Interval: (4.64, 7.284)"
 ```
 
-Setting alternative to “less” gets a lower one sided interval. Setting
-it to “greater” gets an upper one sided interval.
+Setting alternative to “less” gets a lower one sided interval.
+
+``` r
+cauchy_scale_one_sample(x = x, scale = 5, alternative = "less", conf.level = .90)
+#> [1] "Log Likelihood Statistic: 1.1"
+#> [1] "p value: 0.865"
+#> [1] "Confidence Level: 90%"
+#> [1] "Confidence Interval: (0, 6.93)"
+```
+
+Setting it to “greater” gets an upper one sided interval.
+
+``` r
+cauchy_scale_one_sample(x = x, scale = 5, alternative = "greater", conf.level = .90)
+#> [1] "Log Likelihood Statistic: 1.1"
+#> [1] "p value: 0.135"
+#> [1] "Confidence Level: 90%"
+#> [1] "Confidence Interval: (4.878, Inf)"
+```
 
 # Example 3: One-way Analysis
 
-One way ANOVA is generalized to all distributions. Here gamma random
+One-way ANOVA is generalized to all distributions. Here gamma random
 variables are created with different shapes. The one way test has a
 small p value and provides confidence intervals with 95% confidence for
 the whole set.
@@ -115,43 +132,20 @@ gamma_shape_one_way(x, fctr, .95)
 #> [1] "Confidence Interval For Group 3: (1.691, 4.192)"
 ```
 
-# Mathematical Details
-
-The strength of the likelihood ratio test is its generality. It is a
-recipe to create hypothesis tests and confidence intervals in many
-different settings. Sometimes the test is the only known procedure. When
-there are many procedures, likelihood ratio tests have very competitive
-**asymptotic** power.
-
-The weakness of the likelihood ratio test is it depends on two
-assumptions:
-
--   N is sufficiently large.
--   Parameters are in the interior of the parameter space.
-
-For the first condition, type I error rates and confidence interval
-coverage rates improve as N increases. For a given N, type I error rates
-are **close** to alpha and coverage rates are **close** to the
-confidence level. This is the reason all tests require a sample size of
-at least 50. For the second condition, the parameter must not be near
-the boundary of the parameter space. How near is too near depends on N.
+# The ![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2") approximation
 
 As implemented, all functions depend on the
 ![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
 approximation. To get a sense of performance, lets compare the
 likelihood method to the exact method. Here, X is normally distributed
-with mu equal to 3 and standard deviation equal to 2.
+with mu equal to 3 and standard deviation equal to 2. The two intervals
+are similar.
 
 ``` r
 set.seed(1)
 x <- rnorm(n = 50, mean = 3, sd = 2)
 exactTest <- t.test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_mu_one_sample(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
-```
-
-The two intervals are similar.
-
-``` r
 as.numeric(exactTest$conf.int)
 #> [1] 2.728337 3.673456
 likelihoodTest$conf.int
@@ -184,7 +178,5 @@ likelihoodTest$conf.int
 ```
 
 When exact methods are known, use them. The utility of the likelihood
-based approach is its generality. Many tests in this package (cauchy,
-beta, gamma, poisson) don’t have other well known options. Asymptotic
-type I and type II error rates can be found
-[here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
+based approach is its generality. Many tests in this package don’t have
+other well known options.
