@@ -1,3 +1,7 @@
+# LRTesteR 1.0.2
+* Add one sample empirical likelihood test.
+* Add one sample bootstrap test.
+
 # LRTesteR 1.0.1
 * Add log to print function.
 * Add 6 inverse gaussion tests.
