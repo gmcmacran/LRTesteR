@@ -12,16 +12,11 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 <!-- badges: end -->
 
 LRTesteR provides likelihood ratio tests and associated confidence
-intervals for many common distributions. All parametric tests and
-confidence intervals rely on the
-![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
-approximation even when exact sampling distributions are known.
-Parametric tests require a sample size of at least 50. Estimated
-asymptotic type I and type II error rates can be found
+intervals for many common distributions. All functions match popular
+tests in R. If you are familiar with t.test and binom.test, you already
+know how to use these functions. Estimated asymptotic type I and type II
+error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
-
-All functions match popular tests in R. If you are familiar with t.test
-and binom.test, you already know how to use these functions.
 
 # Nonparametric Tests and Confidence Intervals
 
@@ -31,6 +26,11 @@ and binom.test, you already know how to use these functions.
   - any statistic
 
 # Parametric Tests and Confidence Intervals
+
+All parametric tests and confidence intervals rely on the
+![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
+approximation even when exact sampling distributions are known.
+Parametric tests require a sample size of at least 50.
 
 - Beta
   - shape 1
@@ -119,10 +119,10 @@ the whole set.
 
 ``` r
 set.seed(1)
-x <- c(rgamma(50, 1, 2), rgamma(50, 2, 2), rgamma(50, 3, 2))
+x <- c(rgamma(n = 50, shape = 1, rate = 2), rgamma(n = 50, shape = 2, rate = 2), rgamma(n = 50, shape = 3, rate = 2))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-gamma_shape_one_way(x, fctr, .95)
+gamma_shape_one_way(x = x, fctr = fctr, conf.level = .95)
 #> [1] "Log Likelihood Statistic: 68.59"
 #> [1] "p value: 0"
 #> [1] "Confidence Level Of Set: 95%"
@@ -130,6 +130,21 @@ gamma_shape_one_way(x, fctr, .95)
 #> [1] "Confidence Interval For Group 1: (0.65, 1.515)"
 #> [1] "Confidence Interval For Group 2: (1.376, 3.376)"
 #> [1] "Confidence Interval For Group 3: (1.691, 4.192)"
+```
+
+# Example 4: Empirical Likelihood
+
+The empirical likelihood test does not require any distributional
+assumptions and work with less data.
+
+``` r
+set.seed(1)
+x <- rnorm(n = 25, mean = 1, sd = 1)
+empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
+#> [1] "Log Likelihood Statistic: 0.73"
+#> [1] "p value: 0.392"
+#> [1] "Confidence Level: 95%"
+#> [1] "Confidence Interval: (0.752, 1.501)"
 ```
 
 # The ![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2") approximation

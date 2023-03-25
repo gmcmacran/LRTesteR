@@ -1,5 +1,5 @@
 # LRTesteR 1.0.2
-* Add one sample empirical likelihood test.
+* Add one sample  and one way empirical mean likelihood tests.
 * Add one sample bootstrap test.
 
 # LRTesteR 1.0.1

@@ -79,3 +79,16 @@ test <- binomial_p_one_way(x, n, fctr, .95)
 test_that("works for one way.", {
   expect_output(print(test))
 })
+
+#############
+# one way case three
+#############
+set.seed(1)
+x <- rnorm(150, 1, 1)
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- empirical_mu_one_way(x, fctr, .95)
+
+test_that("works for one way.", {
+  expect_output(print(test))
+})

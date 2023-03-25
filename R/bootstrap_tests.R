@@ -14,16 +14,6 @@
 #' @examples
 #' library(LRTesteR)
 #'
-#'
-#' # Null is true
-#' set.seed(1)
-#' x <- rnorm(25, 0, 1)
-#' # mean
-#' calc_stat <- function(x) {
-#'   return(mean(x))
-#' }
-#' bootstrap_one_sample(x, 0, calc_stat, "two.sided")
-#'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 0, 2)

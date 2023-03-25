@@ -3,7 +3,10 @@
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
 #' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @source \itemize{
+#' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
+#' \item Owen. Emperical Likelihood. Chapman & Hall/CRC.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -18,6 +21,9 @@
 #' empirical_mu_one_sample(x, 1, "greater")
 #' @export
 empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level = .95) {
+  if (length(x) < 1) {
+    stop("Argument x should have positive length.")
+  }
   if (!is.numeric(x)) {
     stop("Argument x should be numeric.")
   }
@@ -182,5 +188,154 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   out <- list(statistic = W, p.value = p.value, conf.int = CI, conf.level = conf.level, alternative = alternative)
   class(out) <- c("one_sample_case_three", "lrtest")
 
+  return(out)
+}
+
+#' Test the equality of means of an unknown distribution.
+#'
+#' @inheritParams gaussian_mu_one_way
+#' @param x a numeric vector.
+#' @inherit gaussian_mu_one_way return
+#' @inherit empirical_mu_one_sample source
+#' @examples
+#' library(LRTesteR)
+#'
+#' # Null is true
+#' set.seed(1)
+#' x <- rnorm(75, 1, 1)
+#' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' empirical_mu_one_way(x, fctr, .95)
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- c(rnorm(25, 1, 1), rnorm(25, 2, 1), rnorm(25, 3, 1))
+#' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' empirical_mu_one_way(x, fctr, .95)
+#' @export
+empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
+  if (length(x) < 1) {
+    stop("Argument x should have positive length.")
+  }
+  if (!is.numeric(x)) {
+    stop("Argument x should be numeric.")
+  }
+  if (length(fctr) != length(x)) {
+    stop("Argument fctr should have same length as x.")
+  }
+  if (!is.factor(fctr)) {
+    stop("Argument fctr should be a factor.")
+  }
+  if (length(base::unique(fctr)) < 2) {
+    stop("Argument fctr should have at least two unique values.")
+  }
+  if (length(conf.level) != 1) {
+    stop("conf.level should have length one.")
+  }
+  if (!is.numeric(conf.level)) {
+    stop("conf.level should be numeric.")
+  }
+  if (conf.level <= 0 | conf.level >= 1) {
+    stop("conf.level should between zero and one.")
+  }
+
+  calc_test_stat <- function(x, mu, alternative) {
+    calc_null_p <- function(x, fctr) {
+      calc_lambdas <- function(x) {
+        g <- function(lambda, level) {
+          grandMean <- mean(x)
+          n <- length(x)
+
+          tempX <- x[fctr == level]
+
+          numerator <- tempX - grandMean
+          denominator <- length(tempX) * lambda * (tempX - grandMean) + n
+          denominator[is.nan(denominator)] <- -Inf
+          out <- sum(numerator / denominator)
+          return(out)
+        }
+        n <- length(x)
+        lambdas <- vector(mode = "numeric", length = length(levels(fctr)))
+        for (i in seq(lambdas)) {
+          level <- levels(fctr)[i]
+          tempX <- x[fctr == level]
+          ni <- length(tempX)
+          LB <- (1 - n) / (ni * (max(tempX) - mean(x)))
+          UB <- (1 - n) / (ni * (min(tempX) - mean(x)))
+          lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, level = level)$root
+        }
+
+        return(lambdas)
+      }
+      lambdas <- calc_lambdas(x)
+
+      p <- vector(mode = "numeric", length = length(x))
+      for (i in 1:length(lambdas)) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+
+        tempX <- x[index]
+        p[index] <- 1 / (length(tempX) * lambdas[i] * (tempX - mean(x)) + length(x))
+      }
+
+      # division by near zero numbers can cause -Inf and Inf
+      # underflow
+      p <- pmax(p, .Machine$double.eps)
+      p <- pmin(p, 1 - .Machine$double.eps)
+
+      return(p)
+    }
+    calc_obs_p <- function(x, fctr) {
+      p <- vector(mode = "numeric", length = length(x))
+      for (i in 1:length(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+
+        tempX <- x[index]
+        p[index] <- rep(1 / length(tempX), length(tempX))
+      }
+      p <- p / sum(p)
+
+      # division by near zero numbers can cause -Inf and Inf
+      # underflow
+      p <- pmax(p, .Machine$double.eps)
+      p <- pmin(p, 1 - .Machine$double.eps)
+    }
+
+    null_p <- calc_null_p(x, fctr)
+    obs_p <- calc_obs_p(x, fctr)
+
+    W <- 2 * (sum(log(obs_p)) - sum(log(null_p)))
+    W <- pmax(W, 0)
+
+    return(W)
+  }
+
+  W <- calc_test_stat(x, fctr)
+
+  # Under null, 1 parameter (overall value) is allowed to vary
+  # Under alternative, parameter for each group is allowed to vary
+  df <- length(levels(fctr)) - 1
+
+  p.value <- stats::pchisq(q = W, df = df, lower.tail = FALSE)
+
+  # Bonferroni correction and convert back to confidence
+  alpha <- 1 - conf.level
+  alpha <- alpha / length(levels(fctr))
+  individual.conf.level <- 1 - alpha
+
+  CI <- list()
+  for (i in 1:length(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    tempCI <- LRTesteR::empirical_mu_one_sample(tempX, mean(tempX), "two.sided", individual.conf.level)
+    tempCI <- tempCI$conf.int
+    CI[[l]] <- tempCI
+  }
+
+  out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
+  class(out) <- c("one_way_case_three", "lrtest")
   return(out)
 }

@@ -5,9 +5,8 @@
 \title{Test the mean parameter of an unknown distribution.}
 \source{
 \itemize{
-\item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Owen. Emperical Likelihood. Chapman & Hall/CRC.
 }
 }
 \usage{
