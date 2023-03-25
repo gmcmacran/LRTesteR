@@ -18,9 +18,7 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio tests and associated confidence intervals for many common distributions. All parametric tests and confidence intervals rely on the $\chi^2$ approximation even when exact sampling distributions are known. Parametric tests require a sample size of at least 50. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
-
-All functions match popular tests in R. If you are familiar with t.test and binom.test, you already know how to use these functions.
+LRTesteR provides likelihood ratio tests and associated confidence intervals for many common distributions. All functions match popular tests in R. If you are familiar with t.test and binom.test, you already know how to use these functions. Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
 
 # Nonparametric Tests and Confidence Intervals
 
@@ -31,7 +29,9 @@ All functions match popular tests in R. If you are familiar with t.test and bino
   + any statistic
   
 # Parametric Tests and Confidence Intervals
-  
+
+All parametric tests and confidence intervals rely on the $\chi^2$ approximation even when exact sampling distributions are known. Parametric tests require a sample size of at least 50. 
+
 * Beta
   + shape 1
   + shape 2
@@ -105,10 +105,18 @@ One-way ANOVA is generalized to all distributions. Here gamma random variables a
 
 ```{r example3Part1}
 set.seed(1)
-x <- c(rgamma(50, 1, 2), rgamma(50, 2, 2), rgamma(50, 3, 2))
+x <- c(rgamma(n = 50, shape = 1, rate = 2), rgamma(n = 50, shape = 2, rate = 2), rgamma(n = 50, shape = 3, rate = 2))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-gamma_shape_one_way(x, fctr, .95)
+gamma_shape_one_way(x = x, fctr = fctr, conf.level = .95)
+```
+# Example 4: Empirical Likelihood
+The empirical likelihood test does not require any distributional assumptions and work with less data.
+
+```{r example4Part1}
+set.seed(1)
+x <- rnorm(n = 25, mean = 1, sd = 1)
+empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 ```
 
 # The $\chi^2$ approximation
@@ -125,7 +133,7 @@ likelihoodTest$conf.int
 ```
 
 Lets compare tests for variance. Again, confidence intervals are similar.
-```{r MDPart3}
+```{r MDPart2}
 sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2,  alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_variance_one_sample(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
@@ -134,7 +142,7 @@ likelihoodTest$conf.int
 ```
 
 Changing to p for a binomial distribution, the confidence intervals are similar yet again. 
-```{r MDPart4}
+```{r MDPart3}
 exactTest <- stats::binom.test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- binomial_p_one_sample(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
