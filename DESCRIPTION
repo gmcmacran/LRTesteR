@@ -20,5 +20,7 @@ Suggests:
     lmtest,
     knitr,
     rmarkdown,
-    emplik
+    emplik,
+    emplik2,
+    datasets
 VignetteBuilder: knitr
