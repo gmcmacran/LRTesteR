@@ -14,36 +14,44 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Empirical Likelihood Test
+## Empirical Likelihood Tests
 
-This test does not require any assumption about the underlying distribution. To get a sense of performance, lets compare it to two parametric tests. When the assumptions are correct, the parametric tests have more power and smaller confidence intervals. The important question is how similar is the empirical likelihood test to the parametric test.
-
-When the data are normal, there is little difference between the two tests.
+These tests do not require any assumption about the underlying distribution. In addition, they work with smaller sample sizes.
 
 ```{r part1}
 library(LRTesteR)
 
-set.seed(2)
-x <- rnorm(50, 0, 1)
-gaussian_mu_one_sample(x, 0, "two.sided")
+set.seed(1)
+x <- rnorm(n = 30, mean = 1, sd = 1)
+empirical_mu_one_sample(x = x, mu = 0, alternative = "two.sided")
 ```
 
+The distribution does not need to be symmetrical.
 
 ```{r part2}
-empirical_mu_one_sample(x, 0, "two.sided")
-```
+library(statmod)
 
-The inverse gaussian test is a right skewed distribution. Again results are similar.
+set.seed(1)
+x <- rinvgauss(n = 30, mean = 2.25, dispersion = 2)
+empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
+```
+The one way test does not require nuisance parameters to be equal.
 
 ```{r part3}
-library(statmod)
-set.seed(2)
-x <- rinvgauss(50, 2, 3)
-inverse_gaussian_mu_one_sample(x, 2, "two.sided")
+set.seed(1)
+x <- c(rnorm(n = 30, mean = 1, sd = 1), rnorm(n = 30, mean = 1.5, sd = 1.5), rnorm(n = 30, mean = 2, sd = 2))
+fctr <- c(rep(1, 30), rep(2, 30), rep(3, 30))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
 ```
+Sample size can be unequal.
 
 ```{r part4}
-empirical_mu_one_sample(x, 2, "two.sided")
+set.seed(1)
+x <- c(rnorm(n = 30, mean = 1, sd = 1), rnorm(n = 40, mean = 1.5, sd = 1.5), rnorm(n = 50, mean = 2, sd = 2))
+fctr <- c(rep(1, 30), rep(2, 40), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
 ```
 
 ## Bootstrapping
@@ -55,8 +63,8 @@ calc_IQR <- function(x) {
   return(stat)
 }
 
-set.seed(2)
-x <- rnorm(50, 0, 1)
-bootstrap_one_sample(x, 1, calc_IQR, "two.sided")
+set.seed(1)
+x <- rnorm(n  = 50, mean = 0, sd = 1)
+bootstrap_one_sample(x = x, param = 1, stat.fun = calc_IQR, alternative = "two.sided")
 ```
 For reference, the true interquartile range is `r round(qnorm(.75) - qnorm(.25), 2)`.
