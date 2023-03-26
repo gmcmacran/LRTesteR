@@ -25,9 +25,6 @@ LRTesteR provides likelihood ratio tests and associated confidence intervals for
 * Empirical Likelihood
   + mean
   
-* Bootstrapping
-  + any statistic
-  
 # Parametric Tests and Confidence Intervals
 
 All parametric tests and confidence intervals rely on the $\chi^2$ approximation even when exact sampling distributions are known. Parametric tests require a sample size of at least 50. 
