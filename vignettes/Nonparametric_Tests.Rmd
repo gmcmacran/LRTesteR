@@ -54,17 +54,3 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
 ```
 
-## Bootstrapping
-The bootstrapping test replaces distributional assumptions with compute cycles. Further, it is open to any statistic. Here, interquartile range is tested. 
-
-```{r part5}
-calc_IQR <- function(x) {
-  stat <-quantile(x, .75) - quantile(x, .25)
-  return(stat)
-}
-
-set.seed(1)
-x <- rnorm(n  = 50, mean = 0, sd = 1)
-bootstrap_one_sample(x = x, param = 1, stat.fun = calc_IQR, alternative = "two.sided")
-```
-For reference, the true interquartile range is `r round(qnorm(.75) - qnorm(.25), 2)`.

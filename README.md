@@ -22,8 +22,6 @@ error rates can be found
 
 - Empirical Likelihood
   - mean
-- Bootstrapping
-  - any statistic
 
 # Parametric Tests and Confidence Intervals
 
