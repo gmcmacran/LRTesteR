@@ -80,12 +80,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
           if (g(LB) == 0) {
             lambda <- LB
           } else {
-            while (g(LB) > 0) {
-              # underflow. Lowering LB
-              LB <- LB * 1.01
-            }
-
-            lambda <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50)$root
+            lambda <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
           }
         } else if (mu > mean(x)) {
           LB <- pmax(n / (min(x) - mu), 0)
@@ -94,12 +89,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
           if (g(UB) == 0) {
             lambda <- UB
           } else {
-            while (g(UB) < 0) {
-              # underflow. lowering UB
-              UB <- UB * .99
-            }
-
-            lambda <- stats::uniroot(g, lower = LB, upper = UB)$root
+            lambda <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
           }
         } else {
           lambda <- 0
@@ -143,7 +133,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
       LB <- min(x) + .01
       UB <- max(x) - .01
 
-      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50)$root
+      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
@@ -155,7 +145,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
       LB <- min(x) + .01
       UB <- max(x) - .01
 
-      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50)$root
+      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
 
       return(out)
     }
@@ -263,7 +253,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
           ni <- length(tempX)
           LB <- (1 - n) / (ni * (max(tempX) - mean(x)))
           UB <- (1 - n) / (ni * (min(tempX) - mean(x)))
-          lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, level = level)$root
+          lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes", level = level)$root
         }
 
         return(lambdas)
