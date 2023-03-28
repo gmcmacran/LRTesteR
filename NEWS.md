@@ -1,5 +1,5 @@
 # LRTesteR 1.0.2
-* Add one sample  and one way empirical mean likelihood tests.
+* Add one sample and one way empirical mean likelihood tests.
 
 # LRTesteR 1.0.1
 * Add log to print function.
