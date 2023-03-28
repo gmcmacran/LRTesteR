@@ -134,7 +134,7 @@ test_that("p input checking works", {
 test_that("alternative input checking works", {
   expect_error(binomial_p_one_sample(5, 50, .5, c("two.sided", "less")), "Argument alternative should have length one.")
   expect_error(binomial_p_one_sample(5, 50, .5, 1), "Argument alternative should be a character.")
-  expect_error(binomial_p_one_sample(5, 50, .5, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater'")
+  expect_error(binomial_p_one_sample(5, 50, .5, "lesss"), "Argument alternative should be 'two.sided', 'less', or 'greater.'")
 })
 
 test_that("conf.level input checking works", {
