@@ -14,7 +14,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
     # page 9
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
       g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
       g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
@@ -99,7 +99,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
     # page 9
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
       g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
       g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
@@ -184,7 +184,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
     # page 9
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
       g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
       g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
@@ -217,7 +217,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
       est_shape1s <- pmax(estimates[2:length(estimates)], .0001)
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -229,7 +229,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 
     # MOMs
     shape1s <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(shape1s)) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -251,7 +251,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -310,7 +310,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
     # page 9
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
       g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
       g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
@@ -343,7 +343,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
       est_shape2s <- pmax(estimates[2:length(estimates)], .0001)
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -354,7 +354,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
     }
     # MOMs
     shape2s <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(shape2s)) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -375,7 +375,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

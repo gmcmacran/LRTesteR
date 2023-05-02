@@ -190,7 +190,7 @@ test_that("conf.level input checking works", {
 set.seed(1)
 num_failures <- rnbinom(3, 50, .5)
 num_success <- rep(50, length(num_failures))
-fctr <- factor(1:length(num_failures))
+fctr <- factor(seq(1, length(num_failures)))
 test <- negative_binomial_p_one_way(num_failures, num_success, fctr, .95)
 
 test_that("Check structure.", {
@@ -219,7 +219,7 @@ rm(CI1, CI2)
 set.seed(1)
 num_failures <- rnbinom(3, 50, c(.25, .50, .75))
 num_success <- rep(50, length(num_failures))
-fctr <- factor(1:length(num_failures))
+fctr <- factor(seq(1, length(num_failures)))
 test <- negative_binomial_p_one_way(num_failures, num_success, fctr, .95)
 
 test_that("Check structure.", {
@@ -273,8 +273,7 @@ rm(fctr1, fctr2)
 set.seed(1)
 num_failures <- rnbinom(3, 50, .50)
 num_success <- rep(50, length(num_failures))
-fctr <- factor(1:length(num_failures))
-fctr <- factor(1:length(num_failures))
+fctr <- factor(seq(1, length(num_failures)))
 test_that("conf.level input checking works", {
   expect_error(negative_binomial_p_one_way(num_failures, num_success, fctr, c(.50, .75)), "conf.level should have length one.")
   expect_error(negative_binomial_p_one_way(num_failures, num_success, fctr, "foo"), "conf.level should be numeric.")

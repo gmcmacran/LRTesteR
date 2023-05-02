@@ -45,7 +45,7 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
 
   # alt
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempFailure <- num_failures[index]

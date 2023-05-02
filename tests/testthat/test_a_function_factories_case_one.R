@@ -41,7 +41,7 @@ calc_test_stat <- function(x, fctr) {
 
   W1 <- sum(stats::dnorm(x = x, mean = obs_mean, sd = profile_sd, log = TRUE))
 
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -51,7 +51,7 @@ calc_test_stat <- function(x, fctr) {
   }
 
   SS <- 0
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -61,7 +61,7 @@ calc_test_stat <- function(x, fctr) {
   profile_sd_ha <- (SS / length(x))^.5
 
   likelihoods <- vector(mode = "numeric", length = length(group_means))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

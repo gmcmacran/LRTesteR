@@ -211,7 +211,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
       est_locations <- estimates[2:length(estimates)]
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -224,7 +224,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
     locations <- vector(mode = "numeric", length = length(levels(fctr)))
     searchLB <- vector(mode = "numeric", length = length(levels(fctr)))
     searchUB <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(locations)) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -236,7 +236,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
     # bounding scale by widest range possible range
     scaleLB <- base::min(base::abs(x - base::mean(x, trim = .38)))
     scaleUB <- base::max(base::abs(x - base::mean(x, trim = .38)))
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -263,7 +263,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -347,7 +347,7 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
       est_scales <- estimates[2:length(estimates)]
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -360,7 +360,7 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
     scales <- vector(mode = "numeric", length = length(levels(fctr)))
     searchLB <- vector(mode = "numeric", length = length(levels(fctr)))
     searchUB <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(scales)) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -393,7 +393,7 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

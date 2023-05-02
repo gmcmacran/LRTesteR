@@ -200,7 +200,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   get_group_MLEs <- function(x, fctr) {
     deno <- 0
     means <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       tempX <- x[which(fctr == levels(fctr)[i])]
       harmonic <- length(tempX) / sum(1 / tempX)
       means[i] <- mean(tempX)
@@ -219,7 +219,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -292,7 +292,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
     xbar <- mean(x)
 
     shapes <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       tempX <- x[which(fctr == levels(fctr)[i])]
       C <- sum((tempX - xbar)^2 / tempX)
       shapes[i] <- length(tempX) * (xbar^2) / C
@@ -308,7 +308,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -386,7 +386,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
     xbar <- mean(x)
 
     shapes <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       tempX <- x[which(fctr == levels(fctr)[i])]
       C <- sum((tempX - xbar)^2 / tempX)
       shapes[i] <- length(tempX) * (xbar^2) / C
@@ -403,7 +403,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

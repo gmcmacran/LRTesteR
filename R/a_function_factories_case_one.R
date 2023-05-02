@@ -118,7 +118,7 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
     if (!is.numeric(conf.level)) {
       stop("conf.level should be numeric.")
     }
-    if (conf.level <= 0 | conf.level >= 1) {
+    if (conf.level <= 0 || conf.level >= 1) {
       stop("conf.level should between zero and one.")
     }
 
@@ -216,7 +216,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     if (!is.numeric(conf.level)) {
       stop("conf.level should be numeric.")
     }
-    if (conf.level <= 0 | conf.level >= 1) {
+    if (conf.level <= 0 || conf.level >= 1) {
       stop("conf.level should between zero and one.")
     }
 
@@ -234,7 +234,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     individual.conf.level <- 1 - alpha
 
     CI <- list()
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -245,164 +245,6 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
 
     out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
     class(out) <- c("one_way_case_one", "lrtest")
-    return(out)
-  })
-
-  exec_globals <- list(calc_test_stat = calc_test_stat, calc_individual_CI = calc_individual_CI)
-  exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
-
-  f <- rlang::new_function(args, body, env = exec_env)
-
-  return(f)
-}
-
-create_test_function_one_way_case_two <- function(calc_test_stat, calc_individual_CI) {
-  force(calc_test_stat)
-  force(calc_individual_CI)
-  # Confirm function looks right
-  if (!inherits(calc_test_stat, "function")) {
-    stop("Argument calc_test_stat must be a function.")
-  }
-  # Confirm function looks right
-  if (!inherits(calc_individual_CI, "function")) {
-    stop("Argument calc_individual_CI must be a function.")
-  }
-
-  args <- names(formals(calc_test_stat))
-  args_02 <- names(formals(calc_individual_CI))
-  if (args[1] != args_02[1]) {
-    stop("calc_test_stat's first argument does not match calc_individual_CI first argument.")
-  }
-  if (args[2] != args_02[2]) {
-    stop("calc_test_stat's second argument does not match calc_individual_CI second argument.")
-  }
-  if (args[3] != "fctr") {
-    stop("calc_test_stat's third argument is not fctr.")
-  }
-  if (length(args) != 3) {
-    stop("calc_test_stat has too many arguments.")
-  }
-  rm(args, args_02)
-
-  args <- names(formals(calc_individual_CI))
-  if (args[4] != "alternative") {
-    stop("calc_individual_CI's fourth argument is not alternative.")
-  }
-  if (args[5] != "conf.level") {
-    stop("calc_individual_CI's fifth argument is not conf.level.")
-  }
-  if (length(args) != 5) {
-    stop("calc_individual_CI has too many arguments.")
-  }
-  rm(args)
-
-  arg1 <- rlang::sym(names(formals(calc_individual_CI))[1])
-  arg2 <- rlang::sym(names(formals(calc_individual_CI))[2])
-  if (rlang::as_string(arg2) == "n") {
-    # binomial case
-    sizeCheck <- rlang::expr(sum(!!arg2) < 50)
-    rangeCheck <- rlang::expr(
-      if (any(!!arg1 > !!arg2)) {
-        stop("No values in  x can be larger than values in n.")
-      }
-    )
-  } else if (rlang::as_string(arg2) == "num_successes") {
-    # negative binomial case
-    sizeCheck <- rlang::expr(sum(!!arg1 + !!arg2) < 50)
-    rangeCheck <- rlang::expr(
-      if (any(!!arg2 < 1)) {
-        stop("There must be at least one success in num_successes per group.")
-      }
-    )
-  } else {
-    stop("arg2 was not n or num_successes.")
-  }
-
-  # Build function
-  args <- rlang::pairlist2(holder1 = , holder2 = , fctr = , conf.level = 0.95)
-  for (i in 1:2) {
-    names(args)[i] <- names(formals(calc_individual_CI))[i]
-  }
-
-  body <- rlang::expr({
-    if (length(!!arg1) != length(!!arg2)) {
-      stop("The first two arguments should have the same length.")
-    }
-    if (length(!!arg1) < 1) {
-      stop("First argument should have positive length.")
-    }
-    if (!is.numeric(!!arg1)) {
-      stop("First argument should be numeric.")
-    }
-    if (any(!!arg1 != as.integer(!!arg1))) {
-      stop("First argument should only contain integers.")
-    }
-    if (any(!!arg1 < 0)) {
-      stop("All elements in first argument should be 0 or above.")
-    }
-    if (length(!!arg2) < 1) {
-      stop("Second argument should have positive length.")
-    }
-    if (!is.numeric(!!arg2)) {
-      stop("Second argument should be numeric.")
-    }
-    if (any(!!arg2 != as.integer(!!arg2))) {
-      stop("Second argument should only contain integers.")
-    }
-    if (any(!!arg2 < 0)) {
-      stop("All elements in second argument should be 0 or above.")
-    }
-    if (!!sizeCheck) {
-      stop("At least 50 trials should be done for likelihood ratio test.")
-    }
-    !!rangeCheck
-    if (length(fctr) != length(!!arg1)) {
-      stop("Argument fctr should have same length as first argument.")
-    }
-    if (!is.factor(fctr)) {
-      stop("Argument fctr should be a factor.")
-    }
-    if (length(base::unique(fctr)) < 2) {
-      stop("Argument fctr should have at least two unique values.")
-    }
-    if (length(conf.level) != 1) {
-      stop("conf.level should have length one.")
-    }
-    if (!is.numeric(conf.level)) {
-      stop("conf.level should be numeric.")
-    }
-    if (conf.level <= 0 | conf.level >= 1) {
-      stop("conf.level should between zero and one.")
-    }
-
-    W <- calc_test_stat(!!arg1, !!arg2, fctr)
-
-    # Under null, 1 parameter (overall value) is allowed to vary
-    # Under alternative, parameter for each group is allowed to vary
-    df <- length(levels(fctr)) - 1
-
-    p.value <- stats::pchisq(q = W, df = df, lower.tail = FALSE)
-
-    # Bonferroni correction and convert back to confidence
-    alpha <- 1 - conf.level
-    alpha <- alpha / length(levels(fctr))
-    individual.conf.level <- 1 - alpha
-
-    CI <- list()
-    for (i in 1:length(levels(fctr))) {
-      l <- levels(fctr)[i]
-      index <- which(fctr == l)
-      tempOne <- !!arg1
-      tempOne <- tempOne[index]
-      tempTwo <- !!arg2
-      tempTwo <- tempTwo[index]
-      tempCI <- calc_individual_CI(tempOne, tempTwo, .5, "two.sided", individual.conf.level)
-      tempCI <- tempCI$conf.int
-      CI[[l]] <- tempCI
-    }
-
-    out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
-    class(out) <- c("one_way_case_two", "lrtest")
     return(out)
   })
 
