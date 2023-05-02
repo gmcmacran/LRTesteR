@@ -6,7 +6,7 @@
 \source{
 \itemize{
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Owen. Emperical Likelihood. Chapman & Hall/CRC.
+\item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 }
 }
 \usage{
