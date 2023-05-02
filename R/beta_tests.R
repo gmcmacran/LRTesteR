@@ -310,7 +310,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
     # page 9
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
       g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
       g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)

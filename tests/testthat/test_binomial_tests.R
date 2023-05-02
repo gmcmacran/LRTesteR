@@ -150,7 +150,7 @@ test_that("conf.level input checking works", {
 set.seed(1)
 x <- rbinom(3, 50, .5)
 n <- rep(50, length(x))
-fctr <- factor(1:length(x))
+fctr <- factor(seq(1, length(x)))
 test <- binomial_p_one_way(x, n, fctr, .95)
 
 test_that("Check structure.", {
@@ -185,7 +185,7 @@ rm(CI1, CI2, dat, model_00, model_01)
 set.seed(1)
 x <- rbinom(3, 50, c(.25, .50, .75))
 n <- rep(50, length(x))
-fctr <- factor(1:length(x))
+fctr <- factor(seq(1, length(x)))
 test <- binomial_p_one_way(x, n, fctr, .95)
 
 test_that("Check structure.", {
@@ -245,7 +245,7 @@ rm(fctr1, fctr2)
 set.seed(1)
 x <- rbinom(2, 50, .5)
 n <- rep(50, length(x))
-fctr <- factor(1:length(x))
+fctr <- factor(seq(1, length(x)))
 test_that("conf.level input checking works", {
   expect_error(binomial_p_one_way(x, n, fctr, c(.50, .75)), "conf.level should have length one.")
   expect_error(binomial_p_one_way(x, n, fctr, "foo"), "conf.level should be numeric.")

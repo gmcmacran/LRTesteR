@@ -118,7 +118,7 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
     if (!is.numeric(conf.level)) {
       stop("conf.level should be numeric.")
     }
-    if (conf.level <= 0 | conf.level >= 1) {
+    if (conf.level <= 0 || conf.level >= 1) {
       stop("conf.level should between zero and one.")
     }
 
@@ -216,7 +216,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     if (!is.numeric(conf.level)) {
       stop("conf.level should be numeric.")
     }
-    if (conf.level <= 0 | conf.level >= 1) {
+    if (conf.level <= 0 || conf.level >= 1) {
       stop("conf.level should between zero and one.")
     }
 

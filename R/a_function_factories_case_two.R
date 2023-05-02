@@ -183,7 +183,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     if (length(p) != 1) {
       stop("Argument p should have length one.")
     }
-    if (p < 0 | p > 1) {
+    if (p < 0 || p > 1) {
       stop("Argument p should be between 0 and 1.")
     }
     if (length(alternative) != 1) {
@@ -201,7 +201,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     if (!is.numeric(conf.level)) {
       stop("conf.level should be numeric.")
     }
-    if (conf.level <= 0 | conf.level >= 1) {
+    if (conf.level <= 0 || conf.level >= 1) {
       stop("conf.level should between zero and one.")
     }
 
@@ -346,7 +346,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     if (!is.numeric(conf.level)) {
       stop("conf.level should be numeric.")
     }
-    if (conf.level <= 0 | conf.level >= 1) {
+    if (conf.level <= 0 || conf.level >= 1) {
       stop("conf.level should between zero and one.")
     }
 

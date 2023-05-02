@@ -219,7 +219,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -308,7 +308,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -403,7 +403,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

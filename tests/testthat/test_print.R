@@ -57,7 +57,7 @@ test_that("works for one way.", {
 set.seed(1)
 x <- rbinom(3, 50, .5)
 n <- rep(50, length(x))
-fctr <- factor(1:length(x))
+fctr <- factor(seq(1, length(x)))
 test <- binomial_p_one_way(x, n, fctr, .95)
 
 test_that("works for one way.", {

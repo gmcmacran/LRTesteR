@@ -5,7 +5,7 @@
 #' @inherit gaussian_mu_one_sample return
 #' @source \itemize{
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-#' \item Owen. Emperical Likelihood. Chapman & Hall/CRC.
+#' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 #' }
 #' @examples
 #' library(LRTesteR)
@@ -54,7 +54,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   if (!is.numeric(conf.level)) {
     stop("conf.level should be numeric.")
   }
-  if (conf.level <= 0 | conf.level >= 1) {
+  if (conf.level <= 0 || conf.level >= 1) {
     stop("conf.level should between zero and one.")
   }
 
@@ -226,7 +226,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
   if (!is.numeric(conf.level)) {
     stop("conf.level should be numeric.")
   }
-  if (conf.level <= 0 | conf.level >= 1) {
+  if (conf.level <= 0 || conf.level >= 1) {
     stop("conf.level should between zero and one.")
   }
 
@@ -261,7 +261,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
       lambdas <- calc_lambdas(x)
 
       p <- vector(mode = "numeric", length = length(x))
-      for (i in 1:length(lambdas)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
 
