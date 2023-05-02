@@ -236,7 +236,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
     # bounding scale by widest range possible range
     scaleLB <- base::min(base::abs(x - base::mean(x, trim = .38)))
     scaleUB <- base::max(base::abs(x - base::mean(x, trim = .38)))
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]

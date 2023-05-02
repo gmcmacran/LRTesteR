@@ -364,7 +364,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     individual.conf.level <- 1 - alpha
 
     CI <- list()
-    for (i in 1:length(levels(fctr))) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempOne <- !!arg1

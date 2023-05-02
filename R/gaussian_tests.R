@@ -92,7 +92,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 
   # alt
   group_means <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -101,7 +101,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
   }
 
   SS <- 0
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -111,7 +111,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
   profile_sd_ha <- (SS / length(x))^.5
 
   likelihoods <- vector(mode = "numeric", length = length(group_means))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -175,7 +175,7 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
   # alt
   profile_mean_HA <- base::mean(x)
   group_sds <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -183,7 +183,7 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
   }
 
   likelihoods <- vector(mode = "numeric", length = length(group_sds))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

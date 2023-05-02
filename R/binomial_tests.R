@@ -46,7 +46,7 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
 
   # alt
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

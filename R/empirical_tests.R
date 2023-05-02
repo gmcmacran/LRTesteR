@@ -278,7 +278,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     }
     calc_obs_p <- function(x, fctr) {
       p <- vector(mode = "numeric", length = length(x))
-      for (i in 1:length(levels(fctr))) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
 
@@ -316,7 +316,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
   individual.conf.level <- 1 - alpha
 
   CI <- list()
-  for (i in 1:length(levels(fctr))) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]

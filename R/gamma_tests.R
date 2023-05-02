@@ -9,7 +9,7 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
     # newton updates
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
       tol <- max(abs(shape - shape_new))
       counter <- counter + 1
@@ -26,7 +26,6 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
   obs_rate <- MLEs[2]
-  obs_scale <- 1 / obs_rate
 
   # Profile scale/rate based on null hypothesis shape
   profile_scale <- mean(x) / shape
@@ -75,7 +74,7 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
     # newton updates
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
       tol <- max(abs(shape - shape_new))
       counter <- counter + 1
@@ -154,7 +153,7 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
     # newton updates
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
       tol <- max(abs(shape - shape_new))
       counter <- counter + 1
@@ -171,7 +170,6 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
   obs_rate <- MLEs[2]
-  obs_scale <- 1 / obs_rate
 
   get_profile_shape <- function(x, rate) {
     scale <- 1 / rate
@@ -235,7 +233,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
     # newton updates
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
       tol <- max(abs(shape - shape_new))
       counter <- counter + 1
@@ -252,7 +250,6 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
   obs_rate <- MLEs[2]
-  obs_scale <- 1 / obs_rate
 
   W1 <- sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE))
 
@@ -263,7 +260,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
       est_shapes <- estimates[2:length(estimates)]
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -274,7 +271,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
     }
     # starting points
     shapes <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in 1:length(shapes)) {
+    for (i in seq_along(levels(fctr))) {
       l <- levels(fctr)[i]
       index <- which(fctr == l)
       tempX <- x[index]
@@ -284,7 +281,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
       # newton updates
       tol <- 999
       counter <- 0
-      while (tol > .00001 & counter <= 30) {
+      while (tol > .00001 && counter <= 30) {
         shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
         tol <- max(abs(shape - shape_new))
         counter <- counter + 1
@@ -305,7 +302,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -360,7 +357,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
     # newton updates
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
       tol <- max(abs(shape - shape_new))
       counter <- counter + 1
@@ -388,7 +385,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
       est_scales <- estimates[2:length(estimates)]
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -409,7 +406,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
@@ -464,7 +461,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
     # newton updates
     tol <- 999
     counter <- 0
-    while (tol > .00001 & counter <= 30) {
+    while (tol > .00001 && counter <= 30) {
       shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
       tol <- max(abs(shape - shape_new))
       counter <- counter + 1
@@ -481,7 +478,6 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
   MLEs <- get_MLEs(x)
   obs_shape <- MLEs[1]
   obs_rate <- MLEs[2]
-  obs_scale <- 1 / obs_rate
 
   W1 <- sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE))
 
@@ -492,7 +488,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
       est_rates <- estimates[2:length(estimates)]
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in 1:length(likelihoods)) {
+      for (i in seq_along(levels(fctr))) {
         l <- levels(fctr)[i]
         index <- which(fctr == l)
         tempX <- x[index]
@@ -513,7 +509,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
   rm(group_MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-  for (i in 1:length(likelihoods)) {
+  for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
