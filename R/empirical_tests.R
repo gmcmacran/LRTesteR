@@ -230,7 +230,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     stop("conf.level should between zero and one.")
   }
 
-  calc_test_stat <- function(x, mu, alternative) {
+  calc_test_stat <- function(x, mu) {
     calc_null_p <- function(x, fctr) {
       calc_lambdas <- function(x) {
         g <- function(lambda, level) {
