@@ -24,6 +24,7 @@ LRTesteR provides likelihood ratio tests and associated confidence intervals for
 
 * Empirical Likelihood
   + mean
+  + quantile
   
 # Parametric Tests and Confidence Intervals
 

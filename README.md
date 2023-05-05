@@ -22,6 +22,7 @@ error rates can be found
 
 - Empirical Likelihood
   - mean
+  - quantile
 
 # Parametric Tests and Confidence Intervals
 

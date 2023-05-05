@@ -15,42 +15,66 @@ knitr::opts_chunk$set(
 ```
 
 ## Empirical Likelihood Tests
+"Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample, and as a likelihood without parametric assumptions." Owen 2001.
 
-These tests do not require any assumption about the underlying distribution. In addition, they work with smaller sample sizes.
+## Tests For Mu
+
+One sample and one-way tests are implemented. Note the distribution does not need to be symmetrical and less data is needed.
 
 ```{r part1}
 library(LRTesteR)
-
-set.seed(1)
-x <- rnorm(n = 30, mean = 1, sd = 1)
-empirical_mu_one_sample(x = x, mu = 0, alternative = "two.sided")
-```
-
-The distribution does not need to be symmetrical.
-
-```{r part2}
 library(statmod)
 
 set.seed(1)
 x <- rinvgauss(n = 30, mean = 2.25, dispersion = 2)
 empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 ```
-The one way test does not require nuisance parameters to be equal.
+The one way test does not require nuisance parameters or sample size to be equal.
+
+```{r part2}
+set.seed(1)
+x <- c(
+  rinvgauss(n = 35, mean = 1, dispersion = 1),
+  rinvgauss(n = 40, mean = 2, dispersion = 3),
+  rinvgauss(n = 45, mean = 3, dispersion = 5)
+)
+fctr <- c(rep(1, 35), rep(2, 40), rep(3, 45))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+```
+
+## Tests For A Quantile
+
+Any quantile can be tested. In this example, the null hypothesis is 1 (value argument) is the median (Q argument).
 
 ```{r part3}
 set.seed(1)
-x <- c(rnorm(n = 30, mean = 1, sd = 1), rnorm(n = 30, mean = 1.5, sd = 1.5), rnorm(n = 30, mean = 2, sd = 2))
-fctr <- c(rep(1, 30), rep(2, 30), rep(3, 30))
-fctr <- factor(fctr, levels = c("1", "2", "3"))
-empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+x <- rnorm(n = 30, mean = 0, sd = 2)
+empirical_quantile_one_sample(x = x, Q = .50, value = 1, alternative = "two.sided")
 ```
-Sample size can be unequal.
+Other quantiles can be tested as well. 
 
 ```{r part4}
-set.seed(1)
-x <- c(rnorm(n = 30, mean = 1, sd = 1), rnorm(n = 40, mean = 1.5, sd = 1.5), rnorm(n = 50, mean = 2, sd = 2))
-fctr <- c(rep(1, 30), rep(2, 40), rep(3, 50))
-fctr <- factor(fctr, levels = c("1", "2", "3"))
-empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+# Q1
+empirical_quantile_one_sample(x = x, Q = .25, value = -1, alternative = "two.sided")
 ```
 
+```{r part5}
+# Q3
+empirical_quantile_one_sample(x = x, Q = .75, value = 1, alternative = "two.sided")
+```
+
+
+In one-way analysis, equality of a quantile is tested. Here, a common median (Q equal to .50) is tested.
+
+```{r part6}
+set.seed(1)
+x <- c(
+  rnorm(n = 35, mean = 1, sd = 1),
+  rnorm(n = 40, mean = 2, sd = 1.25),
+  rnorm(n = 45, mean = 3, sd = 1.5)
+  )
+fctr <- c(rep(1, 35), rep(2, 40), rep(3, 45))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+empirical_quantile_one_way(x = x, Q = .50, fctr = fctr)
+```
