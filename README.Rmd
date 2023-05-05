@@ -24,6 +24,7 @@ LRTesteR provides likelihood ratio tests and associated confidence intervals for
 
 * Empirical Likelihood
   + mean
+  + quantile
   
 # Parametric Tests and Confidence Intervals
 
@@ -108,7 +109,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 gamma_shape_one_way(x = x, fctr = fctr, conf.level = .95)
 ```
 # Example 4: Empirical Likelihood
-The empirical likelihood test does not require any distributional assumptions and work with less data.
+The empirical likelihood tests do not require any distributional assumptions and work with less data.
 
 ```{r example4Part1}
 set.seed(1)

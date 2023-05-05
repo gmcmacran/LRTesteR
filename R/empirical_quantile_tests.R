@@ -1,7 +1,9 @@
-#' Test the mean parameter of an unknown distribution.
+#' Test a quantile of an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
+#' @param Q The quantile. A single numeric number. (.50 is median.)
+#' @param value A single numeric value that is the hypothesized Q quantile.
 #' @inherit gaussian_mu_one_sample return
 #' @source \itemize{
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
@@ -13,31 +15,40 @@
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_mu_one_sample(x, 0, "two.sided")
+#' empirical_quantile_one_sample(x, .5, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 2, 1)
-#' empirical_mu_one_sample(x, 1, "greater")
+#' empirical_quantile_one_sample(x, .5, 1, "greater")
 #' @export
-empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level = .95) {
+empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided", conf.level = .95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
   if (!is.numeric(x)) {
     stop("Argument x should be numeric.")
   }
-  if (length(mu) != 1) {
-    stop("The tested parameter should have length one.")
+  if (length(Q) != 1) {
+    stop("The Q parameter should have length one.")
   }
-  if (!is.numeric(mu)) {
-    stop("The tested parameter should be numeric.")
+  if (!is.numeric(Q)) {
+    stop("The Q parameter should be numeric.")
   }
-  if (mu <= min(x)) {
-    stop("The tested parameter must be greater than the min of x.")
+  if (Q <= 0 || Q >= 1) {
+    stop("Q should between zero and one.")
   }
-  if (mu >= max(x)) {
-    stop("The tested parameter must be less than the max of x.")
+  if (length(value) != 1) {
+    stop("The value parameter should have length one.")
+  }
+  if (!is.numeric(value)) {
+    stop("The value parameter should be numeric.")
+  }
+  if (value <= min(x)) {
+    stop("The value parameter must be greater than the min of x.")
+  }
+  if (value >= max(x)) {
+    stop("The value parameter must be less than the max of x.")
   }
   if (length(alternative) != 1) {
     stop("Argument alternative should have length one.")
@@ -58,33 +69,36 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
     stop("conf.level should between zero and one.")
   }
 
-  calc_test_stat <- function(x, mu, alternative) {
+  calc_test_stat <- function(x, Q, value, alternative) {
+    Q <- 1 - Q
+    x <- ifelse(x > value, 1, 0)
+
     calc_obs_p <- function(x) {
       p <- rep(1 / length(x), length(x))
       return(p)
     }
-    calc_null_p <- function(x, mu) {
-      calc_lambda <- function(x, mu) {
+    calc_null_p <- function(x, Q) {
+      calc_lambda <- function(x, Q) {
         g <- function(lambda) {
-          numerator <- x - mu
-          denominator <- n - lambda * (x - mu)
+          numerator <- x - Q
+          denominator <- n - lambda * (x - Q)
           denominator[is.nan(denominator)] <- -Inf
           out <- sum(numerator / denominator)
           return(out)
         }
         n <- length(x)
-        if (mu < mean(x)) {
-          LB <- n / (min(x) - mu)
-          UB <- pmin(n / (max(x) - mu), 0)
+        if (Q < mean(x)) {
+          LB <- n / (min(x) - Q)
+          UB <- pmin(n / (max(x) - Q), 0)
 
           if (g(LB) == 0) {
             lambda <- LB
           } else {
             lambda <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
           }
-        } else if (mu > mean(x)) {
-          LB <- pmax(n / (min(x) - mu), 0)
-          UB <- n / (max(x) - mu)
+        } else if (Q > mean(x)) {
+          LB <- pmax(n / (min(x) - Q), 0)
+          UB <- n / (max(x) - Q)
 
           if (g(UB) == 0) {
             lambda <- UB
@@ -93,13 +107,13 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
           }
         } else {
           lambda <- 0
-        } # null's mu is xbar
+        } # null's Q is xbar
 
         return(lambda)
       }
 
-      lambda <- calc_lambda(x, mu)
-      phi <- -length(x) - lambda * mu
+      lambda <- calc_lambda(x, Q)
+      phi <- -length(x) - lambda * Q
 
       p <- -1 / (phi + lambda * x)
 
@@ -111,41 +125,48 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
       return(p)
     }
     obs_p <- calc_obs_p(x)
-    null_p <- calc_null_p(x, mu)
+    null_p <- calc_null_p(x, Q)
 
     W <- 2 * (sum(log(obs_p)) - sum(log(null_p)))
     W <- pmax(W, 0) # underflow
     if (alternative != "two.sided") {
-      W <- sign(mean(x) - mu) * W^.5
+      W <- sign(mean(x) - Q) * W^.5
     }
     return(W)
   }
 
-  calc_CI <- function(x, alternative, conf.level) {
+  calc_CI <- function(x, Q, alternative, conf.level) {
     alpha <- 1 - conf.level
 
     calc_left_side_CI <- function(alpha) {
       helper <- function(param) {
-        W <- calc_test_stat(x, param, "less")
+        W <- calc_test_stat(x, Q, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
       LB <- min(x) + .01
       UB <- max(x) - .01
 
-      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
+      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
+      out <- out$root - out$estim.prec
+      out <- max(x[which(x <= out)])
+
+
       return(out)
     }
     calc_right_side_CI <- function(alpha) {
       helper <- function(param) {
-        W <- calc_test_stat(x, param, "less")
+        W <- calc_test_stat(x, Q, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
       LB <- min(x) + .01
       UB <- max(x) - .01
 
-      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
+      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
+      out <- out$root + out$estim.prec
+      out <- max(x[which(x <= out)])
+
 
       return(out)
     }
@@ -162,7 +183,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
     return(CI)
   }
 
-  W <- calc_test_stat(x, mu, alternative)
+  W <- calc_test_stat(x, Q, value, alternative)
 
   # calculate p value
   if (alternative == "two.sided") {
@@ -173,7 +194,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
     p.value <- stats::pnorm(q = W, lower.tail = FALSE)
   }
 
-  CI <- calc_CI(x, alternative, conf.level)
+  CI <- calc_CI(x, Q, alternative, conf.level)
 
   out <- list(statistic = W, p.value = p.value, conf.int = CI, conf.level = conf.level, alternative = alternative)
   class(out) <- c("one_sample_case_three", "lrtest")
@@ -181,10 +202,11 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   return(out)
 }
 
-#' Test the equality of means of an unknown distribution.
+#' Test the equality of a quantile from an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.
+#' @param Q The quantile. A single numeric number. (.50 is median.)
 #' @inherit gaussian_mu_one_way return
 #' @inherit empirical_mu_one_sample source
 #' @examples
@@ -195,21 +217,30 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
 #' x <- rnorm(75, 1, 1)
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_mu_one_way(x, fctr, .95)
+#' empirical_quantile_one_way(x, .50, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(25, 1, 1), rnorm(25, 2, 1), rnorm(25, 3, 1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_mu_one_way(x, fctr, .95)
+#' empirical_quantile_one_way(x, .50, fctr, .95)
 #' @export
-empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
+empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
   if (!is.numeric(x)) {
     stop("Argument x should be numeric.")
+  }
+  if (length(Q) != 1) {
+    stop("The Q parameter should have length one.")
+  }
+  if (!is.numeric(Q)) {
+    stop("The Q parameter should be numeric.")
+  }
+  if (Q <= 0 || Q >= 1) {
+    stop("Q should between zero and one.")
   }
   if (length(fctr) != length(x)) {
     stop("Argument fctr should have same length as x.")
@@ -230,7 +261,10 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     stop("conf.level should between zero and one.")
   }
 
-  calc_test_stat <- function(x, mu, alternative) {
+  calc_test_stat <- function(x, Q, fctr) {
+    value <- as.numeric(stats::quantile(x, Q))
+    x <- ifelse(x <= value, 1, 0)
+
     calc_null_p <- function(x, fctr) {
       calc_lambdas <- function(x) {
         g <- function(lambda, level) {
@@ -302,7 +336,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     return(W)
   }
 
-  W <- calc_test_stat(x, fctr)
+  W <- calc_test_stat(x, Q, fctr)
 
   # Under null, 1 parameter (overall value) is allowed to vary
   # Under alternative, parameter for each group is allowed to vary
@@ -320,7 +354,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    tempCI <- LRTesteR::empirical_mu_one_sample(tempX, mean(tempX), "two.sided", individual.conf.level)
+    tempCI <- empirical_quantile_one_sample(tempX, Q, mean(tempX), "two.sided", individual.conf.level)
     tempCI <- tempCI$conf.int
     CI[[l]] <- tempCI
   }
