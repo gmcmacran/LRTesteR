@@ -133,7 +133,7 @@ gamma_shape_one_way(x = x, fctr = fctr, conf.level = .95)
 
 # Example 4: Empirical Likelihood
 
-The empirical likelihood test does not require any distributional
+The empirical likelihood tests do not require any distributional
 assumptions and work with less data.
 
 ``` r

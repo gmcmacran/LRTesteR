@@ -15,7 +15,8 @@ knitr::opts_chunk$set(
 ```
 
 ## Empirical Likelihood Tests
-"Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample, and as a likelihood without parametric assumptions." Owen 2001.
+
+Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample and as a likelihood without parametric assumptions. (Owen 2001)
 
 ## Tests For Mu
 
@@ -45,7 +46,7 @@ empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
 
 ## Tests For A Quantile
 
-Any quantile can be tested. In this example, the null hypothesis is 1 (value argument) is the median (Q argument).
+Any quantile can be tested. In this example, the null hypothesis the median (Q argument) is 1 (value argument).
 
 ```{r part3}
 set.seed(1)
