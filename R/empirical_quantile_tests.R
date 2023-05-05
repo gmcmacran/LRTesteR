@@ -70,6 +70,7 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
   }
 
   calc_test_stat <- function(x, Q, value, alternative) {
+    Q <- 1 - Q
     x <- ifelse(x > value, 1, 0)
 
     calc_obs_p <- function(x) {
@@ -144,7 +145,7 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
         return(out)
       }
       LB <- min(x) + .01
-      UB <- stats::median(x)
+      UB <- max(x) - .01
 
       out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
       out <- out$root - out$estim.prec
@@ -159,7 +160,7 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      LB <- stats::median(x)
+      LB <- min(x) + .01
       UB <- max(x) - .01
 
       out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
