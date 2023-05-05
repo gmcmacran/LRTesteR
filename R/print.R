@@ -27,7 +27,7 @@ print.lrtest <- function(x, ...) {
     CIs <- x$conf.ints
     print(paste("Confidence Level Of Set: ", round(x[["overall.conf"]][1], 3) * 100, "%", sep = ""))
     print(paste("Individual Confidence Level: ", round(x[["individ.conf"]][1], 3) * 100, "%", sep = ""))
-    for (i in seq_along(levels(CIs))) {
+    for (i in seq(1, length(CIs), 1)) {
       print(paste("Confidence Interval For Group ", names(CIs)[i], ": (", round(CIs[[i]][1], 3), ", ", round(CIs[[i]][2], 3), ")", sep = ""))
     }
   }
