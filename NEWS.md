@@ -1,3 +1,6 @@
+# LRTesteR 1.1.0
+* Add one sample and one way empirical quantile likelihood tests.
+
 # LRTesteR 1.0.2
 * Add one sample and one way empirical mean likelihood tests.
 
