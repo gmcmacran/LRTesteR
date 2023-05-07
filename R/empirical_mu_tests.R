@@ -187,6 +187,11 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
 #' @param x a numeric vector.
 #' @inherit gaussian_mu_one_way return
 #' @inherit empirical_mu_one_sample source
+#' @details
+#' \itemize{
+#' \item Null: All mus are equal. (mu1 = mu2 ... muk).
+#' \item Alternative: At least one mu is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
