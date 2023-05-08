@@ -9,6 +9,11 @@
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 #' }
+#' @details
+#' For confidence intervals, an endpoint may be outside the observed range of x.
+#' In this case, NA is returned. Reducing confidence or collecting more data
+#' will make the CI computable.
+#'
 #' @examples
 #' library(LRTesteR)
 #'
@@ -147,9 +152,13 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
       LB <- min(x) + .01
       UB <- max(x) - .01
 
-      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
-      out <- out$root - out$estim.prec
-      out <- max(x[which(x <= out)])
+      if (sign(helper(LB)) != sign(helper(UB))) {
+        out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
+        out <- out$root - out$estim.prec
+        out <- max(x[which(x <= out)])
+      } else {
+        out <- NA_real_
+      }
 
 
       return(out)
@@ -163,9 +172,13 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
       LB <- min(x) + .01
       UB <- max(x) - .01
 
-      out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
-      out <- out$root + out$estim.prec
-      out <- max(x[which(x <= out)])
+      if (sign(helper(LB)) != sign(helper(UB))) {
+        out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
+        out <- out$root + out$estim.prec
+        out <- max(x[which(x <= out)])
+      } else {
+        out <- NA_real_
+      }
 
 
       return(out)
@@ -209,6 +222,11 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
 #' @param Q The quantile. A single numeric number. (.50 is median.)
 #' @inherit gaussian_mu_one_way return
 #' @inherit empirical_mu_one_sample source
+#' @details
+#' \itemize{
+#' \item Null: Quantile are equal. (Q1 = Q2 ... Qk).
+#' \item Alternative: At least one quantile is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
@@ -354,7 +372,7 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    tempCI <- empirical_quantile_one_sample(tempX, Q, mean(tempX), "two.sided", individual.conf.level)
+    tempCI <- empirical_quantile_one_sample(tempX, Q, as.numeric(stats::quantile(x, Q)), "two.sided", individual.conf.level)
     tempCI <- tempCI$conf.int
     CI[[l]] <- tempCI
   }

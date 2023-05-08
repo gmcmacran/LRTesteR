@@ -29,6 +29,12 @@ hypothesis.
 \description{
 Test the equality of a quantile from an unknown distribution.
 }
+\details{
+\itemize{
+\item Null: Quantile are equal. (Q1 = Q2 ... Qk).
+\item Alternative: At least one quantile is not equal.
+}
+}
 \examples{
 library(LRTesteR)
 

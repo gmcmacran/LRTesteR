@@ -36,6 +36,11 @@ hypothesis.
 \description{
 Test a quantile of an unknown distribution.
 }
+\details{
+For confidence intervals, an endpoint may be outside the observed range of x.
+In this case, NA is returned. Reducing confidence or collecting more data
+will make the CI computable.
+}
 \examples{
 library(LRTesteR)
 

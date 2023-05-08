@@ -27,6 +27,12 @@ hypothesis.
 \description{
 Test the equality of means of an unknown distribution.
 }
+\details{
+\itemize{
+\item Null: All mus are equal. (mu1 = mu2 ... muk).
+\item Alternative: At least one mu is not equal.
+}
+}
 \examples{
 library(LRTesteR)
 
