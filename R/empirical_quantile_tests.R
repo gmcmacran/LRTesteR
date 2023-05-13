@@ -83,6 +83,12 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
       return(p)
     }
     calc_null_p <- function(x, Q) {
+      # Lambda is calculated two ways.
+      # The first way works well most of the time. Sometimes, the range is
+      # expanded too much in uniroot's extendInt = "yes". If this happens,
+      # a secondary problem is optimized.
+      # 1 comes from In All Likelihood book.
+      # 2 comes from Empirical Likelihood book.
       calc_lambda <- function(x, Q) {
         g <- function(lambda) {
           numerator <- x - Q
@@ -116,12 +122,45 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
 
         return(lambda)
       }
+      calc_lambda_two <- function(x, Q) {
+        g <- function(lambda) {
+          numerator <- x - Q
+          denominator <- 1 + lambda * (x - Q)
+          # dropped 1 divided by n
+          # Should reduce floating point issues when x is large.
+          # Searching for zero, so same zero will be found.
+          # Just scales the objective function up.
+          out <- sum(numerator / denominator)
+          return(out)
+        }
+        n <- length(x)
+        if (Q != mean(x)) {
+          LB <- (1 - 1 / n) / (Q - max(x))
+          UB <- (1 - 1 / n) / (Q - min(x))
+
+          if (g(LB) == 0) {
+            lambda <- LB
+          } else if (g(UB) == 0) {
+            lambda <- UB
+          } else {
+            lambda <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
+          }
+        } else {
+          lambda <- 0
+        } # null's Q is xbar
+
+        return(lambda)
+      }
 
       lambda <- calc_lambda(x, Q)
       phi <- -length(x) - lambda * Q
 
       p <- -1 / (phi + lambda * x)
 
+      if (min(p) < 0 || max(p) > 1 || sum(p) != 1) {
+        lambda <- calc_lambda_two(x, Q)
+        p <- 1 / (1 + lambda * (x - Q)) * (1 / length(x))
+      }
       # division by near zero numbers can cause -Inf and Inf
       # underflow
       p <- pmax(p, .Machine$double.eps)
@@ -224,7 +263,7 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
 #' @inherit empirical_mu_one_sample source
 #' @details
 #' \itemize{
-#' \item Null: Quantile are equal. (Q1 = Q2 ... Qk).
+#' \item Null: Quantiles are equal. (Q1 = Q2 ... Qk).
 #' \item Alternative: At least one quantile is not equal.
 #' }
 #' @examples
