@@ -64,6 +64,12 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
       return(p)
     }
     calc_null_p <- function(x, mu) {
+      # Lambda is calculated two ways.
+      # The first way works well most of the time. Sometimes, the range is
+      # expanded too much in uniroot's extendInt = "yes". If this happens,
+      # a secondary problem is optimized.
+      # 1 comes from In All Likelihood book.
+      # 2 comes from Empirical Likelihood book.
       calc_lambda <- function(x, mu) {
         g <- function(lambda) {
           numerator <- x - mu
@@ -97,11 +103,45 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
 
         return(lambda)
       }
+      calc_lambda_two <- function(x, mu) {
+        g <- function(lambda) {
+          numerator <- x - mu
+          denominator <- 1 + lambda * (x - mu)
+          # dropped 1 divided by n
+          # Should reduce floating point issues when x is large.
+          # Searching for zero, so same zero will be found.
+          # Just scales the objective function up.
+          out <- sum(numerator / denominator)
+          return(out)
+        }
+        n <- length(x)
+        if (mu != mean(x)) {
+          LB <- (1 - 1 / n) / (mu - max(x))
+          UB <- (1 - 1 / n) / (mu - min(x))
+
+          if (g(LB) == 0) {
+            lambda <- LB
+          } else if (g(UB) == 0) {
+            lambda <- UB
+          } else {
+            lambda <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
+          }
+        } else {
+          lambda <- 0
+        } # null's mu is xbar
+
+        return(lambda)
+      }
 
       lambda <- calc_lambda(x, mu)
       phi <- -length(x) - lambda * mu
 
       p <- -1 / (phi + lambda * x)
+
+      if (min(p) < 0 || max(p) > 1 || sum(p) != 1) {
+        lambda <- calc_lambda_two(x, mu)
+        p <- 1 / (1 + lambda * (x - mu)) * (1 / length(x))
+      }
 
       # division by near zero numbers can cause -Inf and Inf
       # underflow
