@@ -1,5 +1,6 @@
-# LRTesteR 1.1.0
+# LRTesteR 1.2.0
 * Add one sample and one way empirical quantile likelihood tests.
+* Added a second objective optimization function to empirical mu test.
 
 # LRTesteR 1.0.2
 * Add one sample and one way empirical mean likelihood tests.

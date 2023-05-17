@@ -150,10 +150,10 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 
 As implemented, all functions depend on the
 ![\chi^2](https://latex.codecogs.com/png.image?%5Cdpi%7B110%7D&space;%5Cbg_white&space;%5Cchi%5E2 "\chi^2")
-approximation. To get a sense of performance, lets compare the
-likelihood method to the exact method. Here, X is normally distributed
-with mu equal to 3 and standard deviation equal to 2. The two intervals
-are similar.
+approximation. To get a sense of accuracy of this approximation, lets
+compare the likelihood method to the exact method. X is normally
+distributed with mu equal to 3 and standard deviation equal to 2. The
+two intervals are similar.
 
 ``` r
 set.seed(1)
@@ -166,8 +166,7 @@ likelihoodTest$conf.int
 #> [1] 2.735731 3.666063
 ```
 
-Lets compare tests for variance. Again, confidence intervals are
-similar.
+The confidence intervals for variance are similar as well.
 
 ``` r
 sigma2 <- 1.5^2 # Variance, not standard deviation.
@@ -179,8 +178,8 @@ likelihoodTest$conf.int
 #> [1] 1.875392 4.121238
 ```
 
-Changing to p for a binomial distribution, the confidence intervals are
-similar yet again.
+Changing to p for a binomial random variable, the confidence intervals
+are similar yet again.
 
 ``` r
 exactTest <- stats::binom.test(x = 10, n = 50,  p = .50, alternative = "two.sided", conf.level = .95)
