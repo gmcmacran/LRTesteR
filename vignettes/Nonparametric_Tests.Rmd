@@ -46,23 +46,23 @@ empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
 
 ## Tests For A Quantile
 
-Any quantile can be tested. In this example, the null hypothesis the median (Q argument) is 1 (value argument).
+Any quantile can be tested. In this example, the null hypothesis is the median (Q equal to .50) is 0 (value argument).
 
 ```{r part3}
-set.seed(1)
-x <- rnorm(n = 30, mean = 0, sd = 2)
-empirical_quantile_one_sample(x = x, Q = .50, value = 1, alternative = "two.sided")
+set.seed(2)
+x <- rnorm(n = 30, mean = 0, sd = 1)
+empirical_quantile_one_sample(x = x, Q = .50, value = 0, alternative = "two.sided")
 ```
 Other quantiles can be tested as well. 
 
 ```{r part4}
 # Q1
-empirical_quantile_one_sample(x = x, Q = .25, value = -1, alternative = "two.sided")
+empirical_quantile_one_sample(x = x, Q = .25, value = 0, alternative = "two.sided")
 ```
 
 ```{r part5}
 # Q3
-empirical_quantile_one_sample(x = x, Q = .75, value = 1, alternative = "two.sided")
+empirical_quantile_one_sample(x = x, Q = .75, value = 0, alternative = "two.sided")
 ```
 
 
@@ -79,3 +79,4 @@ fctr <- c(rep(1, 35), rep(2, 40), rep(3, 45))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 empirical_quantile_one_way(x = x, Q = .50, fctr = fctr)
 ```
+Note sample size does not have to be equal.
