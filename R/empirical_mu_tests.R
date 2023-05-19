@@ -54,7 +54,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   if (!is.numeric(conf.level)) {
     stop("conf.level should be numeric.")
   }
-  if (conf.level <= 0 | conf.level >= 1) {
+  if (conf.level <= 0 || conf.level >= 1) {
     stop("conf.level should between zero and one.")
   }
 
