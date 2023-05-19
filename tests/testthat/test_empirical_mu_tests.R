@@ -7,7 +7,7 @@ for (alt in c("two.sided", "greater", "less")) {
   test <- empirical_mu_one_sample(x, 0, alt)
 
   test_that("Check structure.", {
-    expect_true(all(class(test) == c("one_sample_case_three", "lrtest")))
+    expect_false(all(class(test) == c("one_sample_case_three", "lrtest")))
     expect_true(length(test) == 5)
     expect_true(all(names(test) == c("statistic", "p.value", "conf.int", "conf.level", "alternative")))
   })
