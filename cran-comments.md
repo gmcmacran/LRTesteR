@@ -10,5 +10,4 @@
 0 errors | 0 warnings | 0 note
 
 ## Main updates
-Add empirical likelihood tests
-Split function factory into two files. (case_one and case_two)
+Add empirical quantile tests.
