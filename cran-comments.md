@@ -3,7 +3,6 @@
 * R Release on macOS (github actions)
 * R Release on ubuntu (github actions)
 * R devel on ubuntu (github actions)
-* R devel on windows (win-builder)
 
 ## R CMD check results
 
