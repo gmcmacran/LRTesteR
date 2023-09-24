@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 ```
 # LRTesteR Overview
 <!-- badges: start -->
-[![R build status](https://github.com/gmcmacran/LRTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/LRTesteR/actions)
+[![R-CMD-check](https://github.com/gmcmacran/LRTesteR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/gmcmacran/LRTesteR/actions/workflows/R-CMD-check.yaml)
 [![CRAN status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
@@ -26,7 +26,7 @@ Estimated asymptotic type I and type II error rates can be found [here](https://
 
 * Empirical Likelihood
   + mean
-  + quantile
+  + quantile 
   
 # Parametric Tests and Confidence Intervals
 Parametric tests require a sample size of at least 50. 

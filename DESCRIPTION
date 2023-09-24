@@ -1,6 +1,6 @@
 Package: LRTesteR
 Title: Likelihood Ratio Tests and Confidence Intervals
-Version: 1.1.0
+Version: 1.1.1
 Author: Greg McMahan
 Maintainer: Greg McMahan <gmcmacran@gmail.com>
 Description: A collection of hypothesis tests and confidence intervals based on the likelihood ratio
