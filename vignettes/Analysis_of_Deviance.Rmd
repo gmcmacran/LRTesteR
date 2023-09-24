@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 
 # Classic One-Way ANOVA
 
-As an introduction, lets start with one way ANOVA. Here three random variables following a normal distribution with a common standard deviation are created. For this test, the null hypothesis is 
+As an introduction, lets start with one way ANOVA. Here three random variables following a normal distribution with a common standard deviation are created. For this test, the null hypothesis is
 
 $$ H_{0}: \mu_0 = \mu_1 = \mu_2  $$
 

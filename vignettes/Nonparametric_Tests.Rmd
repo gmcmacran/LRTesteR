@@ -20,7 +20,7 @@ Empirical likelihood is a nonparametric method of inference based on a data driv
 
 ## Tests For Mu
 
-One sample and one-way tests are implemented. Note the distribution does not need to be symmetrical and less data is needed.
+One sample and one-way tests are implemented. Note the distribution does not need to be symmetrical and less data is needed. 
 
 ```{r part1}
 library(LRTesteR)
