@@ -7,6 +7,8 @@
 
 [![R build
 status](https://github.com/gmcmacran/LRTesteR/workflows/R-CMD-check/badge.svg)](https://github.com/gmcmacran/LRTesteR/actions)
+[![Codecov test
+coverage](https://codecov.io/gh/gmcmacran/LRTesteR/branch/main/graph/badge.svg)](https://app.codecov.io/gh/gmcmacran/LRTesteR?branch=main)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
