@@ -1,3 +1,9 @@
+# This function is tested indirectly when hypothesis test functions is called.
+# Coverage is incorrectly considered zero b/c it is not called by name.
+# Is used referred to as calc_test_stat.
+# This is repeated for all calc_test_stat_<specific_case> functions.
+#
+# nocov start
 #' @keywords internal
 calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
   get_MLEs <- function(x) {
@@ -61,6 +67,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 
   return(W)
 }
+# nocov end
 
 #' Test the shape1 parameter of a beta distribution.
 #'
@@ -83,6 +90,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 #' @export
 beta_shape1_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape1, shape1, 0)
 
+# nocov start
 #' @keywords internal
 calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
   get_MLEs <- function(x) {
@@ -145,6 +153,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 
   return(W)
 }
+# nocov end
 
 #' Test the shape2 parameter of a beta distribution.
 #'
@@ -167,6 +176,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 #' @export
 beta_shape2_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape2, shape2, 0)
 
+# nocov start
 #' @keywords internal
 calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   # null
@@ -264,6 +274,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 
   return(W)
 }
+# nocov end
 
 #' Test the equality of shape 1 parameters of beta distributions.
 #'
@@ -294,6 +305,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' @export
 beta_shape1_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample)
 
+# nocov start
 calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # null
   get_MLEs <- function(x) {
@@ -388,6 +400,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 
   return(W)
 }
+# nocov end
 
 #' Test the equality of shape 2 parameters of beta distributions.
 #'
