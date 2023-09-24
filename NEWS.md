@@ -1,4 +1,8 @@
-# LRTesteR 1.2.0
+# LRTesteR 1.1.1
+* Remove "[1] " from print method.
+* Update github actions.
+
+# LRTesteR 1.1.0
 * Add one sample and one way empirical quantile likelihood tests.
 * Added a second objective optimization function to empirical mu test.
 
