@@ -5,6 +5,7 @@ linters: linters_with_defaults(
  object_length_linter = NULL,
  object_name_linter = NULL,
  object_usage_linter = NULL,
+ indentation_linter = NULL,
  duplicate_argument_linter = duplicate_argument_linter(),
  equals_na_linter = equals_na_linter(),
  namespace_linter = namespace_linter(),
