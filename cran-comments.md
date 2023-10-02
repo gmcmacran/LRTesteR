@@ -9,4 +9,4 @@
 0 errors | 0 warnings | 0 note
 
 ## Main updates
-Add empirical quantile tests.
+Better print method and update github actions.
