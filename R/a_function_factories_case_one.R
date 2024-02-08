@@ -88,8 +88,8 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
   names(args)[2] <- rlang::as_string(p0)
 
   body <- rlang::expr({
-    if (length(x) < 50) {
-      stop("Argument x should have at least 50 data points.")
+    if (length(x) < 2) {
+      stop("Argument x should have at least 2 data points.")
     }
     if (!is.numeric(x)) {
       stop("Argument x should be numeric.")
@@ -192,8 +192,8 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
   args <- rlang::pairlist2(x = , fctr = , conf.level = 0.95)
 
   body <- rlang::expr({
-    if (length(x) < 50) {
-      stop("Argument x should have at least 50 data points.")
+    if (length(x) < 2) {
+      stop("Argument x should have at least 2 data points.")
     }
     if (!is.numeric(x)) {
       stop("Argument x should be numeric.")
@@ -207,8 +207,8 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     if (length(base::unique(fctr)) < 2) {
       stop("Argument fctr should have at least two unique values.")
     }
-    if (any(as.vector(by(x, fctr, length)) < 50)) {
-      stop("Each groups needs to contain at least 50 points for CIs to be accurate.")
+    if (any(as.vector(by(x, fctr, length)) < 2)) {
+      stop("Each groups needs to contain at least 2 points for CIs to be accurate.")
     }
     if (length(conf.level) != 1) {
       stop("conf.level should have length one.")
