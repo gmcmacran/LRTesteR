@@ -46,6 +46,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
     }
 
     profile_shape2 <- stats::optim(MLE, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    profile_shape2 <- pmax(profile_shape2, .Machine$double.eps) # Per pdf definition, parameter must be positive.
 
     return(profile_shape2)
   }
@@ -130,6 +131,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
     }
 
     profile_shape1 <- stats::optim(MLE, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    profile_shape1 <- pmax(profile_shape1, .Machine$double.eps) # Per pdf definition, parameter must be positive.
 
     return(profile_shape1)
   }
