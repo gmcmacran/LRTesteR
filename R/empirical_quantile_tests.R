@@ -423,7 +423,7 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    tempCI <- empirical_quantile_one_sample(tempX, Q, as.numeric(stats::quantile(x, Q)), "two.sided", individual.conf.level)
+    tempCI <- empirical_quantile_one_sample(tempX, Q, as.numeric(stats::quantile(tempX, Q)), "two.sided", individual.conf.level)
     tempCI <- tempCI$conf.int
     CI[[l]] <- tempCI
   }
