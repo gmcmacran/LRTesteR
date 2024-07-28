@@ -2,6 +2,7 @@
 * Remove "[1] " from print method.
 * Update github actions.
 * Handle edge case in one way empirical quantile likelihood test
+* Reduce sample size needed per test.
 
 # LRTesteR 1.1.0
 * Add one sample and one way empirical quantile likelihood tests.
