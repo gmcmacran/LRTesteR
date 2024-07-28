@@ -160,7 +160,7 @@ test_that("success input checking works", {
   expect_error(negative_binomial_p_one_sample(1, c(5, 4)), "Second argument should have length 1.")
   expect_error(negative_binomial_p_one_sample(1, 2.5), "Second argument should be an integer.")
   expect_error(negative_binomial_p_one_sample(1, -1), "Second argument should be 0 or above.")
-  expect_error(negative_binomial_p_one_sample(1, 10), "At least 50 trials should be done for likelihood ratio test.")
+  expect_error(negative_binomial_p_one_sample(1, 10), "num_failures plus num_successes should be at least 30 for likelihood ratio test.")
   expect_error(negative_binomial_p_one_sample(50, 0), "There must be at least one success.")
 })
 
@@ -256,7 +256,7 @@ test_that("Second argument input checking works", {
   expect_error(negative_binomial_p_one_way(10, "foo"), "Second argument should be numeric.")
   expect_error(negative_binomial_p_one_way(10, 1.5), "Second argument should only contain integers.")
   expect_error(negative_binomial_p_one_way(10, -1L), "All elements in second argument should be 0 or above.")
-  expect_error(negative_binomial_p_one_way(10, 39), "At least 50 trials should be done for likelihood ratio test.")
+  expect_error(negative_binomial_p_one_way(10, 39), "num_failures plus num_successes should be at least 60 for likelihood ratio test.")
 })
 
 

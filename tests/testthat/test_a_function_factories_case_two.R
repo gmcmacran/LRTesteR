@@ -1,22 +1,9 @@
 ###############################################
 # Test Results
 ###############################################
-calc_MLE <- function(arg1, arg2) {
-  ops_p <- arg1 / arg2
-  return(ops_p)
-}
+calc_MLE <- calc_MLE_binomial_p
 
-calc_test_stat <- function(arg1, arg2, p, alternative) {
-  obs_p <- calc_MLE(arg1, arg2)
-  W <- 2 * (sum(stats::dbinom(x = arg1, size = arg2, p = obs_p, log = TRUE)) -
-    sum(stats::dbinom(x = arg1, size = arg2, p = p, log = TRUE)))
-
-  if (alternative != "two.sided") {
-    W <- sign(obs_p - p) * W^.5
-  }
-
-  return(W)
-}
+calc_test_stat <- calc_test_stat_binomial_p
 
 f <- LRTesteR:::create_test_function_one_sample_case_two(calc_MLE, calc_test_stat, x, n)
 test_that("Check structure.", {

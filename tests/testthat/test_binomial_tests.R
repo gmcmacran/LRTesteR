@@ -120,7 +120,7 @@ test_that("n input checking works", {
   expect_error(binomial_p_one_sample(1, c(5, 4)), "Second argument should have length 1.")
   expect_error(binomial_p_one_sample(1, 2.5), "Second argument should be an integer.")
   expect_error(binomial_p_one_sample(1, -1), "Second argument should be 0 or above.")
-  expect_error(binomial_p_one_sample(1, 10), "At least 50 trials should be done for likelihood ratio test.")
+  expect_error(binomial_p_one_sample(1, 10), "At least 25 trials should be done for likelihood ratio test.")
   expect_error(binomial_p_one_sample(55, 50), "Argument x cannot be larger than n.")
 })
 
