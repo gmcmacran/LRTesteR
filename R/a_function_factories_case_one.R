@@ -207,8 +207,8 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
   if (!is.numeric(n_min)) {
     stop("n_min should be numeric.")
   }
-  if (n_min <= 4) {
-    stop("n_min should be greater than four.")
+  if (n_min <= 3) {
+    stop("n_min should be greater than three.")
   }
 
   # Build function

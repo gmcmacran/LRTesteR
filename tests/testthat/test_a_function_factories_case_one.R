@@ -76,5 +76,5 @@ rm(helper_one, helper_two, helper_three, helper_four)
 test_that("n_min input checking works", {
   expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample, "asdf"), "n_min should be numeric.")
   expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample, c(1, 2)), "n_min should have length one.")
-  expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample, -2), "n_min should be greater than four.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample, -2), "n_min should be greater than three.")
 })
