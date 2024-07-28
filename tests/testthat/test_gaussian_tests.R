@@ -114,8 +114,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gaussian_mu_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(gaussian_mu_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(gaussian_mu_one_sample(c()), "Argument x should have at least 15 data points.")
+  expect_error(gaussian_mu_one_sample(rep("foo", 15)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -254,8 +254,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gaussian_variance_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(gaussian_variance_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(gaussian_variance_one_sample(c()), "Argument x should have at least 45 data points.")
+  expect_error(gaussian_variance_one_sample(rep("foo", 45)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -352,8 +352,8 @@ rm(CI1, CI2, dat, model_00, model_01)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gaussian_mu_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(gaussian_mu_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(gaussian_mu_one_way(c()), "Argument x should have at least 30 data points.")
+  expect_error(gaussian_mu_one_way(rep("foo", 30)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -365,7 +365,7 @@ test_that("fctr input checking works", {
   expect_error(gaussian_mu_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(gaussian_mu_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(gaussian_mu_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(gaussian_mu_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(gaussian_mu_one_way(x, fctr2), "Each level in fctr needs to be present.")
 })
 rm(fctr1, fctr2)
 
@@ -444,8 +444,8 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gaussian_variance_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(gaussian_variance_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(gaussian_variance_one_way(c()), "Argument x should have at least 90 data points.")
+  expect_error(gaussian_variance_one_way(rep("foo", 90)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -457,7 +457,7 @@ test_that("fctr input checking works", {
   expect_error(gaussian_variance_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(gaussian_variance_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(gaussian_variance_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(gaussian_variance_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(gaussian_variance_one_way(x, fctr2), "Each level in fctr needs to be present.")
 })
 rm(fctr1, fctr2)
 

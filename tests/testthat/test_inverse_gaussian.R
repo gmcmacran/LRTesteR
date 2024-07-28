@@ -114,8 +114,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(inverse_gaussian_mu_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(inverse_gaussian_mu_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(inverse_gaussian_mu_one_sample(c()), "Argument x should have at least 35 data points.")
+  expect_error(inverse_gaussian_mu_one_sample(rep("foo", 35)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -247,8 +247,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(inverse_gaussian_shape_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(inverse_gaussian_shape_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(inverse_gaussian_shape_one_sample(c()), "Argument x should have at least 35 data points.")
+  expect_error(inverse_gaussian_shape_one_sample(rep("foo", 35)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -390,8 +390,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(inverse_gaussian_dispersion_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(inverse_gaussian_dispersion_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(inverse_gaussian_dispersion_one_sample(c()), "Argument x should have at least 35 data points.")
+  expect_error(inverse_gaussian_dispersion_one_sample(rep("foo", 35)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -491,8 +491,8 @@ rm(CI1, CI2, dat, model_00, model_01)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(inverse_gaussian_mu_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(inverse_gaussian_mu_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(inverse_gaussian_mu_one_way(c()), "Argument x should have at least 70 data points.")
+  expect_error(inverse_gaussian_mu_one_way(rep("foo", 70)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -504,7 +504,7 @@ test_that("fctr input checking works", {
   expect_error(inverse_gaussian_mu_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(inverse_gaussian_mu_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(inverse_gaussian_mu_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(inverse_gaussian_mu_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(inverse_gaussian_mu_one_way(x, fctr2), "Each level in fctr needs to be present.")
 })
 rm(fctr1, fctr2)
 
@@ -582,8 +582,8 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(inverse_gaussian_shape_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(inverse_gaussian_shape_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(inverse_gaussian_shape_one_way(c()), "Argument x should have at least 70 data points.")
+  expect_error(inverse_gaussian_shape_one_way(rep("foo", 70)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -595,7 +595,7 @@ test_that("fctr input checking works", {
   expect_error(inverse_gaussian_shape_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(inverse_gaussian_shape_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(inverse_gaussian_shape_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(inverse_gaussian_shape_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(inverse_gaussian_shape_one_way(x, fctr2), "Each level in fctr needs to be present.")
 })
 rm(fctr1, fctr2)
 
@@ -679,8 +679,8 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(inverse_gaussian_dispersion_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(inverse_gaussian_dispersion_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(inverse_gaussian_dispersion_one_way(c()), "Argument x should have at least 70 data points.")
+  expect_error(inverse_gaussian_dispersion_one_way(rep("foo", 70)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -692,7 +692,7 @@ test_that("fctr input checking works", {
   expect_error(inverse_gaussian_dispersion_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(inverse_gaussian_dispersion_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(inverse_gaussian_dispersion_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(inverse_gaussian_dispersion_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(inverse_gaussian_dispersion_one_way(x, fctr2), "Each level in fctr needs to be present.")
 })
 rm(fctr1, fctr2)
 

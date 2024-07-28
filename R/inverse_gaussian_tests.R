@@ -59,7 +59,7 @@ calc_test_stat_inv_gauss_mu <- function(x, mu, alternative) {
 #' x <- rinvgauss(n = 100, mean = 3, shape = 2)
 #' inverse_gaussian_mu_one_sample(x, 1, "greater")
 #' @export
-inverse_gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu, mu, 0)
+inverse_gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu, mu, 35, 0)
 
 #' @keywords internal
 calc_test_inv_gauss_shape <- function(x, shape, alternative) {
@@ -114,7 +114,7 @@ calc_test_inv_gauss_shape <- function(x, shape, alternative) {
 #' x <- rinvgauss(n = 100, mean = 1, shape = 2)
 #' inverse_gaussian_shape_one_sample(x, 1, "greater")
 #' @export
-inverse_gaussian_shape_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_shape, shape, 0)
+inverse_gaussian_shape_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_shape, shape, 35, 0)
 
 #' @keywords internal
 calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
@@ -170,7 +170,7 @@ calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
 #' x <- rinvgauss(n = 100, mean = 1, dispersion = 2)
 #' inverse_gaussian_dispersion_one_sample(x, 1, "greater")
 #' @export
-inverse_gaussian_dispersion_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_dispersion, dispersion, 0)
+inverse_gaussian_dispersion_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_dispersion, dispersion, 35, 0)
 
 #' @keywords internal
 calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
@@ -261,7 +261,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' inverse_gaussian_mu_one_way(x, fctr, .95)
 #' @export
-inverse_gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu_one_way, inverse_gaussian_mu_one_sample)
+inverse_gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu_one_way, inverse_gaussian_mu_one_sample, 70)
 
 #' @keywords internal
 calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
@@ -354,7 +354,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' inverse_gaussian_shape_one_way(x, fctr, .95)
 #' @export
-inverse_gaussian_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_shape_one_way, inverse_gaussian_shape_one_sample)
+inverse_gaussian_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_shape_one_way, inverse_gaussian_shape_one_sample, 70)
 
 #' @keywords internal
 calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
@@ -449,4 +449,4 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' inverse_gaussian_dispersion_one_way(x, fctr, .95)
 #' @export
-inverse_gaussian_dispersion_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_dispersion_one_way, inverse_gaussian_dispersion_one_sample)
+inverse_gaussian_dispersion_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_dispersion_one_way, inverse_gaussian_dispersion_one_sample, 70)
