@@ -298,7 +298,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
         stop("num_failures plus num_successes should be at least 60 for likelihood ratio test.")
       }
     )
-    
+
     rangeCheck <- rlang::expr(
       if (any(!!arg2 < 1)) {
         stop("There must be at least one success in num_successes per group.")

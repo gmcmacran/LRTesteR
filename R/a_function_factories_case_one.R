@@ -29,7 +29,7 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, n_min, 
     stop("calc_test_stat has too many arguments.")
   }
   rm(args)
-  
+
   force(n_min)
   if (length(n_min) != 1) {
     stop("n_min should have length one.")
@@ -199,7 +199,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     stop("calc_individual_CI has too many arguments.")
   }
   rm(args)
-  
+
   force(n_min)
   if (length(n_min) != 1) {
     stop("n_min should have length one.")
@@ -276,7 +276,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     return(out)
   })
 
-  exec_globals <- list(calc_test_stat = calc_test_stat, calc_individual_CI = calc_individual_CI, n_min=n_min)
+  exec_globals <- list(calc_test_stat = calc_test_stat, calc_individual_CI = calc_individual_CI, n_min = n_min)
   exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
 
   f <- rlang::new_function(args, body, env = exec_env)
