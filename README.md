@@ -10,51 +10,8 @@
 status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio tests and associated confidence
-intervals for many common distributions. All functions match popular
-tests in R. If you are familiar with t.test and binom.test, you already
-know how to use these functions. All tests and confidence intervals rely
-on the $\chi^2$ approximation even when exact sampling distributions are
-known.
-
-Estimated asymptotic type I and type II error rates can be found
-[here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
-
-# Nonparametric Tests and Confidence Intervals
-
-- Empirical Likelihood
-  - mean
-  - quantile
-
-# Parametric Tests and Confidence Intervals
-
-Parametric tests require a sample size of at least 50.
-
-- Beta
-  - shape 1
-  - shape 2
-- Binomial
-  - p
-- Exponential
-  - rate
-- Gamma
-  - rate
-  - scale
-  - shape
-- Gaussian
-  - mu
-  - variance
-- Negative Binomial
-  - p
-- Poisson
-  - lambda
-- Cauchy
-  - location
-  - scale
-- Inverse Gaussian
-  - mean
-  - shape
-  - dispersion
+LRTesteR provides likelihood ratio tests and confidence intervals for
+many common distributions.
 
 # Example 1: Test lambda of a poisson distribution
 
@@ -148,8 +105,8 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 # The $\chi^2$ approximation
 
 As implemented, all functions depend on the $\chi^2$ approximation. To
-get a sense of accuracy of this approximation, lets compare the
-likelihood method to the exact method.
+get a sense of accuracy of this approximation, the likelihood tests are
+compared to the exact tests.
 
 X is normally distributed with mu equal to 3 and standard deviation
 equal to 2. The two intervals for $\mu$ are similar.
@@ -192,3 +149,6 @@ likelihoodTest$conf.int
 When exact methods are known, use them. The utility of the likelihood
 based approach is its generality. Many tests in this package don’t have
 other well known options.
+
+Estimated asymptotic type I and type II error rates can be found
+[here](https://github.com/gmcmacran/TypeOneTypeTwoSim).

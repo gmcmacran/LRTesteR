@@ -23,7 +23,7 @@ $$ H_{0}: \mu_0 = \mu_1 = \mu_2  $$
 ```{r part1}
 library(LRTesteR)
 
-set.seed(1)
+set.seed(123)
 x <- c(
   rnorm(n = 50, mean = 1, sd = 1),
   rnorm(n = 50, mean = 3, sd = 1),
@@ -33,14 +33,20 @@ fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 gaussian_mu_one_way(x = x, fctr = fctr, conf.level = 0.95)
 ```
+# Nonparametric One-Way ANOVA
 
+One-way analysis without assuming the data is normally distributed.
+
+```{r part2}
+empirical_mu_one_way(x = x, fctr = fctr, conf.level = 0.95)
+```
 
 # Cauchy Random Variables
 Here two random variables following a Cauchy distribution with a common location and different scales are created. For this test, the null hypothesis is 
 
 $$ H_{0}: \gamma_0 = \gamma_1  $$
 
-```{r part2}
+```{r part3}
 set.seed(1)
 x <- c(rcauchy(n = 50, location = 2, scale = 1), rcauchy(n = 50, location = 2, scale = 3))
 fctr <- c(rep(1, 50), rep(2, 50))
@@ -55,7 +61,7 @@ Here three poisson random variables with different lambdas are created. The null
 
 $$ H_{0}: \lambda_0 = \lambda_1 = \lambda_2  $$
 
-```{r part3}
+```{r part4}
 set.seed(1)
 x <- c(rpois(n = 50, lambda = 1), rpois(n = 50, lambda = 2), rpois(n = 50, lambda = 3))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
@@ -65,6 +71,4 @@ poisson_lambda_one_way(x = x, fctr = fctr, conf.level = 0.95)
 
 # Mathematical Details
 
-All one way tests have a null hypothesis the groups share a common value of the parameter. The alternative is at least one group's parameter is unequal to the others.  If the test involves a nuisance parameter, it is assumed equal across groups for parametric tests. Some parametric tests are more robust against violations of this assumption than others.
-
-All functions apply the Bonferroni correction to the set of confidence intervals. To have accurate coverage rates, each group requires 50 data points or more.
+All one way tests have a null hypothesis the groups share a common value of the parameter. The alternative is at least one group's parameter is unequal to the others.  If the test involves a nuisance parameter, it is assumed equal across groups for parametric tests. All functions apply the Bonferroni correction to the set of confidence intervals.
