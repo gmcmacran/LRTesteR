@@ -235,7 +235,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
       stop("Each level in fctr needs to be present.")
     }
     if (any(as.vector(by(x, fctr, length)) < 2)) {
-      msg <- stringr::str_c("Each groups needs to contain at least ", n_min, " data points for CIs to be accurate.")
+      msg <- stringr::str_c("Each groups needs to contain at least ", n_min / 2, " data points for CIs to be accurate.")
       stop(msg)
     }
     if (length(conf.level) != 1) {
