@@ -55,7 +55,11 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
 
   if (rlang::as_string(arg2) == "n") {
     # binomial case
-    sizeCheck <- rlang::expr(!!arg2 < 50)
+    sizeCheck <- rlang::expr(
+      if (!!arg2 < 25) {
+        stop("At least 25 trials should be done for likelihood ratio test.")
+      }
+    )
     rangeCheck <- rlang::expr(
       if (!!arg1 > !!arg2) {
         stop("Argument x cannot be larger than n.")
@@ -63,7 +67,11 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     )
   } else if (rlang::as_string(arg2) == "num_successes") {
     # negative binomial case
-    sizeCheck <- rlang::expr(!!arg1 + !!arg2 < 50)
+    sizeCheck <- rlang::expr(
+      if (sum(!!arg1 + !!arg2) < 30) {
+        stop("num_failures plus num_successes should be at least 30 for likelihood ratio test.")
+      }
+    )
     rangeCheck <- rlang::expr(
       if (!!arg2 < 1) {
         stop("There must be at least one success.")
@@ -172,9 +180,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     if (!!arg2 < 0) {
       stop("Second argument should be 0 or above.")
     }
-    if (!!sizeCheck) {
-      stop("At least 50 trials should be done for likelihood ratio test.")
-    }
+    !!sizeCheck
     !!rangeCheck
 
     if (!is.numeric(p)) {
@@ -275,7 +281,11 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
   arg2 <- rlang::sym(names(formals(calc_individual_CI))[2])
   if (rlang::as_string(arg2) == "n") {
     # binomial case
-    sizeCheck <- rlang::expr(sum(!!arg2) < 50)
+    sizeCheck <- rlang::expr(
+      if (sum(!!arg2) < 50) {
+        stop("At least 50 trials should be done for likelihood ratio test.")
+      }
+    )
     rangeCheck <- rlang::expr(
       if (any(!!arg1 > !!arg2)) {
         stop("No values in  x can be larger than values in n.")
@@ -283,7 +293,12 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     )
   } else if (rlang::as_string(arg2) == "num_successes") {
     # negative binomial case
-    sizeCheck <- rlang::expr(sum(!!arg1 + !!arg2) < 50)
+    sizeCheck <- rlang::expr(
+      if (sum(!!arg1 + !!arg2) < 60) {
+        stop("num_failures plus num_successes should be at least 60 for likelihood ratio test.")
+      }
+    )
+
     rangeCheck <- rlang::expr(
       if (any(!!arg2 < 1)) {
         stop("There must be at least one success in num_successes per group.")
@@ -327,9 +342,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     if (any(!!arg2 < 0)) {
       stop("All elements in second argument should be 0 or above.")
     }
-    if (!!sizeCheck) {
-      stop("At least 50 trials should be done for likelihood ratio test.")
-    }
+    !!sizeCheck
     !!rangeCheck
     if (length(fctr) != length(!!arg1)) {
       stop("Argument fctr should have same length as first argument.")

@@ -145,8 +145,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(beta_shape1_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(beta_shape1_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(beta_shape1_one_sample(c()), "Argument x should have at least 40 data points.")
+  expect_error(beta_shape1_one_sample(rep("foo", 40)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -277,8 +277,8 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(beta_shape2_one_sample(c()), "Argument x should have at least 50 data points.")
-  expect_error(beta_shape2_one_sample(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(beta_shape2_one_sample(c()), "Argument x should have at least 40 data points.")
+  expect_error(beta_shape2_one_sample(rep("foo", 40)), "Argument x should be numeric.")
 })
 
 set.seed(1)
@@ -363,22 +363,24 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(beta_shape1_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(beta_shape1_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(beta_shape1_one_way(c()), "Argument x should have at least 80 data points.")
+  expect_error(beta_shape1_one_way(rep("foo", 80)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 x <- rnorm(100)
 fctr1 <- factor(rep(1, 100), levels = c("1", "2", "3"))
 fctr2 <- factor(c(rep(1, 60), rep(2, 40)), levels = c("1", "2", "3"))
+fctr3 <- factor(c(rep(1, 60), rep(2, 39), 3), levels = c("1", "2", "3"))
 test_that("fctr input checking works", {
   expect_error(beta_shape1_one_way(x, "foo"), "Argument fctr should have same length as x.")
   expect_error(beta_shape1_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(beta_shape1_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(beta_shape1_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(beta_shape1_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(beta_shape1_one_way(x, fctr2), "Each level in fctr needs to be present.")
+  expect_error(beta_shape1_one_way(x, fctr3), "Each groups needs to contain at least 40 data points for CIs to be accurate.")
 })
-rm(fctr1, fctr2)
+rm(fctr1, fctr2, fctr3)
 
 fctr <- c(rep(1, 50), rep(2, 50))
 fctr <- factor(fctr, levels = c("1", "2"))
@@ -450,22 +452,24 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(beta_shape2_one_way(c()), "Argument x should have at least 50 data points.")
-  expect_error(beta_shape2_one_way(rep("foo", 50)), "Argument x should be numeric.")
+  expect_error(beta_shape2_one_way(c()), "Argument x should have at least 80 data points.")
+  expect_error(beta_shape2_one_way(rep("foo", 80)), "Argument x should be numeric.")
 })
 
 set.seed(1)
 x <- rnorm(100)
 fctr1 <- factor(rep(1, 100), levels = c("1", "2", "3"))
 fctr2 <- factor(c(rep(1, 60), rep(2, 40)), levels = c("1", "2", "3"))
+fctr3 <- factor(c(rep(1, 60), rep(2, 39), 3), levels = c("1", "2", "3"))
 test_that("fctr input checking works", {
   expect_error(beta_shape2_one_way(x, "foo"), "Argument fctr should have same length as x.")
   expect_error(beta_shape2_one_way(x, rep("foo", 100)), "Argument fctr should be a factor.")
   expect_error(beta_shape2_one_way(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(beta_shape2_one_way(x, fctr1), "Argument fctr should have at least two unique values.")
-  expect_error(beta_shape2_one_way(x, fctr2), "Each groups needs to contain at least 50 points for CIs to be accurate.")
+  expect_error(beta_shape2_one_way(x, fctr2), "Each level in fctr needs to be present.")
+  expect_error(beta_shape2_one_way(x, fctr3), "Each groups needs to contain at least 40 data points for CIs to be accurate.")
 })
-rm(fctr1, fctr2)
+rm(fctr1, fctr2, fctr3)
 
 fctr <- c(rep(1, 50), rep(2, 50))
 fctr <- factor(fctr, levels = c("1", "2"))

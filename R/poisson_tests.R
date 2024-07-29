@@ -32,7 +32,7 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
 #' x <- rpois(100, 2)
 #' poisson_lambda_one_sample(x, 1, "greater")
 #' @export
-poisson_lambda_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 0)
+poisson_lambda_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 15, 0)
 
 #' @keywords internal
 calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
@@ -89,4 +89,4 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' poisson_lambda_one_way(x, fctr, .95)
 #' @export
-poisson_lambda_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_one_sample)
+poisson_lambda_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_one_sample, 30)

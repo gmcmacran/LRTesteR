@@ -1,39 +1,6 @@
 #' @keywords internal
 calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
-  get_MLEs <- function(x) {
-    # starting points (method of moments)
-    xbar <- base::mean(x)
-    vbar <- stats::var(x)
-    C <- (xbar * (1 - xbar)) / vbar - 1
-    shape1_start <- xbar * C
-    shape2_start <- (1 - xbar) * C
-    MLE <- matrix(c(shape1_start, shape2_start), nrow = 2, ncol = 1, byrow = TRUE)
-    rm(xbar, vbar, C, shape1_start, shape2_start)
-
-    # newtons method
-    # page 9
-    tol <- 999
-    counter <- 0
-    while (tol > .00001 && counter <= 30) {
-      g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
-      g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
-      g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
-
-      dg1dshape1 <- base::trigamma(MLE[1]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.8
-      dg1dshape2 <- -1 * base::trigamma(MLE[1] + MLE[2]) # eq 2.9
-      dg2dshape2 <- base::trigamma(MLE[2]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.10
-      G <- matrix(c(dg1dshape1, dg1dshape2, dg1dshape2, dg2dshape2), nrow = 2, ncol = 2, byrow = TRUE)
-
-      MLE_new <- MLE - solve(G) %*% g
-      tol <- max(abs(MLE - MLE_new))
-      counter <- counter + 1
-      MLE <- MLE_new
-    }
-
-    MLE <- as.vector(MLE)
-    return(MLE)
-  }
-  MLEs <- get_MLEs(x)
+  MLEs <- unname(EnvStats::ebeta(x, method = "mle")$parameters)
   obs_shape1 <- MLEs[1]
   obs_shape2 <- MLEs[2]
   rm(MLEs)
@@ -46,6 +13,7 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
     }
 
     profile_shape2 <- stats::optim(MLE, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    profile_shape2 <- pmax(profile_shape2, .Machine$double.eps) # Per pdf definition, parameter must be positive.
 
     return(profile_shape2)
   }
@@ -81,44 +49,11 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 #' x <- rbeta(100, shape1 = 3, shape2 = 2)
 #' beta_shape1_one_sample(x, 1, "greater")
 #' @export
-beta_shape1_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape1, shape1, 0)
+beta_shape1_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape1, shape1, 40, 0)
 
 #' @keywords internal
 calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
-  get_MLEs <- function(x) {
-    # starting points (method of moments)
-    xbar <- base::mean(x)
-    vbar <- stats::var(x)
-    C <- (xbar * (1 - xbar)) / vbar - 1
-    shape1_start <- xbar * C
-    shape2_start <- (1 - xbar) * C
-    MLE <- matrix(c(shape1_start, shape2_start), nrow = 2, ncol = 1, byrow = TRUE)
-    rm(xbar, vbar, C, shape1_start, shape2_start)
-
-    # newtons method
-    # page 9
-    tol <- 999
-    counter <- 0
-    while (tol > .00001 && counter <= 30) {
-      g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
-      g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
-      g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
-
-      dg1dshape1 <- base::trigamma(MLE[1]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.8
-      dg1dshape2 <- -1 * base::trigamma(MLE[1] + MLE[2]) # eq 2.9
-      dg2dshape2 <- base::trigamma(MLE[2]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.10
-      G <- matrix(c(dg1dshape1, dg1dshape2, dg1dshape2, dg2dshape2), nrow = 2, ncol = 2, byrow = TRUE)
-
-      MLE_new <- MLE - solve(G) %*% g
-      tol <- max(abs(MLE - MLE_new))
-      counter <- counter + 1
-      MLE <- MLE_new
-    }
-
-    MLE <- as.vector(MLE)
-    return(MLE)
-  }
-  MLEs <- get_MLEs(x)
+  MLEs <- unname(EnvStats::ebeta(x, method = "mle")$parameters)
   obs_shape1 <- MLEs[1]
   obs_shape2 <- MLEs[2]
 
@@ -130,6 +65,7 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
     }
 
     profile_shape1 <- stats::optim(MLE, profile_helper, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    profile_shape1 <- pmax(profile_shape1, .Machine$double.eps) # Per pdf definition, parameter must be positive.
 
     return(profile_shape1)
   }
@@ -165,45 +101,12 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 #' x <- rbeta(100, shape1 = 1, shape2 = 3)
 #' beta_shape2_one_sample(x, 1, "greater")
 #' @export
-beta_shape2_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape2, shape2, 0)
+beta_shape2_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape2, shape2, 40, 0)
 
 #' @keywords internal
 calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   # null
-  get_MLEs <- function(x) {
-    # starting points (method of moments)
-    xbar <- base::mean(x)
-    vbar <- stats::var(x)
-    C <- (xbar * (1 - xbar)) / vbar - 1
-    shape1_start <- xbar * C
-    shape2_start <- (1 - xbar) * C
-    MLE <- matrix(c(shape1_start, shape2_start), nrow = 2, ncol = 1, byrow = TRUE)
-    rm(xbar, vbar, C, shape1_start, shape2_start)
-
-    # newtons method
-    # page 9
-    tol <- 999
-    counter <- 0
-    while (tol > .00001 && counter <= 30) {
-      g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
-      g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
-      g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
-
-      dg1dshape1 <- base::trigamma(MLE[1]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.8
-      dg1dshape2 <- -1 * base::trigamma(MLE[1] + MLE[2]) # eq 2.9
-      dg2dshape2 <- base::trigamma(MLE[2]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.10
-      G <- matrix(c(dg1dshape1, dg1dshape2, dg1dshape2, dg2dshape2), nrow = 2, ncol = 2, byrow = TRUE)
-
-      MLE_new <- MLE - solve(G) %*% g
-      tol <- max(abs(MLE - MLE_new))
-      counter <- counter + 1
-      MLE <- MLE_new
-    }
-
-    MLE <- as.vector(MLE)
-    return(MLE)
-  }
-  MLEs <- get_MLEs(x)
+  MLEs <- unname(EnvStats::ebeta(x, method = "mle")$parameters)
   obs_shape1 <- MLEs[1]
   obs_shape2 <- MLEs[2]
   rm(MLEs)
@@ -242,6 +145,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
     # starting points (MLE for pooled estimate and group wise MOMs)
     start <- c(obs_shape2, shape1s)
     group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    group_MLEs <- pmax(group_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
     return(group_MLEs)
   }
 
@@ -292,44 +196,11 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' beta_shape1_one_way(x, fctr, .95)
 #' @export
-beta_shape1_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample)
+beta_shape1_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample, 80)
 
 calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # null
-  get_MLEs <- function(x) {
-    # starting points (method of moments)
-    xbar <- base::mean(x)
-    vbar <- stats::var(x)
-    C <- (xbar * (1 - xbar)) / vbar - 1
-    shape1_start <- xbar * C
-    shape2_start <- (1 - xbar) * C
-    MLE <- matrix(c(shape1_start, shape2_start), nrow = 2, ncol = 1, byrow = TRUE)
-    rm(xbar, vbar, C, shape1_start, shape2_start)
-
-    # newtons method
-    # page 9
-    tol <- 999
-    counter <- 0
-    while (tol > .00001 && counter <= 30) {
-      g1 <- base::digamma(MLE[1]) - base::digamma(MLE[1] + MLE[2]) - sum(log(x)) / length(x) # eq 2.6
-      g2 <- base::digamma(MLE[2]) - base::digamma(MLE[1] + MLE[2]) - sum(log(1 - x)) / length(x) # eq 2.7
-      g <- matrix(c(g1, g2), nrow = 2, ncol = 1, byrow = TRUE)
-
-      dg1dshape1 <- base::trigamma(MLE[1]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.8
-      dg1dshape2 <- -1 * base::trigamma(MLE[1] + MLE[2]) # eq 2.9
-      dg2dshape2 <- base::trigamma(MLE[2]) - base::trigamma(MLE[1] + MLE[2]) # eq 2.10
-      G <- matrix(c(dg1dshape1, dg1dshape2, dg1dshape2, dg2dshape2), nrow = 2, ncol = 2, byrow = TRUE)
-
-      MLE_new <- MLE - solve(G) %*% g
-      tol <- max(abs(MLE - MLE_new))
-      counter <- counter + 1
-      MLE <- MLE_new
-    }
-
-    MLE <- as.vector(MLE)
-    return(MLE)
-  }
-  MLEs <- get_MLEs(x)
+  MLEs <- unname(EnvStats::ebeta(x, method = "mle")$parameters)
   obs_shape1 <- MLEs[1]
   obs_shape2 <- MLEs[2]
   rm(MLEs)
@@ -366,6 +237,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
     # starting points (MLEs from above)
     start <- c(obs_shape1, shape2s)
     group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    group_MLEs <- pmax(group_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
     return(group_MLEs)
   }
 
@@ -416,4 +288,4 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' beta_shape2_one_way(x, fctr, .95)
 #' @export
-beta_shape2_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape2_one_way, beta_shape2_one_sample)
+beta_shape2_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape2_one_way, beta_shape2_one_sample, 80)

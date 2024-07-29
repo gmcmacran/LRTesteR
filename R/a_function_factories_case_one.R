@@ -6,7 +6,7 @@ utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
 #' Main work hourse of one sample tests
-create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -Inf) {
+create_test_function_one_sample_case_one <- function(calc_test_stat, p0, n_min, LB = -Inf) {
   p0 <- rlang::ensym(p0)
   force(LB)
 
@@ -29,6 +29,17 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
     stop("calc_test_stat has too many arguments.")
   }
   rm(args)
+
+  force(n_min)
+  if (length(n_min) != 1) {
+    stop("n_min should have length one.")
+  }
+  if (!is.numeric(n_min)) {
+    stop("n_min should be numeric.")
+  }
+  if (n_min <= 1) {
+    stop("n_min should be greater than one.")
+  }
 
   if (length(LB) != 1) {
     stop("LB should have length one.")
@@ -88,8 +99,9 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
   names(args)[2] <- rlang::as_string(p0)
 
   body <- rlang::expr({
-    if (length(x) < 50) {
-      stop("Argument x should have at least 50 data points.")
+    if (length(x) < n_min) {
+      msg <- stringr::str_c("Argument x should have at least ", n_min, " data points.")
+      stop(msg)
     }
     if (!is.numeric(x)) {
       stop("Argument x should be numeric.")
@@ -140,7 +152,7 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
     return(out)
   })
 
-  exec_globals <- list(LB = LB, calc_test_stat = calc_test_stat, calc_CI = calc_CI)
+  exec_globals <- list(LB = LB, n_min = n_min, calc_test_stat = calc_test_stat, calc_CI = calc_CI)
   exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
 
   f <- rlang::new_function(args, body, env = exec_env)
@@ -150,7 +162,7 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, LB = -I
 
 # A function factory
 # depends on single sample tests for CIs.
-create_test_function_one_way_case_one <- function(calc_test_stat, calc_individual_CI) {
+create_test_function_one_way_case_one <- function(calc_test_stat, calc_individual_CI, n_min) {
   force(calc_test_stat)
   # Confirm function looks right
   if (!inherits(calc_test_stat, "function")) {
@@ -188,12 +200,24 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
   }
   rm(args)
 
+  force(n_min)
+  if (length(n_min) != 1) {
+    stop("n_min should have length one.")
+  }
+  if (!is.numeric(n_min)) {
+    stop("n_min should be numeric.")
+  }
+  if (n_min <= 3) {
+    stop("n_min should be greater than three.")
+  }
+
   # Build function
   args <- rlang::pairlist2(x = , fctr = , conf.level = 0.95)
 
   body <- rlang::expr({
-    if (length(x) < 50) {
-      stop("Argument x should have at least 50 data points.")
+    if (length(x) < n_min) {
+      msg <- stringr::str_c("Argument x should have at least ", n_min, " data points.")
+      stop(msg)
     }
     if (!is.numeric(x)) {
       stop("Argument x should be numeric.")
@@ -207,8 +231,12 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     if (length(base::unique(fctr)) < 2) {
       stop("Argument fctr should have at least two unique values.")
     }
-    if (any(as.vector(by(x, fctr, length)) < 50)) {
-      stop("Each groups needs to contain at least 50 points for CIs to be accurate.")
+    if (length(unique(fctr)) != length(unique(levels(fctr)))) {
+      stop("Each level in fctr needs to be present.")
+    }
+    if (any(as.vector(by(x, fctr, length)) < 2)) {
+      msg <- stringr::str_c("Each groups needs to contain at least ", n_min / 2, " data points for CIs to be accurate.")
+      stop(msg)
     }
     if (length(conf.level) != 1) {
       stop("conf.level should have length one.")
@@ -248,7 +276,7 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     return(out)
   })
 
-  exec_globals <- list(calc_test_stat = calc_test_stat, calc_individual_CI = calc_individual_CI)
+  exec_globals <- list(calc_test_stat = calc_test_stat, calc_individual_CI = calc_individual_CI, n_min = n_min)
   exec_env <- rlang::new_environment(data = exec_globals, parent = rlang::base_env())
 
   f <- rlang::new_function(args, body, env = exec_env)

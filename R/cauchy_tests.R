@@ -82,7 +82,7 @@ calc_test_stat_cauchy_location <- function(x, location, alternative) {
 #' x <- rcauchy(n = 100, location = 3, scale = 2)
 #' cauchy_location_one_sample(x, 1, "greater")
 #' @export
-cauchy_location_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_location, location)
+cauchy_location_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_location, location, 15)
 
 #' @keywords internal
 calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
@@ -168,7 +168,7 @@ calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
 #' x <- rcauchy(n = 100, location = 3, scale = 2)
 #' cauchy_scale_one_sample(x, 1, "greater")
 #' @export
-cauchy_scale_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_scale, scale, 0)
+cauchy_scale_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_scale, scale, 35, 0)
 
 #' @keywords internal
 calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
@@ -304,7 +304,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' cauchy_location_one_way(x, fctr, .95)
 #' @export
-cauchy_location_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_location_one_way, cauchy_location_one_sample)
+cauchy_location_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_location_one_way, cauchy_location_one_sample, 30)
 
 #' @keywords internal
 calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
@@ -434,4 +434,4 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' cauchy_scale_one_way(x, fctr, .95)
 #' @export
-cauchy_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_scale_one_way, cauchy_scale_one_sample)
+cauchy_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_scale_one_way, cauchy_scale_one_sample, 70)

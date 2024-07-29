@@ -10,51 +10,8 @@
 status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides likelihood ratio tests and associated confidence
-intervals for many common distributions. All functions match popular
-tests in R. If you are familiar with t.test and binom.test, you already
-know how to use these functions. All tests and confidence intervals rely
-on the $\chi^2$ approximation even when exact sampling distributions are
-known.
-
-Estimated asymptotic type I and type II error rates can be found
-[here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
-
-# Nonparametric Tests and Confidence Intervals
-
-- Empirical Likelihood
-  - mean
-  - quantile
-
-# Parametric Tests and Confidence Intervals
-
-Parametric tests require a sample size of at least 50.
-
-- Beta
-  - shape 1
-  - shape 2
-- Binomial
-  - p
-- Exponential
-  - rate
-- Gamma
-  - rate
-  - scale
-  - shape
-- Gaussian
-  - mu
-  - variance
-- Negative Binomial
-  - p
-- Poisson
-  - lambda
-- Cauchy
-  - location
-  - scale
-- Inverse Gaussian
-  - mean
-  - shape
-  - dispersion
+LRTesteR provides likelihood ratio tests and confidence intervals for
+many common distributions.
 
 # Example 1: Test lambda of a poisson distribution
 
@@ -147,48 +104,54 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 
 # The $\chi^2$ approximation
 
-As implemented, all functions depend on the $\chi^2$ approximation. To
-get a sense of accuracy of this approximation, lets compare the
-likelihood method to the exact method.
+As implemented, all functions depend on the asymptotic $\chi^2$
+approximation. To get a sense of accuracy of this approximation for
+large samples, the likelihood tests are compared to the exact tests.
 
 X is normally distributed with mu equal to 3 and standard deviation
 equal to 2. The two intervals for $\mu$ are similar.
 
 ``` r
 set.seed(1)
-x <- rnorm(n = 50, mean = 3, sd = 2)
+x <- rnorm(n = 500, mean = 3, sd = 2)
 exactTest <- t.test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_mu_one_sample(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
-#> [1] 2.728337 3.673456
+#> [1] 2.867461 3.223115
 likelihoodTest$conf.int
-#> [1] 2.735731 3.666063
+#> [1] 2.867729 3.222847
 ```
 
 The confidence intervals for variance are similar as well.
 
 ``` r
+set.seed(1)
+x <- rnorm(n = 500, mean = 3, sd = 2)
 sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_variance_one_sample(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
-#> [1] 1.929274 4.293414
+#> [1] 3.631734 4.655834
 likelihoodTest$conf.int
-#> [1] 1.875392 4.121238
+#> [1] 3.620303 4.639384
 ```
 
 Changing to p for a binomial random variable, the confidence intervals
 are similar yet again.
 
 ``` r
-exactTest <- stats::binom.test(x = 10, n = 50, p = .50, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- binomial_p_one_sample(x = 10, n = 50, p = .50, alternative = "two.sided", conf.level = .95)
+exactTest <- stats::binom.test(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- binomial_p_one_sample(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
-#> [1] 0.1003022 0.3371831
+#> [1] 0.4552856 0.5447144
 likelihoodTest$conf.int
-#> [1] 0.1056842 0.3242910
+#> [1] 0.4562579 0.5437421
 ```
 
-When exact methods are known, use them. The utility of the likelihood
+When sample size is small, similarity will decrease. When exact methods
+are available, they are the better option. The utility of the likelihood
 based approach is its generality. Many tests in this package don’t have
 other well known options.
+
+Estimated asymptotic type I and type II error rates can be found
+[here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
