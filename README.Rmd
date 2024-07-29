@@ -77,13 +77,13 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
   
 # The $\chi^2$ approximation
 
-As implemented, all functions depend on the $\chi^2$ approximation. To get a sense of accuracy of this approximation, the likelihood tests are compared to the exact tests. 
+As implemented, all functions depend on the asymptotic $\chi^2$ approximation. To get a sense of accuracy of this approximation for large samples, the likelihood tests are compared to the exact tests. 
 
 X is normally distributed with mu equal to 3 and standard deviation equal to 2. The two intervals for $\mu$ are similar.
 
 ```{r MDPart1}
 set.seed(1)
-x <- rnorm(n = 50, mean = 3, sd = 2)
+x <- rnorm(n = 500, mean = 3, sd = 2)
 exactTest <- t.test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_mu_one_sample(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
@@ -92,6 +92,8 @@ likelihoodTest$conf.int
 
 The confidence intervals for variance are similar as well.
 ```{r MDPart2}
+set.seed(1)
+x <- rnorm(n = 500, mean = 3, sd = 2)
 sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 likelihoodTest <- gaussian_variance_one_sample(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
@@ -101,12 +103,12 @@ likelihoodTest$conf.int
 
 Changing to p for a binomial random variable, the confidence intervals are similar yet again. 
 ```{r MDPart3}
-exactTest <- stats::binom.test(x = 10, n = 50, p = .50, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- binomial_p_one_sample(x = 10, n = 50, p = .50, alternative = "two.sided", conf.level = .95)
+exactTest <- stats::binom.test(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- binomial_p_one_sample(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 likelihoodTest$conf.int
 ```
 
-When exact methods are known, use them. The utility of the likelihood based approach is its generality. Many tests in this package don't have other well known options.
+When sample size is small, similarity will decrease. When exact methods are available, they are the better option. The utility of the likelihood based approach is its generality. Many tests in this package don't have other well known options.
 
 Estimated asymptotic type I and type II error rates can be found [here](https://github.com/gmcmacran/TypeOneTypeTwoSim). 
