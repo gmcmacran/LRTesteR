@@ -105,7 +105,7 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gamma_shape_one_sample(c()), "Argument x should have at least 50 data points.")
+  expect_error(gamma_shape_one_sample(c()), "Argument x should have at least 45 data points.")
   expect_error(gamma_shape_one_sample(rep("foo", 50)), "Argument x should be numeric.")
 })
 
@@ -237,7 +237,7 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gamma_scale_one_sample(c()), "Argument x should have at least 50 data points.")
+  expect_error(gamma_scale_one_sample(c()), "Argument x should have at least 45 data points.")
   expect_error(gamma_scale_one_sample(rep("foo", 50)), "Argument x should be numeric.")
 })
 
@@ -381,7 +381,7 @@ for (alt in c("two.sided", "less")) {
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gamma_rate_one_sample(c()), "Argument x should have at least 50 data points.")
+  expect_error(gamma_rate_one_sample(c()), "Argument x should have at least 45 data points.")
   expect_error(gamma_rate_one_sample(rep("foo", 50)), "Argument x should be numeric.")
 })
 
@@ -467,7 +467,7 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gamma_shape_one_way(c()), "Argument x should have at least 100 data points.")
+  expect_error(gamma_shape_one_way(c()), "Argument x should have at least 90 data points.")
   expect_error(gamma_shape_one_way(rep("foo", 100)), "Argument x should be numeric.")
 })
 
@@ -554,7 +554,7 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gamma_scale_one_way(c()), "Argument x should have at least 100 data points.")
+  expect_error(gamma_scale_one_way(c()), "Argument x should have at least 90 data points.")
   expect_error(gamma_scale_one_way(rep("foo", 100)), "Argument x should be numeric.")
 })
 
@@ -641,7 +641,7 @@ rm(CI1, CI2)
 # Input checking
 ###############################################
 test_that("x input checking works", {
-  expect_error(gamma_rate_one_way(c()), "Argument x should have at least 100 data points.")
+  expect_error(gamma_rate_one_way(c()), "Argument x should have at least 90 data points.")
   expect_error(gamma_rate_one_way(rep("foo", 100)), "Argument x should be numeric.")
 })
 
