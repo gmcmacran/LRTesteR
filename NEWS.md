@@ -1,6 +1,7 @@
 # LRTesteR 1.2.0
 * Handle edge case in one way empirical quantile likelihood test
 * Reduce sample size needed per test.
+* Use estimation procedures from EnvStats package for gamma and beta distribution
 
 # LRTesteR 1.1.1
 * Remove "[1] " from print method.
