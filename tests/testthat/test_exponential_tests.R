@@ -244,7 +244,7 @@ test_that("fctr input checking works", {
   expect_error(exponential_rate_one_way(x, fctr2), "Each level in fctr needs to be present")
   expect_error(exponential_rate_one_way(x, fctr3), "Each groups needs to contain at least 15 data points for CIs to be accurate.")
 })
-rm(fctr1, fctr2)
+rm(fctr1, fctr2, fctr3)
 
 fctr <- c(rep(1, 50), rep(2, 50))
 fctr <- factor(fctr, levels = c("1", "2"))
