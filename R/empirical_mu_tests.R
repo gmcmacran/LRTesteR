@@ -274,6 +274,13 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
   if (conf.level <= 0 || conf.level >= 1) {
     stop("conf.level should between zero and one.")
   }
+  # Confirm optimization problem is solvable
+  if (any(as.vector(by(x, fctr, min)) > mean(x))) {
+    stop("Every group in x must have at least one data point less than the grand mean.")
+  }
+  if (any(as.vector(by(x, fctr, max)) < mean(x))) {
+    stop("Every group in x must have at least one data point greater than the grand mean.")
+  }
 
   calc_test_stat <- function(x, mu) {
     calc_null_p <- function(x, fctr) {
