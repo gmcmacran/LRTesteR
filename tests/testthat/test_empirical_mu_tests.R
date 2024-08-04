@@ -349,3 +349,24 @@ test_that("conf.level input checking works", {
   expect_error(empirical_mu_one_way(x, fctr, 0), "conf.level should between zero and one.")
   expect_error(empirical_mu_one_way(x, fctr, 1), "conf.level should between zero and one.")
 })
+
+set.seed(1)
+x <- sort(rnorm(100))
+x2 <- x
+x2[100] <- -2
+fctr <- c(rep(1, 50), rep(2, 50))
+fctr <- factor(fctr, levels = c("1", "2"))
+test_that("conf.level input checking works", {
+  expect_error(empirical_mu_one_way(x, fctr, .95), "Every group in x must have at least one data point less than the grand mean.")
+})
+
+x <- 1:10
+x2 <- x
+x2[6] <- 5
+fctr <- c(rep(1, 5), rep(2, 5))
+fctr <- factor(fctr, levels = c("1", "2"))
+test_that("conf.level input checking works", {
+  expect_error(empirical_mu_one_way(x, fctr, .95), "Every group in x must have at least one data point less than the grand mean.")
+  expect_error(empirical_mu_one_way(x2, fctr, .95), "Every group in x must have at least one data point greater than the grand mean.")
+})
+rm(x, x2, fctr)

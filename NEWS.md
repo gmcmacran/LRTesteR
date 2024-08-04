@@ -1,5 +1,6 @@
 # LRTesteR 1.2.0
 * Handle edge case in one way empirical quantile likelihood test.
+* Handle edge case in one way empirical mu likelihood test.
 * Reduce sample size needed per test.
 * Use estimation procedures from EnvStats package for gamma and beta distribution.
 * Update actions again..
