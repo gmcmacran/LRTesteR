@@ -170,7 +170,7 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
     }
     obs_p <- calc_obs_p(x)
     null_p <- calc_null_p(x, Q)
-    
+
     check_empirical_optimization(obs_p)
     check_empirical_optimization(null_p)
 
@@ -401,7 +401,7 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
 
     null_p <- calc_null_p(x, fctr)
     obs_p <- calc_obs_p(x, fctr)
-    
+
     check_empirical_optimization(null_p)
     check_empirical_optimization(obs_p)
 

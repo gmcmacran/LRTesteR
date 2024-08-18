@@ -160,7 +160,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
     }
     obs_p <- calc_obs_p(x)
     null_p <- calc_null_p(x, mu)
-    
+
     check_empirical_optimization(obs_p)
     check_empirical_optimization(null_p)
 
@@ -314,8 +314,8 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
           level <- levels(fctr)[i]
           tempX <- x[fctr == level]
           ni <- length(tempX)
-          LB <- -n / (ni*(max(tempX) - mean(x)))
-          LB <- LB + 10*.Machine$double.eps # greater than, not greater than or equal to.
+          LB <- -n / (ni * (max(tempX) - mean(x)))
+          LB <- LB + 10 * .Machine$double.eps # greater than, not greater than or equal to.
           UB <- (1 - n) / (ni * (min(tempX) - mean(x)))
           lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes", level = level)$root
         }
@@ -359,7 +359,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
 
     null_p <- calc_null_p(x, fctr)
     obs_p <- calc_obs_p(x, fctr)
-    
+
     check_empirical_optimization(null_p)
     check_empirical_optimization(obs_p)
 
