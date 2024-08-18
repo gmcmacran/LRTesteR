@@ -314,9 +314,19 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
           level <- levels(fctr)[i]
           tempX <- x[fctr == level]
           ni <- length(tempX)
-          LB <- -n / (ni * (max(tempX) - mean(x)))
+
+          LB <- pmax(
+            (1 - n) / (ni * (max(tempX) - mean(x))),
+            -n / (ni * (max(tempX) - mean(x)))
+          )
           LB <- LB + 10 * .Machine$double.eps # greater than, not greater than or equal to.
-          UB <- (1 - n) / (ni * (min(tempX) - mean(x)))
+
+          UB <- pmin(
+            (1 - n) / (ni * (min(tempX) - mean(x))),
+            -n / (ni * (min(tempX) - mean(x)))
+          )
+          UB <- UB + 10 * .Machine$double.eps # less than, not less than or equal to.
+
           lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes", level = level)$root
         }
 

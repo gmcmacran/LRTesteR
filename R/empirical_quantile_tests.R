@@ -345,8 +345,19 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
           level <- levels(fctr)[i]
           tempX <- x[fctr == level]
           ni <- length(tempX)
-          LB <- (1 - n) / (ni * (max(tempX) - mean(x)))
-          UB <- (1 - n) / (ni * (min(tempX) - mean(x)))
+
+          LB <- pmax(
+            (1 - n) / (ni * (max(tempX) - mean(x))),
+            -n / (ni * (max(tempX) - mean(x)))
+          )
+          LB <- LB + 10 * .Machine$double.eps # greater than, not greater than or equal to.
+
+          UB <- pmin(
+            (1 - n) / (ni * (min(tempX) - mean(x))),
+            -n / (ni * (min(tempX) - mean(x)))
+          )
+          UB <- UB + 10 * .Machine$double.eps # less than, not less than or equal to.
+
           # edge case: When tempX contains only one unique value, LB and UB are the same
           # and a numerical search cannot be done.
           if (LB == UB) {
