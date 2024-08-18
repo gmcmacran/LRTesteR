@@ -320,6 +320,13 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
   if (conf.level <= 0 || conf.level >= 1) {
     stop("conf.level should between zero and one.")
   }
+  # Confirm optimization problem is solvable
+  if (any(as.vector(by(x, fctr, min)) >= as.numeric(stats::quantile(x, Q)))) {
+    stop("Every group in x must have at least one data point less than the tested quantile.")
+  }
+  if (any(as.vector(by(x, fctr, max)) <= as.numeric(stats::quantile(x, Q)))) {
+    stop("Every group in x must have at least one data point greater than the tested quantile.")
+  }
 
   calc_test_stat <- function(x, Q, fctr) {
     value <- as.numeric(stats::quantile(x, Q))
@@ -351,20 +358,14 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
             -n / (ni * (max(tempX) - mean(x)))
           )
           LB <- LB + 10 * .Machine$double.eps # greater than, not greater than or equal to.
-
+          
           UB <- pmin(
             (1 - n) / (ni * (min(tempX) - mean(x))),
             -n / (ni * (min(tempX) - mean(x)))
           )
-          UB <- UB + 10 * .Machine$double.eps # less than, not less than or equal to.
+          UB <- UB - 10 * .Machine$double.eps # less than, not less than or equal to.
 
-          # edge case: When tempX contains only one unique value, LB and UB are the same
-          # and a numerical search cannot be done.
-          if (LB == UB) {
-            lambdas[i] <- NA_real_
-          } else {
-            lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes", level = level)$root
-          }
+          lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes", level = level)$root
         }
 
         return(lambdas)
@@ -377,13 +378,7 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
         index <- which(fctr == l)
 
         tempX <- x[index]
-        # edge case: When search is not done, tempX contains only one unique value
-        # Assign the one unique value the same probability.
-        if (is.na(lambdas[i])) {
-          p[index] <- rep(1 / length(tempX) * (length(tempX) / length(x)), length(tempX))
-        } else {
-          p[index] <- 1 / (length(tempX) * lambdas[i] * (tempX - mean(x)) + length(x))
-        }
+        p[index] <- 1 / (length(tempX) * lambdas[i] * (tempX - mean(x)) + length(x))
       }
 
       # division by near zero numbers can cause -Inf and Inf
