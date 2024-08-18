@@ -286,10 +286,10 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     stop("conf.level should between zero and one.")
   }
   # Confirm optimization problem is solvable
-  if (any(as.vector(by(x, fctr, min)) > mean(x))) {
+  if (any(as.vector(by(x, fctr, min)) >= mean(x))) {
     stop("Every group in x must have at least one data point less than the grand mean.")
   }
-  if (any(as.vector(by(x, fctr, max)) < mean(x))) {
+  if (any(as.vector(by(x, fctr, max)) <= mean(x))) {
     stop("Every group in x must have at least one data point greater than the grand mean.")
   }
 
@@ -325,7 +325,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
             (1 - n) / (ni * (min(tempX) - mean(x))),
             -n / (ni * (min(tempX) - mean(x)))
           )
-          UB <- UB + 10 * .Machine$double.eps # less than, not less than or equal to.
+          UB <- UB - 10 * .Machine$double.eps # less than, not less than or equal to.
 
           lambdas[i] <- stats::uniroot(g, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes", level = level)$root
         }
