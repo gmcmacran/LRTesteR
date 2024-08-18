@@ -358,7 +358,7 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
             -n / (ni * (max(tempX) - mean(x)))
           )
           LB <- LB + 10 * .Machine$double.eps # greater than, not greater than or equal to.
-          
+
           UB <- pmin(
             (1 - n) / (ni * (min(tempX) - mean(x))),
             -n / (ni * (min(tempX) - mean(x)))
