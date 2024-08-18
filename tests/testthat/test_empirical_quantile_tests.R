@@ -232,3 +232,21 @@ test_that("conf.level input checking works", {
   expect_error(empirical_quantile_one_way(x, .50, fctr, 0), "conf.level should between zero and one.")
   expect_error(empirical_quantile_one_way(x, .50, fctr, 1), "conf.level should between zero and one.")
 })
+
+x <- 1:10
+fctr <- c(rep(1, 5), rep(2, 5))
+fctr <- factor(fctr, levels = c("1", "2"))
+test_that("conf.level input checking works", {
+  expect_error(empirical_quantile_one_way(x, .50, fctr, .95), "Every group in x must have at least one data point less than the tested quantile.")
+})
+rm(x, fctr)
+
+x <- 1:10
+x[5] <- 4
+x[6] <- 3
+fctr <- c(rep(1, 5), rep(2, 5))
+fctr <- factor(fctr, levels = c("1", "2"))
+test_that("conf.level input checking works", {
+  expect_error(empirical_quantile_one_way(x, .50, fctr, .95), "Every group in x must have at least one data point greater than the tested quantile.")
+})
+rm(x, fctr)
