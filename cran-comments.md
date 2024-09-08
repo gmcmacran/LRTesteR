@@ -10,6 +10,4 @@
 0 errors | 0 warnings | 0 note
 
 ## Main updates
-* Address edge cases for empirical tests.
-* Reduce sample size needed per test.
-* Use estimation procedures from EnvStats package for gamma and beta distribution.
+* Add package envstats to imports in description
