@@ -1,6 +1,6 @@
 Package: LRTesteR
 Title: Likelihood Ratio Tests and Confidence Intervals
-Version: 1.2.0
+Version: 1.2.1
 Authors@R: person(given = "Greg",
                     family = "McMahan",
                     role = c("aut", "cre"),
@@ -14,12 +14,12 @@ Imports:
     stats,
     rlang,
     statmod,
-    stringr
+    stringr,
+    EnvStats
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Suggests: 
     covr,
-    EnvStats,
     testthat,
     lmtest,
     knitr,

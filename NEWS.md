@@ -1,3 +1,6 @@
+# LRTesteR 1.2.1
+* Add package EnvStats to imports
+
 # LRTesteR 1.2.0
 * Handle edge case in one way empirical quantile likelihood test.
 * Handle edge case in one way empirical mu likelihood test.
