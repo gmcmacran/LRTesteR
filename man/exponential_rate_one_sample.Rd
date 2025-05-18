@@ -19,7 +19,7 @@ exponential_rate_one_sample(
 )
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{rate}{a number indicating the tested value of rate.}
 

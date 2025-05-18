@@ -14,7 +14,7 @@
 gamma_shape_one_sample(x, shape, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{shape}{a number indicating the tested value of the shape parameter.}
 
