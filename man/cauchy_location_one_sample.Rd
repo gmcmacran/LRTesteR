@@ -19,7 +19,7 @@ cauchy_location_one_sample(
 )
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{location}{a number indicating the tested value of the location parameter.}
 

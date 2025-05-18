@@ -14,7 +14,7 @@
 beta_shape1_one_sample(x, shape1, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{shape1}{a number indicating the tested value of the shape1 parameter.}
 

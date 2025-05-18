@@ -14,7 +14,7 @@
 gamma_shape_one_way(x, fctr, conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values per group.}
+\item{x}{a numeric vector of data.}
 
 \item{fctr}{a factor vector indicating groups.}
 

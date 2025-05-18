@@ -19,7 +19,7 @@ inverse_gaussian_dispersion_one_sample(
 )
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{dispersion}{a number indicating the tested value of the dispersion parameter.}
 

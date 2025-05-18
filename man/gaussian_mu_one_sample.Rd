@@ -14,7 +14,7 @@
 gaussian_mu_one_sample(x, mu, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{mu}{a number indicating the tested value of mu.}
 

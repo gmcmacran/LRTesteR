@@ -14,7 +14,7 @@
 cauchy_scale_one_sample(x, scale, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
-\item{x}{a numeric vector of at least 50 data values.}
+\item{x}{a numeric vector of data.}
 
 \item{scale}{a number indicating the tested value of the scale parameter.}
 
