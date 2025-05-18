@@ -1,3 +1,6 @@
+# LRTesteR 1.3.0
+* Add log normal tests.
+
 # LRTesteR 1.2.1
 * Add package EnvStats to imports
 

@@ -1,6 +1,6 @@
 Package: LRTesteR
 Title: Likelihood Ratio Tests and Confidence Intervals
-Version: 1.2.1
+Version: 1.3.0
 Authors@R: person(given = "Greg",
                     family = "McMahan",
                     role = c("aut", "cre"),
@@ -17,7 +17,7 @@ Imports:
     stringr,
     EnvStats
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.2
 Suggests: 
     covr,
     testthat,
