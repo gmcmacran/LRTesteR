@@ -18,7 +18,7 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 
 #' Test the mean of a gaussian distribution.
 #'
-#' @param x a numeric vector of at least 50 data values.
+#' @param x a numeric vector of data.
 #' @param mu a number indicating the tested value of mu.
 #' @param alternative a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".
 #' @param conf.level confidence level of the likelihood interval.
@@ -128,7 +128,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 
 #' Test the equality of means of gaussian distributions.
 #'
-#' @param x a numeric vector of at least 50 data values per group.
+#' @param x a numeric vector of data.
 #' @param fctr a factor vector indicating groups.
 #' @param conf.level overall confidence level of the likelihood intervals. Uses Bonferroni correction.
 #' @return An S3 class containing the test statistic, p value, list of likelihood based confidence intervals,
