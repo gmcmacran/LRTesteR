@@ -95,6 +95,7 @@ for (alt in c("two.sided", "less")) {
 test_that("x input checking works", {
   expect_error(log_normal_mu_one_sample(c()), "Argument x should have at least 15 data points.")
   expect_error(log_normal_mu_one_sample(rep("foo", 15)), "Argument x should be numeric.")
+  expect_error(log_normal_mu_one_sample(x = -1:50, 3), "All values in x must be positive.")
 })
 
 set.seed(1)
@@ -214,6 +215,7 @@ for (alt in c("two.sided", "less")) {
 test_that("x input checking works", {
   expect_error(log_normal_variance_one_sample(c()), "Argument x should have at least 45 data points.")
   expect_error(log_normal_variance_one_sample(rep("foo", 45)), "Argument x should be numeric.")
+  expect_error(log_normal_variance_one_sample(x = -1:50, 3), "All values in x must be positive.")
 })
 
 set.seed(1)
@@ -300,6 +302,7 @@ rm(CI1, CI2)
 test_that("x input checking works", {
   expect_error(log_normal_mu_one_way(c()), "Argument x should have at least 30 data points.")
   expect_error(log_normal_mu_one_way(rep("foo", 30)), "Argument x should be numeric.")
+  expect_error(log_normal_mu_one_way(x = -1:148, fctr), "All values in x must be positive.")
 })
 
 set.seed(1)
@@ -389,6 +392,7 @@ rm(CI1, CI2)
 test_that("x input checking works", {
   expect_error(log_normal_variance_one_way(c()), "Argument x should have at least 90 data points.")
   expect_error(log_normal_variance_one_way(rep("foo", 90)), "Argument x should be numeric.")
+  expect_error(log_normal_variance_one_way(x = -1:148, fctr), "All values in x must be positive.")
 })
 
 set.seed(1)
