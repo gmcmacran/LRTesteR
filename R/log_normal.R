@@ -1,7 +1,7 @@
 #' @keywords internal
 calc_test_stat_log_normal_mu <- function(x, mu, alternative) {
   if (base::any(x <= 0)) {
-    stop("A values in x must be positive")
+    stop("All values in x must be positive.")
   }
   x <- base::log(x = x)
   W <- calc_test_stat_normal_mu(x = x, mu = mu, alternative = alternative)
@@ -31,7 +31,7 @@ log_normal_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(
 #' @keywords internal
 calc_test_stat_log_normal_sigma.squared <- function(x, sigma.squared, alternative) {
   if (base::any(x <= 0)) {
-    stop("A values in x must be positive")
+    stop("All values in x must be positive.")
   }
   x <- base::log(x = x)
   W <- calc_test_stat_normal_sigma.squared(x = x, sigma.squared = sigma.squared, alternative = alternative)
@@ -60,9 +60,9 @@ calc_test_stat_log_normal_sigma.squared <- function(x, sigma.squared, alternativ
 log_normal_variance_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_log_normal_sigma.squared, sigma.squared, 45, 0)
 
 #' @keywords internal
-calc_test_stat_log_normal_sigma.squared <- function(x, fctr) {
+calc_test_stat_log_normal_mu_one_way <- function(x, fctr) {
   if (base::any(x <= 0)) {
-    stop("A values in x must be positive")
+    stop("All values in x must be positive.")
   }
   x <- base::log(x = x)
   W <- calc_test_stat_normal_mu_one_way(x = x, fctr = fctr)
@@ -96,12 +96,12 @@ calc_test_stat_log_normal_sigma.squared <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' log_normal_mu_one_way(x, fctr, .95)
 #' @export
-log_normal_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_log_normal_sigma.squared, log_normal_mu_one_sample, 30)
+log_normal_mu_one_way <- LRTesteR:::create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_log_normal_mu_one_way, log_normal_mu_one_sample, 30)
 
 #' @keywords internal
 calc_test_stat_log_normal_sigma.squared_one_way <- function(x, fctr) {
   if (base::any(x <= 0)) {
-    stop("A values in x must be positive")
+    stop("All values in x must be positive.")
   }
   x <- base::log(x = x)
   W <- calc_test_stat_normal_sigma.squared_one_way(x = x, fctr = fctr)
@@ -135,4 +135,4 @@ calc_test_stat_log_normal_sigma.squared_one_way <- function(x, fctr) {
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' log_normal_variance_one_way(x, fctr, .95)
 #' @export
-log_normal_variance_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_log_normal_sigma.squared_one_way, log_normal_variance_one_sample, 90)
+log_normal_variance_one_way <- LRTesteR:::create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_log_normal_sigma.squared_one_way, log_normal_variance_one_sample, 90)
