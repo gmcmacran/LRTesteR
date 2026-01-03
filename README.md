@@ -102,14 +102,14 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 #> Confidence Interval: (0.752, 1.501)
 ```
 
-# The $\chi^2$ approximation
+# The χ<sup>2</sup> approximation
 
-As implemented, all functions depend on the asymptotic $\chi^2$
+As implemented, all functions depend on the asymptotic χ<sup>2</sup>
 approximation. To get a sense of accuracy of this approximation for
 large samples, the likelihood tests are compared to the exact tests.
 
-X is normally distributed with mu equal to 3 and standard deviation
-equal to 2. The two intervals for $\mu$ are similar.
+X is normally distributed with μ equal to 3 and standard deviation equal
+to 2. The two intervals for μ are similar.
 
 ``` r
 set.seed(1)

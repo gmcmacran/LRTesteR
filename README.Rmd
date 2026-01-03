@@ -75,11 +75,11 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 ```
   
   
-# The $\chi^2$ approximation
+# The &chi;<sup>2</sup> approximation
 
-As implemented, all functions depend on the asymptotic $\chi^2$ approximation. To get a sense of accuracy of this approximation for large samples, the likelihood tests are compared to the exact tests. 
+As implemented, all functions depend on the asymptotic &chi;<sup>2</sup> approximation. To get a sense of accuracy of this approximation for large samples, the likelihood tests are compared to the exact tests. 
 
-X is normally distributed with mu equal to 3 and standard deviation equal to 2. The two intervals for $\mu$ are similar.
+X is normally distributed with &mu; equal to 3 and standard deviation equal to 2. The two intervals for &mu; are similar.
 
 ```{r MDPart1}
 set.seed(1)
