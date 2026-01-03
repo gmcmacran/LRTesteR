@@ -10,4 +10,4 @@
 0 errors | 0 warnings | 0 note
 
 ## Main updates
-* Add log normal distribution.
+* Fix the display of greek letters in the readme on cran.
