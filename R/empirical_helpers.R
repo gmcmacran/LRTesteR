@@ -1,12 +1,4 @@
 #' @keywords internal
-#' Helper to solve the inner empirical likelihood problem for a matrix of
-#' estimating equations. Each row of est_vect is an observation. Each column
-#' is a constraint. Lambda (one element per constraint) is found by maximizing
-#' the log star objective with Newton's method. The log star function extends
-#' log below 1/n so the objective is defined for all lambda.
-#' Based on chapter 12 of Owen's Empirical Likelihood book and the
-#' emplike module of statsmodels.
-#' @keywords internal
 #' Probabilities under the null for the variance tests. Two constraints. One
 #' for the mean (nuisance) and one for the variance. Matches _opt_var in
 #' statsmodels' emplike module. The nuisance mean is profiled out. It must
@@ -128,6 +120,14 @@ calc_group_W <- function(x, value, calc_null_p) {
   return(W)
 }
 
+#' @keywords internal
+#' Helper to solve the inner empirical likelihood problem for a matrix of
+#' estimating equations. Each row of est_vect is an observation. Each column
+#' is a constraint. Lambda (one element per constraint) is found by maximizing
+#' the log star objective with Newton's method. The log star function extends
+#' log below 1/n so the objective is defined for all lambda.
+#' Based on chapter 12 of Owen's Empirical Likelihood book and the
+#' emplike module of statsmodels.
 calc_el_solution <- function(est_vect) {
   n <- nrow(est_vect)
 
