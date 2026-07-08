@@ -113,3 +113,63 @@ test_that("conf.level input checking works", {
   expect_error(empirical_skewness_one_sample(x, 0, "less", 0), "conf.level should between zero and one.")
   expect_error(empirical_skewness_one_sample(x, 0, "less", 1), "conf.level should between zero and one.")
 })
+
+###############################################
+# One Way: Null True
+###############################################
+set.seed(2)
+x <- rnorm(75, 0, 1)
+fctr <- factor(c(rep(1, 25), rep(2, 25), rep(3, 25)), levels = c("1", "2", "3"))
+test <- empirical_skewness_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_three", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+# make sure CIs match
+tempX <- x[which(fctr == 1)]
+obs_skewness <- mean((tempX - mean(tempX))^3) / mean((tempX - mean(tempX))^2)^1.5
+CI1 <- unname(test$conf.ints[[1]])
+CI2 <- empirical_skewness_one_sample(tempX, obs_skewness, "two.sided", test$individ.conf)$conf.int
+test_that("Check CI", {
+  expect_equal(CI1, CI2)
+})
+rm(CI1, CI2, tempX, obs_skewness)
+
+###############################################
+# One Way: Null False
+###############################################
+set.seed(1)
+x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rexp(25, 1))
+test <- empirical_skewness_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value < .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# One Way: Input checking
+###############################################
+set.seed(1)
+x <- rnorm(75)
+test_that("one way input checking works", {
+  expect_error(empirical_skewness_one_way(c()), "Argument x should have positive length.")
+  expect_error(empirical_skewness_one_way(rep("foo", 75)), "Argument x should be numeric.")
+  expect_error(empirical_skewness_one_way(x, fctr[1:50]), "Argument fctr should have same length as x.")
+  expect_error(empirical_skewness_one_way(x, as.character(fctr)), "Argument fctr should be a factor.")
+  expect_error(empirical_skewness_one_way(x, factor(rep(1, 75))), "Argument fctr should have at least two unique values.")
+  expect_error(empirical_skewness_one_way(x, factor(c(rep(1, 3), rep(2, 72)))), "Each group in x should have at least four observations.")
+  expect_error(empirical_skewness_one_way(c(rep(1, 25), x[26:75]), fctr), "Each group in x should have at least two unique values.")
+  expect_error(empirical_skewness_one_way(x, fctr, c(.50, .75)), "conf.level should have length one.")
+  expect_error(empirical_skewness_one_way(x, fctr, "foo"), "conf.level should be numeric.")
+  expect_error(empirical_skewness_one_way(x, fctr, 0), "conf.level should between zero and one.")
+  expect_error(empirical_skewness_one_way(x, fctr, 1), "conf.level should between zero and one.")
+})

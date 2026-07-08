@@ -237,7 +237,11 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.
 #' @inherit gaussian_mu_one_way return
-#' @inherit empirical_mu_one_sample source
+#' @source \itemize{
+#' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
+#' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
+#' \item Owen. (1991). Empirical Likelihood for Linear Models. The Annals of Statistics, 19(4).
+#' }
 #' @details
 #' \itemize{
 #' \item Null: All mus are equal. (mu1 = mu2 ... muk).

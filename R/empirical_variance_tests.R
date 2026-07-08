@@ -73,41 +73,8 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
       p <- rep(1 / length(x), length(x))
       return(p)
     }
-    calc_null_p <- function(x, sigma.squared) {
-      # Two constraints. One for the mean (nuisance) and one for the variance.
-      # Matches _opt_var in statsmodels' emplike module.
-      build_est_vect <- function(mu) {
-        est_vect <- cbind(x - mu, (x - mu)^2 - sigma.squared)
-        return(est_vect)
-      }
-      # The nuisance mean is profiled out. It must stay strictly inside the
-      # range of x for the mean constraint to be solvable.
-      profile_helper <- function(mu) {
-        out <- calc_el_solution(build_est_vect(mu))$W
-        return(out)
-      }
-      # The profile can have disjoint feasible regions in mu, so a coarse
-      # grid search brackets the minimum before Brent polishes it.
-      buffer <- (max(x) - min(x)) * .Machine$double.eps^.5
-      mus <- seq(min(x) + buffer, max(x) - buffer, length.out = 21)
-      Ws <- vapply(mus, profile_helper, numeric(1))
-      i <- which.min(Ws)
-      opt <- stats::optim(
-        par = mus[i], fn = profile_helper, method = "Brent",
-        lower = mus[max(i - 1, 1)], upper = mus[min(i + 1, length(mus))]
-      )
-
-      p <- calc_el_solution(build_est_vect(opt$par))$p
-
-      # division by near zero numbers can cause -Inf and Inf
-      # underflow
-      p <- pmax(p, .Machine$double.eps)
-      p <- pmin(p, 1 - .Machine$double.eps)
-
-      return(p)
-    }
     obs_p <- calc_obs_p(x)
-    null_p <- calc_null_p(x, sigma.squared)
+    null_p <- calc_null_p_variance(x, sigma.squared)
 
     check_empirical_optimization(obs_p)
     check_empirical_optimization(null_p)
@@ -185,5 +152,136 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
   out <- list(statistic = W, p.value = p.value, conf.int = CI, conf.level = conf.level, alternative = alternative)
   class(out) <- c("one_sample_case_three", "lrtest")
 
+  return(out)
+}
+
+#' Test the equality of variances of unknown distributions.
+#'
+#' @inheritParams gaussian_mu_one_way
+#' @param x a numeric vector.
+#' @inherit gaussian_mu_one_way return
+#' @source \itemize{
+#' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
+#' \item Owen. (1991). Empirical Likelihood for Linear Models. The Annals of Statistics, 19(4).
+#' \item Qin and Lawless. (1994). Empirical Likelihood and General Estimating Equations. The Annals of Statistics, 22(1).
+#' \item \url{https://github.com/statsmodels/statsmodels/blob/main/statsmodels/emplike/descriptive.py}
+#' }
+#' @details
+#' \itemize{
+#' \item Null: All variances are equal. (sigma squared 1 = sigma squared 2 ... sigma squared k).
+#' \item Alternative: At least one variance is not equal.
+#' }
+#'
+#' Because groups are independent, the -2 log likelihood ratios of the groups
+#' add. The common variance under the null is profiled out by minimizing the
+#' summed statistic.
+#'
+#' The asymptotic approximation requires moderately large groups. In
+#' simulations with three normal groups, type I error was near the nominal
+#' .05 for groups of 100 or more and mildly inflated for smaller groups.
+#' @examples
+#' library(LRTesteR)
+#'
+#' # Null is true
+#' set.seed(2)
+#' x <- rnorm(75, 0, 1)
+#' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' empirical_variance_one_way(x, fctr, .95)
+#'
+#' # Null is false
+#' set.seed(1)
+#' x <- c(rnorm(25, 0, 1), rnorm(25, 0, 2), rnorm(25, 0, 3))
+#' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
+#' fctr <- factor(fctr, levels = c("1", "2", "3"))
+#' empirical_variance_one_way(x, fctr, .95)
+#' @export
+empirical_variance_one_way <- function(x, fctr, conf.level = 0.95) {
+  if (length(x) < 1) {
+    stop("Argument x should have positive length.")
+  }
+  if (!is.numeric(x)) {
+    stop("Argument x should be numeric.")
+  }
+  if (length(fctr) != length(x)) {
+    stop("Argument fctr should have same length as x.")
+  }
+  if (!is.factor(fctr)) {
+    stop("Argument fctr should be a factor.")
+  }
+  if (length(base::unique(fctr)) < 2) {
+    stop("Argument fctr should have at least two unique values.")
+  }
+  if (any(as.vector(by(x, fctr, length)) < 3)) {
+    stop("Each group in x should have at least three observations.")
+  }
+  if (any(as.vector(by(x, fctr, function(z) max(z) == min(z))))) {
+    stop("Each group in x should have at least two unique values.")
+  }
+  if (length(conf.level) != 1) {
+    stop("conf.level should have length one.")
+  }
+  if (!is.numeric(conf.level)) {
+    stop("conf.level should be numeric.")
+  }
+  if (conf.level <= 0 || conf.level >= 1) {
+    stop("conf.level should between zero and one.")
+  }
+
+  calc_test_stat <- function(x, fctr) {
+    ests <- as.vector(by(x, fctr, function(z) mean((z - mean(z))^2)))
+
+    # The common variance is profiled out on the log scale. The minimizer
+    # lies near the hull of the group estimates, so the search interval is
+    # the range of group estimates with a margin.
+    total_W <- function(log_theta) {
+      Ws <- vapply(
+        levels(fctr),
+        function(l) calc_group_W(x[fctr == l], exp(log_theta), calc_null_p_variance),
+        numeric(1)
+      )
+      return(sum(Ws))
+    }
+    LB <- log(min(ests)) - .5
+    UB <- log(max(ests)) + .5
+    opt <- stats::optim(
+      par = log(stats::median(ests)), fn = total_W, method = "Brent",
+      lower = LB, upper = UB
+    )
+
+    for (l in levels(fctr)) {
+      check_empirical_optimization(calc_null_p_variance(x[fctr == l], exp(opt$par)))
+    }
+
+    W <- pmax(opt$value, 0)
+    return(W)
+  }
+
+  W <- calc_test_stat(x, fctr)
+
+  # Under null, 1 parameter (overall value) is allowed to vary
+  # Under alternative, parameter for each group is allowed to vary
+  df <- length(levels(fctr)) - 1
+
+  p.value <- stats::pchisq(q = W, df = df, lower.tail = FALSE)
+
+  # Bonferroni correction and convert back to confidence
+  alpha <- 1 - conf.level
+  alpha <- alpha / length(levels(fctr))
+  individual.conf.level <- 1 - alpha
+
+  CI <- list()
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    obs_variance <- mean((tempX - mean(tempX))^2)
+    tempCI <- LRTesteR::empirical_variance_one_sample(tempX, obs_variance, "two.sided", individual.conf.level)
+    tempCI <- tempCI$conf.int
+    CI[[l]] <- tempCI
+  }
+
+  out <- list(statistic = W, p.value = p.value, conf.ints = CI, overall.conf = conf.level, individ.conf = individual.conf.level, alternative = "two.sided")
+  class(out) <- c("one_way_case_three", "lrtest")
   return(out)
 }
