@@ -192,7 +192,7 @@ empirical_kurtosis_one_sample <- function(x, kurtosis, alternative = "two.sided"
 #'
 #' # Null is false
 #' set.seed(1)
-#' x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rt(25, 3))
+#' x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rnorm(25, 3, 1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' empirical_kurtosis_one_way(x, fctr, .95)

@@ -186,7 +186,7 @@ empirical_skewness_one_sample <- function(x, skewness, alternative = "two.sided"
 #'
 #' # Null is false
 #' set.seed(1)
-#' x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rexp(25, 1))
+#' x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rnorm(25, 1, 1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' empirical_skewness_one_way(x, fctr, .95)
