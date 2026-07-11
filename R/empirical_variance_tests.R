@@ -20,12 +20,12 @@
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_variance_one_sample(x, 1, "two.sided")
+#' empirical_variance_one_sample(x, 1, "two.sided") # Testing variance, not standard deviation
 #'
 #' # Null is false
 #' set.seed(1)
-#' x <- rnorm(25, 0, 2)
-#' empirical_variance_one_sample(x, 1, "greater")
+#' x <- rnorm(25, 0, 1)
+#' empirical_variance_one_sample(x, 2, "less")
 #' @export
 empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.sided", conf.level = .95) {
   if (length(x) < 3) {
@@ -187,7 +187,7 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
 #' x <- rnorm(75, 0, 1)
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_variance_one_way(x, fctr, .95)
+#' empirical_variance_one_way(x, fctr, .95)  # Testing variance, not standard deviation
 #'
 #' # Null is false
 #' set.seed(1)
