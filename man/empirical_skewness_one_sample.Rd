@@ -45,12 +45,12 @@ will make the CI computable.
 library(LRTesteR)
 
 # Null is true
-set.seed(1)
-x <- rnorm(25, 0, 1)
+set.seed(2)
+x <- rnorm(25, 0, 1) # Normal distribution has a skew of 0.
 empirical_skewness_one_sample(x, 0, "two.sided")
 
 # Null is false
-set.seed(1)
-x <- rexp(25, 1)
-empirical_skewness_one_sample(x, 0, "greater")
+set.seed(2)
+x <- rnorm(25, 0, 1)
+empirical_skewness_one_sample(x, -1, "greater")
 }

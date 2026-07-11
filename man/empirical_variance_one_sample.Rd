@@ -46,10 +46,10 @@ library(LRTesteR)
 # Null is true
 set.seed(1)
 x <- rnorm(25, 0, 1)
-empirical_variance_one_sample(x, 1, "two.sided")
+empirical_variance_one_sample(x, 1, "two.sided") # Testing variance, not standard deviation
 
 # Null is false
 set.seed(1)
-x <- rnorm(25, 0, 2)
-empirical_variance_one_sample(x, 1, "greater")
+x <- rnorm(25, 0, 1)
+empirical_variance_one_sample(x, 2, "less")
 }

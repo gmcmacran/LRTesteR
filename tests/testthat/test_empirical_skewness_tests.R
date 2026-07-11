@@ -1,10 +1,25 @@
+# Helpers to work with gamma distribution and skewness.
+calc_shape <- function(skew) {
+  shape <- (2 / skew)^2
+  return(shape)
+}
+calc_skew <- function(shape) {
+  skew <- 2 / shape^(1 / 2)
+  return(skew)
+}
+calc_sample_skewness <- function(x) {
+  xc <- x - mean(x)
+  mean(xc^3) / mean(xc^2)^1.5
+}
+
+
 ###############################################
 # Null True
 ###############################################
 for (alt in c("two.sided", "greater", "less")) {
   set.seed(2)
-  x <- rnorm(200, 0, 1)
-  test <- empirical_skewness_one_sample(x, 0, alt)
+  x <- rgamma(n = 200, shape = 1)
+  test <- empirical_skewness_one_sample(x, calc_skew(1), alt)
 
   test_that("Check structure.", {
     expect_true(all(class(test) == c("one_sample_case_three", "lrtest")))
@@ -36,8 +51,8 @@ for (alt in c("two.sided", "greater", "less")) {
 ###############################################
 for (alt in c("two.sided", "greater")) {
   set.seed(1)
-  x <- rexp(200, 1)
-  test <- empirical_skewness_one_sample(x, 0, alt)
+  x <- rgamma(n = 200, shape = 1)
+  test <- empirical_skewness_one_sample(x, calc_skew(1) - .5, alt)
 
   test_that("Check structure.", {
     expect_true(all(class(test) == c("one_sample_case_three", "lrtest")))
@@ -62,9 +77,9 @@ for (alt in c("two.sided", "greater")) {
 }
 
 for (alt in c("two.sided", "less")) {
-  set.seed(1)
-  x <- -1 * rexp(200, 1)
-  test <- empirical_skewness_one_sample(x, 0, alt)
+  set.seed(2)
+  x <- rgamma(n = 200, shape = 1)
+  test <- empirical_skewness_one_sample(x, calc_skew(1) + .5, alt)
 
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
@@ -95,7 +110,7 @@ test_that("x input checking works", {
 })
 
 set.seed(1)
-x <- rnorm(50)
+x <- rgamma(50, 1)
 test_that("skewness input checking works", {
   expect_error(empirical_skewness_one_sample(x, c(1, 2)), "The tested parameter should have length one.")
   expect_error(empirical_skewness_one_sample(x, "foo"), "The tested parameter should be numeric.")
@@ -147,7 +162,7 @@ rm(CI1, CI2, tempX, obs_skewness)
 # One Way: Null False
 ###############################################
 set.seed(1)
-x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rexp(25, 1))
+x <- c(rnorm(25, 0, 1), rnorm(25, 1, 2), rgamma(25, 1, 1))
 test <- empirical_skewness_one_way(x, fctr, .95)
 
 test_that("Check contents", {
