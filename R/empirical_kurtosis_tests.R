@@ -34,7 +34,7 @@
 #' true_kurtosis <- .1
 #' t_degrees_freedom <- calc_df(true_kurtosis)
 #'
-#' # Null is true 
+#' # Null is true
 #' set.seed(2)
 #' x <- rt(n = 25, df = t_degrees_freedom)
 #' empirical_kurtosis_one_sample(x, true_kurtosis, "two.sided")
@@ -204,7 +204,7 @@ empirical_kurtosis_one_sample <- function(x, kurtosis, alternative = "two.sided"
 #'   return(v)
 #' }
 #'
-#' # Null is true 
+#' # Null is true
 #' set.seed(1)
 #' x <- rt(n = 75, df = calc_df(.1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))

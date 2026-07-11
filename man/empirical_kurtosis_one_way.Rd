@@ -53,7 +53,7 @@ calc_df <- function(kurtosis) {
   return(v)
 }
 
-# Null is true 
+# Null is true
 set.seed(1)
 x <- rt(n = 75, df = calc_df(.1))
 fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))

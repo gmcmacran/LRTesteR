@@ -59,7 +59,7 @@ calc_df <- function(kurtosis) {
 true_kurtosis <- .1
 t_degrees_freedom <- calc_df(true_kurtosis)
 
-# Null is true 
+# Null is true
 set.seed(2)
 x <- rt(n = 25, df = t_degrees_freedom)
 empirical_kurtosis_one_sample(x, true_kurtosis, "two.sided")

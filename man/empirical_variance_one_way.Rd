@@ -51,7 +51,7 @@ set.seed(2)
 x <- rnorm(75, 0, 1)
 fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-empirical_variance_one_way(x, fctr, .95)  # Testing variance, not standard deviation
+empirical_variance_one_way(x, fctr, .95) # Testing variance, not standard deviation
 
 # Null is false
 set.seed(1)
