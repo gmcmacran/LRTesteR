@@ -6,7 +6,7 @@
 \source{
 \itemize{
 \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
-\item \url{https://github.com/statsmodels/statsmodels/blob/main/statsmodels/emplike/descriptive.py}
+\item \url{https://www.statsmodels.org/stable/emplike.html}
 }
 }
 \usage{

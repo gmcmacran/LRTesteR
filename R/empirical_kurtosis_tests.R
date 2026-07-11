@@ -7,7 +7,7 @@
 #' @inherit gaussian_mu_one_sample return
 #' @source \itemize{
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
-#' \item \url{https://github.com/statsmodels/statsmodels/blob/main/statsmodels/emplike/descriptive.py}
+#' \item \url{https://www.statsmodels.org/stable/emplike.html}
 #' }
 #' @details
 #' The mean and variance are nuisance parameters and are profiled out of the
@@ -165,7 +165,7 @@ empirical_kurtosis_one_sample <- function(x, kurtosis, alternative = "two.sided"
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 #' \item Owen. (1991). Empirical Likelihood for Linear Models. The Annals of Statistics, 19(4).
 #' \item Qin and Lawless. (1994). Empirical Likelihood and General Estimating Equations. The Annals of Statistics, 22(1).
-#' \item \url{https://github.com/statsmodels/statsmodels/blob/main/statsmodels/emplike/descriptive.py}
+#' \item \url{https://www.statsmodels.org/stable/emplike.html}
 #' }
 #' @details
 #' \itemize{

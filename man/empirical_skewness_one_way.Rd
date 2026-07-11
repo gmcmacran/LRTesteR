@@ -8,7 +8,7 @@
 \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 \item Owen. (1991). Empirical Likelihood for Linear Models. The Annals of Statistics, 19(4).
 \item Qin and Lawless. (1994). Empirical Likelihood and General Estimating Equations. The Annals of Statistics, 22(1).
-\item \url{https://github.com/statsmodels/statsmodels/blob/main/statsmodels/emplike/descriptive.py}
+\item \url{https://www.statsmodels.org/stable/emplike.html}
 }
 }
 \usage{
