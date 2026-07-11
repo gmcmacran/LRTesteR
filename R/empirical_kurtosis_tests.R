@@ -13,6 +13,10 @@
 #' The mean and variance are nuisance parameters and are profiled out of the
 #' likelihood.
 #'
+#' The asymptotic approximation converges slowly for fourth moments. In
+#' simulations with normal data, type I error was roughly .10 to .14 for
+#' samples of 100 to 250 at the nominal .05. Large samples are recommended.
+#'
 #' For confidence intervals, an endpoint may not be computable. In this case,
 #' NA is returned. Reducing confidence or collecting more data
 #' will make the CI computable.
@@ -20,15 +24,25 @@
 #' @examples
 #' library(LRTesteR)
 #'
-#' # Null is true
-#' set.seed(1)
-#' x <- rnorm(25, 0, 1)
-#' empirical_kurtosis_one_sample(x, 0, "two.sided")
+#' # Helper function to calculate the degrees of freedom needed
+#' # for the t distribution to have the given excess kurtosis.
+#' calc_df <- function(kurtosis) {
+#'   v <- 4 + (6 / kurtosis)
+#'   return(v)
+#' }
+#'
+#' true_kurtosis <- .1
+#' t_degrees_freedom <- calc_df(true_kurtosis)
+#'
+#' # Null is true 
+#' set.seed(2)
+#' x <- rt(n = 25, df = t_degrees_freedom)
+#' empirical_kurtosis_one_sample(x, true_kurtosis, "two.sided")
 #'
 #' # Null is false
-#' set.seed(1)
-#' x <- rt(25, 3)
-#' empirical_kurtosis_one_sample(x, 0, "greater")
+#' set.seed(2)
+#' x <- rt(n = 25, df = t_degrees_freedom)
+#' empirical_kurtosis_one_sample(x, true_kurtosis + 1.2, "two.sided")
 #' @export
 empirical_kurtosis_one_sample <- function(x, kurtosis, alternative = "two.sided", conf.level = .95) {
   if (length(x) < 5) {
@@ -183,16 +197,23 @@ empirical_kurtosis_one_sample <- function(x, kurtosis, alternative = "two.sided"
 #' @examples
 #' library(LRTesteR)
 #'
-#' # Null is true
-#' set.seed(2)
-#' x <- rnorm(75, 0, 1)
+#' # Helper function to calculate the degrees of freedom needed
+#' # for the t distribution to have the given excess kurtosis.
+#' calc_df <- function(kurtosis) {
+#'   v <- 4 + (6 / kurtosis)
+#'   return(v)
+#' }
+#'
+#' # Null is true 
+#' set.seed(1)
+#' x <- rt(n = 75, df = calc_df(.1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' empirical_kurtosis_one_way(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
-#' x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rnorm(25, 3, 1))
+#' x <- c(runif(25, -1, 1), runif(25, -1, 1), rt(25, calc_df(1.4)))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
 #' empirical_kurtosis_one_way(x, fctr, .95)

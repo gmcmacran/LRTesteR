@@ -46,16 +46,23 @@ roughly .08 to .11 at the nominal .05. Large groups are recommended.
 \examples{
 library(LRTesteR)
 
-# Null is true
-set.seed(2)
-x <- rnorm(75, 0, 1)
+# Helper function to calculate the degrees of freedom needed
+# for the t distribution to have the given excess kurtosis.
+calc_df <- function(kurtosis) {
+  v <- 4 + (6 / kurtosis)
+  return(v)
+}
+
+# Null is true 
+set.seed(1)
+x <- rt(n = 75, df = calc_df(.1))
 fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 empirical_kurtosis_one_way(x, fctr, .95)
 
 # Null is false
 set.seed(1)
-x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rnorm(25, 3, 1))
+x <- c(runif(25, -1, 1), runif(25, -1, 1), rt(25, calc_df(1.4)))
 fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 empirical_kurtosis_one_way(x, fctr, .95)

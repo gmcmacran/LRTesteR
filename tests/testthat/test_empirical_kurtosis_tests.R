@@ -1,3 +1,16 @@
+# For kurtosis test and t distribution, need 8th moment to be finite.
+# This means kurtosis is between .1 and 1.4.
+calc_df <- function(kurtosis) {
+  v <- 4 + (6 / kurtosis)
+  return(v)
+}
+
+calc_kurtosis <- function(v) {
+  kurtosis <- (6 / (v - 4))
+  return(kurtosis)
+}
+
+
 ###############################################
 # Null True
 ###############################################
@@ -35,9 +48,9 @@ for (alt in c("two.sided", "greater", "less")) {
 # Null False
 ###############################################
 for (alt in c("two.sided", "greater")) {
-  set.seed(3)
-  x <- rt(200, 5)
-  test <- empirical_kurtosis_one_sample(x, 0, alt)
+  set.seed(1)
+  x <- rt(300, calc_df(1.4))
+  test <- empirical_kurtosis_one_sample(x, .1, alt)
 
   test_that("Check structure.", {
     expect_true(all(class(test) == c("one_sample_case_three", "lrtest")))
@@ -63,8 +76,8 @@ for (alt in c("two.sided", "greater")) {
 
 for (alt in c("two.sided", "less")) {
   set.seed(1)
-  x <- runif(200, 0, 1) # excess kurtosis is -1.2
-  test <- empirical_kurtosis_one_sample(x, 0, alt)
+  x <- rt(200, calc_df(1))
+  test <- empirical_kurtosis_one_sample(x, 1.5, alt)
 
   test_that("Check contents", {
     expect_true(test$p.value <= .05)
@@ -95,7 +108,7 @@ test_that("x input checking works", {
 })
 
 set.seed(1)
-x <- rnorm(50)
+x <- rt(300, calc_df(1.4))
 test_that("kurtosis input checking works", {
   expect_error(empirical_kurtosis_one_sample(x, c(1, 2)), "The tested parameter should have length one.")
   expect_error(empirical_kurtosis_one_sample(x, "foo"), "The tested parameter should be numeric.")
@@ -118,8 +131,8 @@ test_that("conf.level input checking works", {
 ###############################################
 # One Way: Null True
 ###############################################
-set.seed(2)
-x <- rnorm(75, 0, 1)
+set.seed(1)
+x <- rt(n = 75, df = calc_df(.1))
 fctr <- factor(c(rep(1, 25), rep(2, 25), rep(3, 25)), levels = c("1", "2", "3"))
 test <- empirical_kurtosis_one_way(x, fctr, .95)
 
@@ -148,7 +161,7 @@ rm(CI1, CI2, tempX, obs_kurtosis)
 # One Way: Null False
 ###############################################
 set.seed(1)
-x <- c(rnorm(25, 0, 1), rnorm(25, 0, 1), rt(25, 3))
+x <- c(runif(25, -1, 1), runif(25, -1, 1), rt(25, calc_df(1.4)))
 test <- empirical_kurtosis_one_way(x, fctr, .95)
 
 test_that("Check contents", {
@@ -160,7 +173,7 @@ test_that("Check contents", {
 # One Way: Input checking
 ###############################################
 set.seed(1)
-x <- rnorm(75)
+x <- rt(n = 75, df = calc_df(.1))
 test_that("one way input checking works", {
   expect_error(empirical_kurtosis_one_way(c()), "Argument x should have positive length.")
   expect_error(empirical_kurtosis_one_way(rep("foo", 75)), "Argument x should be numeric.")
