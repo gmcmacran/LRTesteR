@@ -1,4 +1,4 @@
-#' Test a quantile of an unknown distribution.
+#' Nonparametric test for a quantile of an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
@@ -257,7 +257,7 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
   return(out)
 }
 
-#' Test the equality of a quantile from an unknown distribution.
+#' Nonparametric test for the equality of a quantile from an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.

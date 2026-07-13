@@ -2,7 +2,7 @@
 % Please edit documentation in R/empirical_quantile_tests.R
 \name{empirical_quantile_one_way}
 \alias{empirical_quantile_one_way}
-\title{Test the equality of a quantile from an unknown distribution.}
+\title{Nonparametric test for the equality of a quantile from an unknown distribution.}
 \source{
 \itemize{
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
@@ -27,7 +27,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test the equality of a quantile from an unknown distribution.
+Nonparametric test for the equality of a quantile from an unknown distribution.
 }
 \details{
 \itemize{

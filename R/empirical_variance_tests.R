@@ -1,4 +1,4 @@
-#' Test the variance of an unknown distribution.
+#' Nonparametric test for the variance of an unknown distribution.
 #'
 #' @inheritParams gaussian_variance_one_sample
 #' @param x a numeric vector.
@@ -155,7 +155,7 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
   return(out)
 }
 
-#' Test the equality of variances of unknown distributions.
+#' Nonparametric test for the equality of variances of unknown distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.

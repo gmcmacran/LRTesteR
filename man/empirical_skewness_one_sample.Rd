@@ -2,7 +2,7 @@
 % Please edit documentation in R/empirical_skewness_tests.R
 \name{empirical_skewness_one_sample}
 \alias{empirical_skewness_one_sample}
-\title{Test the skewness of an unknown distribution.}
+\title{Nonparametric test for the skewness of an unknown distribution.}
 \source{
 \itemize{
 \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
@@ -31,7 +31,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the skewness of an unknown distribution.
+Nonparametric test for the skewness of an unknown distribution.
 }
 \details{
 The mean and variance are nuisance parameters and are profiled out of the

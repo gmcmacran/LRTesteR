@@ -2,7 +2,7 @@
 % Please edit documentation in R/empirical_quantile_tests.R
 \name{empirical_quantile_one_sample}
 \alias{empirical_quantile_one_sample}
-\title{Test a quantile of an unknown distribution.}
+\title{Nonparametric test for a quantile of an unknown distribution.}
 \source{
 \itemize{
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
@@ -34,7 +34,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test a quantile of an unknown distribution.
+Nonparametric test for a quantile of an unknown distribution.
 }
 \details{
 For confidence intervals, an endpoint may be outside the observed range of x.

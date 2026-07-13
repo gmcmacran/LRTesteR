@@ -6,7 +6,7 @@ check_empirical_optimization <- function(ps) {
   }
 }
 
-#' Test the mean parameter of an unknown distribution.
+#' Nonparametric test for the mean parameter of an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
@@ -232,7 +232,7 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   return(out)
 }
 
-#' Test the equality of means of an unknown distribution.
+#' Nonparametric test for the equality of means of an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.

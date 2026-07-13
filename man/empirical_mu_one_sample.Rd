@@ -2,7 +2,7 @@
 % Please edit documentation in R/empirical_mu_tests.R
 \name{empirical_mu_one_sample}
 \alias{empirical_mu_one_sample}
-\title{Test the mean parameter of an unknown distribution.}
+\title{Nonparametric test for the mean parameter of an unknown distribution.}
 \source{
 \itemize{
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
@@ -26,7 +26,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the mean parameter of an unknown distribution.
+Nonparametric test for the mean parameter of an unknown distribution.
 }
 \examples{
 library(LRTesteR)

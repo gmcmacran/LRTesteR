@@ -2,7 +2,7 @@
 % Please edit documentation in R/empirical_kurtosis_tests.R
 \name{empirical_kurtosis_one_way}
 \alias{empirical_kurtosis_one_way}
-\title{Test the equality of excess kurtosis of unknown distributions.}
+\title{Nonparametric test for the equality of excess kurtosis of unknown distributions.}
 \source{
 \itemize{
 \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
@@ -27,7 +27,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test the equality of excess kurtosis of unknown distributions.
+Nonparametric test for the equality of excess kurtosis of unknown distributions.
 }
 \details{
 \itemize{

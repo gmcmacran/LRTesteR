@@ -2,7 +2,7 @@
 % Please edit documentation in R/empirical_kurtosis_tests.R
 \name{empirical_kurtosis_one_sample}
 \alias{empirical_kurtosis_one_sample}
-\title{Test the excess kurtosis of an unknown distribution.}
+\title{Nonparametric test for the excess kurtosis of an unknown distribution.}
 \source{
 \itemize{
 \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
@@ -32,7 +32,7 @@ An S3 class containing the test statistic, p value, likelihood based confidence 
 hypothesis.
 }
 \description{
-Test the excess kurtosis of an unknown distribution.
+Nonparametric test for the excess kurtosis of an unknown distribution.
 }
 \details{
 The mean and variance are nuisance parameters and are profiled out of the

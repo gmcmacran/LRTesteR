@@ -1,4 +1,4 @@
-#' Test the excess kurtosis of an unknown distribution.
+#' Nonparametric test for the excess kurtosis of an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
@@ -170,7 +170,7 @@ empirical_kurtosis_one_sample <- function(x, kurtosis, alternative = "two.sided"
   return(out)
 }
 
-#' Test the equality of excess kurtosis of unknown distributions.
+#' Nonparametric test for the equality of excess kurtosis of unknown distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.

@@ -1,4 +1,4 @@
-#' Test the skewness of an unknown distribution.
+#' Nonparametric test for the skewness of an unknown distribution.
 #'
 #' @inheritParams gaussian_mu_one_sample
 #' @param x a numeric vector.
@@ -150,7 +150,7 @@ empirical_skewness_one_sample <- function(x, skewness, alternative = "two.sided"
   return(out)
 }
 
-#' Test the equality of skewness of unknown distributions.
+#' Nonparametric test for the equality of skewness of unknown distributions.
 #'
 #' @inheritParams gaussian_mu_one_way
 #' @param x a numeric vector.
