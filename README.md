@@ -10,10 +10,10 @@
 status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides 46 hypothesis tests and confidence likelihood based on
-the likelihood ratio statistic. Tests for 36 different distributions and
-10 nonparametric tests about moments are included. All tests have a one
-sample and an ANOVA style test.
+LRTesteR provides 42 hypothesis tests and confidence likelihood based on
+the likelihood ratio statistic. There are 36 tests about distributions
+and 6 nonparametric tests. All tests have a one sample and an ANOVA
+style test.
 
 # Example 1: Test lambda of a poisson distribution
 
