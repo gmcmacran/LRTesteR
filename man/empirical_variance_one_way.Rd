@@ -47,16 +47,16 @@ simulations with three normal groups, type I error was near the nominal
 library(LRTesteR)
 
 # Null is true
-set.seed(2)
-x <- rnorm(75, 0, 1)
-fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
-fctr <- factor(fctr, levels = c("1", "2", "3"))
+set.seed(1)
+x <- rnorm(30, 0, 1)
+fctr <- c(rep(1, 15), rep(2, 15))
+fctr <- factor(fctr, levels = c("1", "2"))
 empirical_variance_one_way(x, fctr, .95) # Testing variance, not standard deviation
 
 # Null is false
 set.seed(1)
-x <- c(rnorm(25, 0, 1), rnorm(25, 0, 2), rnorm(25, 0, 3))
-fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
-fctr <- factor(fctr, levels = c("1", "2", "3"))
+x <- c(rnorm(15, 0, 1), rnorm(15, 0, 3))
+fctr <- c(rep(1, 15), rep(2, 15))
+fctr <- factor(fctr, levels = c("1", "2"))
 empirical_variance_one_way(x, fctr, .95)
 }
