@@ -1,3 +1,7 @@
+# LRTesteR 1.4.0
+* Add empirical likelihood tests for variance
+* Redo all vignettes
+
 # LRTesteR 1.3.1
 * Fix greek letter in readme for better display on cran.
 
