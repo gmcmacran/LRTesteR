@@ -12,6 +12,10 @@
 #' The mean and variance are nuisance parameters and are profiled out of the
 #' likelihood.
 #'
+#' The asymptotic approximation converges slowly for third moments. In
+#' simulations with normal data, type I error was roughly .05 to .09 for
+#' samples of 100 at the nominal .05. Large samples are recommended.
+#'
 #' For confidence intervals, an endpoint may not be computable. In this case,
 #' NA is returned. Reducing confidence or collecting more data
 #' will make the CI computable.
