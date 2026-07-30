@@ -46,8 +46,15 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
   if (sigma.squared <= 0) {
     stop("The tested parameter must be greater than zero.")
   }
-  if (sigma.squared >= (max(x) - min(x))^2) {
-    stop("The tested parameter must be less than the squared range of x.")
+  # No reweighting of x can push the variance above one fourth the squared
+  # range. That bound needs half the weight on the min and half on the max,
+  # so it is only reachable with positive weights everywhere when no
+  # observation lies strictly between the two. Anything past that has no
+  # solution and is rejected here rather than failing in the optimizer.
+  max_sigma.squared <- (max(x) - min(x))^2 / 4
+  interior <- base::any(x > min(x) & x < max(x))
+  if (sigma.squared > max_sigma.squared || (sigma.squared == max_sigma.squared && interior)) {
+    stop("The tested parameter must not be greater than one fourth the squared range of x.")
   }
   if (length(alternative) != 1) {
     stop("Argument alternative should have length one.")

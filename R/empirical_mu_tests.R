@@ -175,14 +175,21 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
   calc_CI <- function(x, alternative, conf.level) {
     alpha <- 1 - conf.level
 
+    # The statistic is only defined strictly inside the range of x and grows
+    # without bound at either end, so the root is always bracketed. The
+    # offset scales with the data. An absolute offset would invert the
+    # bracket when the range of x is small and would sit on top of the
+    # boundary when the range is large.
+    buffer <- (max(x) - min(x)) * .01
+
     calc_left_side_CI <- function(alpha) {
       helper <- function(param) {
         W <- calc_test_stat(x, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      LB <- min(x) + .01
-      UB <- max(x) - .01
+      LB <- min(x) + buffer
+      UB <- max(x) - buffer
 
       out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
       return(out)
@@ -193,8 +200,8 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      LB <- min(x) + .01
-      UB <- max(x) - .01
+      LB <- min(x) + buffer
+      UB <- max(x) - buffer
 
       out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")$root
 

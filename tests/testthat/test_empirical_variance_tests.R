@@ -100,7 +100,11 @@ test_that("sigma.squared input checking works", {
   expect_error(empirical_variance_one_sample(x, c(1, 2)), "The tested parameter should have length one.")
   expect_error(empirical_variance_one_sample(x, "foo"), "The tested parameter should be numeric.")
   expect_error(empirical_variance_one_sample(x, 0), "The tested parameter must be greater than zero.")
-  expect_error(empirical_variance_one_sample(x, (max(x) - min(x))^2), "The tested parameter must be less than the squared range of x.")
+  expect_error(empirical_variance_one_sample(x, (max(x) - min(x))^2), "The tested parameter must not be greater than one fourth the squared range of x.")
+  expect_error(empirical_variance_one_sample(x, (max(x) - min(x))^2 / 2), "The tested parameter must not be greater than one fourth the squared range of x.")
+  expect_error(empirical_variance_one_sample(x, (max(x) - min(x))^2 / 4 * 1.01), "The tested parameter must not be greater than one fourth the squared range of x.")
+  expect_true(is.numeric(empirical_variance_one_sample(x, (max(x) - min(x))^2 / 4 * .99)$statistic))
+  expect_equal(empirical_variance_one_sample(c(0, 0, 2, 2), 1)$statistic, 0)
 })
 
 test_that("alternative input checking works", {

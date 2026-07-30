@@ -185,14 +185,19 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
   calc_CI <- function(x, Q, alternative, conf.level) {
     alpha <- 1 - conf.level
 
+    # Search strictly inside the range of x. The offset scales with the data.
+    # An absolute offset would invert the bracket when the range of x is
+    # small and would skip observations when they are tightly spaced.
+    buffer <- (max(x) - min(x)) * .01
+
     calc_left_side_CI <- function(alpha) {
       helper <- function(param) {
         W <- calc_test_stat(x, Q, param, "less")
         out <- W - stats::qnorm(p = alpha, lower.tail = FALSE)
         return(out)
       }
-      LB <- min(x) + .01
-      UB <- max(x) - .01
+      LB <- min(x) + buffer
+      UB <- max(x) - buffer
 
       if (sign(helper(LB)) != sign(helper(UB))) {
         out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
@@ -211,8 +216,8 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
         out <- W - stats::qnorm(p = alpha, lower.tail = TRUE)
         return(out)
       }
-      LB <- min(x) + .01
-      UB <- max(x) - .01
+      LB <- min(x) + buffer
+      UB <- max(x) - buffer
 
       if (sign(helper(LB)) != sign(helper(UB))) {
         out <- stats::uniroot(helper, lower = LB, upper = UB, tol = .Machine$double.eps^.50, extendInt = "yes")
