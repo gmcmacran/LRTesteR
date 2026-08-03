@@ -48,7 +48,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 inverse_gaussian_shape_one_way(x, fctr, .95)
 
 # Null is false
-set.seed(1)
+set.seed(2)
 x <- c(
   rinvgauss(n = 50, mean = 1, shape = 1),
   rinvgauss(n = 50, mean = 1, shape = 3),

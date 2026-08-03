@@ -38,14 +38,14 @@ Test the equality of location parameters of cauchy distributions.
 library(LRTesteR)
 
 # Null is true
-set.seed(1)
+set.seed(2)
 x <- rcauchy(n = 150, location = 1, scale = 2)
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 cauchy_location_one_way(x, fctr, .95)
 
 # Null is false
-set.seed(1)
+set.seed(2)
 x <- c(rcauchy(50, 1, 2), rcauchy(50, 2, 2), rcauchy(50, 3, 2))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))

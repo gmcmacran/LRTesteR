@@ -352,7 +352,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' inverse_gaussian_shape_one_way(x, fctr, .95)
 #'
 #' # Null is false
-#' set.seed(1)
+#' set.seed(2)
 #' x <- c(
 #'   rinvgauss(n = 50, mean = 1, shape = 1),
 #'   rinvgauss(n = 50, mean = 1, shape = 3),

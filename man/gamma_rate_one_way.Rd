@@ -47,7 +47,7 @@ fctr <- factor(fctr, levels = c("1", "2", "3"))
 gamma_rate_one_way(x, fctr, .95)
 
 # Null is false
-set.seed(1)
+set.seed(5)
 x <- c(rgamma(50, 2, 1), rgamma(50, 2, 2), rgamma(50, 2, 3))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
