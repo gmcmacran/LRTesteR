@@ -138,8 +138,8 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   # null
   get_null_MLEs <- function(x, fctr) {
     neg_log_likelihood <- function(estimates) {
-      est_shape1 <- pmax(estimates[1], .0001) # pooled shape1
-      est_shape2s <- pmax(estimates[2:length(estimates)], .0001)
+      est_shape1 <- pmax(estimates[1], .Machine$double.eps) # pooled shape1
+      est_shape2s <- pmax(estimates[2:length(estimates)], .Machine$double.eps)
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in seq_along(levels(fctr))) {
@@ -246,8 +246,8 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # null
   get_null_MLEs <- function(x, fctr) {
     neg_log_likelihood <- function(estimates) {
-      est_shape2 <- pmax(estimates[1], .0001) # pooled shape2
-      est_shape1s <- pmax(estimates[2:length(estimates)], .0001)
+      est_shape2 <- pmax(estimates[1], .Machine$double.eps) # pooled shape2
+      est_shape1s <- pmax(estimates[2:length(estimates)], .Machine$double.eps)
 
       likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
       for (i in seq_along(levels(fctr))) {
