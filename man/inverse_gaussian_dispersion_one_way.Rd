@@ -33,6 +33,8 @@ Test the equality of dispersion parameters of inverse gaussian distributions.
 \item Null: Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
 \item Alternative: At least one dispersion is not equal.
 }
+The means are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

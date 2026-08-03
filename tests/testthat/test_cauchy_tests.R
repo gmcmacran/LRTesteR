@@ -320,6 +320,45 @@ test_that("Check CI", {
 rm(CI1, CI2)
 
 ###############################################
+# Null True. Scales differ.
+#
+# The scale is a nuisance parameter. Unequal scales should not push the p value
+# down. A version of the test that pools the scale rejects this data.
+###############################################
+set.seed(3)
+x <- c(rcauchy(50, 1, .25), rcauchy(50, 1, 5), rcauchy(50, 1, 100))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- cauchy_location_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Scales differ.
+#
+# Unequal scales should not cost the test its power.
+###############################################
+set.seed(3)
+x <- c(rcauchy(50, 1, .25), rcauchy(50, 10, 5), rcauchy(50, 40, 100))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- cauchy_location_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
 # Input checking
 ###############################################
 test_that("x input checking works", {
@@ -408,6 +447,45 @@ test_that("Check CI", {
   expect_equal(CI1, CI2)
 })
 rm(CI1, CI2)
+
+###############################################
+# Null True. Locations differ.
+#
+# The location is a nuisance parameter. Unequal locations should not push the p
+# value down. A version of the test that pools the location rejects this data.
+###############################################
+set.seed(1)
+x <- c(rcauchy(50, 0, 2), rcauchy(50, 10, 2), rcauchy(50, 20, 2))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- cauchy_scale_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Locations differ.
+#
+# Unequal locations should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(rcauchy(50, 0, 1), rcauchy(50, 10, 4), rcauchy(50, 20, 16))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- cauchy_scale_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
 
 ###############################################
 # Input checking

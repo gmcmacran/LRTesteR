@@ -33,6 +33,8 @@ Test the equality of shape parameters of inverse gaussian distributions.
 \item Null: Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
 \item Alternative: At least one shape is not equal.
 }
+The means are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

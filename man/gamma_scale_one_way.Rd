@@ -33,6 +33,8 @@ Test the equality of scale parameters of gamma distributions.
 \item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
 \item Alternative: At least one scale is not equal.
 }
+The shapes are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

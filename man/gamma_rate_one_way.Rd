@@ -33,6 +33,8 @@ Test the equality of rate parameters of gamma distributions.
 \item Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
 \item Alternative: At least one rate is not equal.
 }
+The shapes are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

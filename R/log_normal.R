@@ -79,6 +79,7 @@ calc_test_stat_log_normal_mu_one_way <- function(x, fctr) {
 #' \item Null: All mus are equal. (mu1 = mu2 ... muk).
 #' \item Alternative: At least one mu is not equal.
 #' }
+#' The variances of the logged data is pooled across groups.
 #' @examples
 #' library(LRTesteR)
 #'

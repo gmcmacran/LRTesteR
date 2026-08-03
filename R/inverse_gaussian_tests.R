@@ -238,7 +238,12 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
 #' @inheritParams gaussian_mu_one_way
 #' @inherit gaussian_mu_one_way return
 #' @inherit gaussian_mu_one_way source
-#' @inherit gaussian_mu_one_way details
+#' @details
+#' \itemize{
+#' \item Null: All mus are equal. (mu1 = mu2 ... muk).
+#' \item Alternative: At least one mu is not equal.
+#' }
+#' The shape parameter is assumed to be equal across all groups.
 #' @examples
 #' library(LRTesteR)
 #' library(statmod)
@@ -265,56 +270,57 @@ inverse_gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::
 
 #' @keywords internal
 calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
-  # null
-  get_MLEs <- function(x) {
-    xbar <- mean(x)
-    xbar <- pmax(xbar, .Machine$double.eps)
+  # Means are nuisance parameters under both hypotheses. Only the shape is
+  # restricted by the null, so the groups are not required to share a mean.
+  # The null estimates k means and one shape. The alternative estimates k means
+  # and k shapes. The difference is k - 1 parameters, matching the degrees of
+  # freedom used to convert W into a p value.
 
-    harmonic <- 1 / mean(1 / x)
-    shape <- (1 / harmonic) - (1 / xbar)
-    shape <- 1 / shape
-    shape <- pmax(shape, .Machine$double.eps)
-
-    MLEs <- c(xbar, shape)
-
-    return(MLEs)
+  # Per group sufficient statistics. Every estimate below is a function of
+  # these three quantities.
+  group_n <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_sum <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_sum_recip <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    group_n[i] <- length(tempX)
+    group_sum[i] <- sum(tempX)
+    group_sum_recip[i] <- sum(1 / tempX)
   }
 
-  MLEs <- get_MLEs(x)
-  obs_mean <- MLEs[1]
-  obs_shape <- MLEs[2]
-  rm(MLEs)
-
-  W1 <- sum(statmod::dinvgauss(x = x, mean = obs_mean, shape = obs_shape, log = TRUE))
+  # A group's mean is free under both hypotheses and maximizes at the group's
+  # sample mean no matter what the shape is, so it is the same in both models.
+  group_means <- pmax(group_sum / group_n, .Machine$double.eps)
+  scaled_SS <- pmax(group_sum_recip - group_n / group_means, .Machine$double.eps)
 
   # alt
-  get_group_MLEs <- function(x, fctr) {
-    xbar <- mean(x)
-
-    shapes <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in seq_along(levels(fctr))) {
-      tempX <- x[which(fctr == levels(fctr)[i])]
-      C <- sum((tempX - xbar)^2 / tempX)
-      shapes[i] <- length(tempX) * (xbar^2) / C
-    }
-
-    group_MLEs <- c(xbar, shapes)
-    group_MLEs <- pmax(group_MLEs, .Machine$double.eps)
-    return(group_MLEs)
-  }
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_mean_HA <- group_MLEs[1]
-  group_shapes <- group_MLEs[2:length(group_MLEs)]
-  rm(group_MLEs)
+  # No parameter is shared, so the likelihood separates and each group is fit
+  # on its own. Both MLEs are closed form.
+  group_shapes <- pmax(group_n / scaled_SS, .Machine$double.eps)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = profile_mean_HA, shape = group_shapes[i], log = TRUE))
+    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = group_means[i], shape = group_shapes[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  # The common shape pools the same sums of squares.
+  profile_shape_H0 <- pmax(length(x) / sum(scaled_SS), .Machine$double.eps)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = group_means[i], shape = profile_shape_H0, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -332,6 +338,8 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' \item Null: Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
 #' \item Alternative: At least one shape is not equal.
 #' }
+#' The means are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #' library(statmod)
@@ -358,58 +366,58 @@ inverse_gaussian_shape_one_way <- create_test_function_one_way_case_one(LRTesteR
 
 #' @keywords internal
 calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
-  # null
-  get_MLEs <- function(x) {
-    xbar <- mean(x)
-    xbar <- pmax(xbar, .Machine$double.eps)
+  # Means are nuisance parameters under both hypotheses. Only the dispersion is
+  # restricted by the null, so the groups are not required to share a mean.
+  # The null estimates k means and one dispersion. The alternative estimates k
+  # means and k dispersions. The difference is k - 1 parameters, matching the
+  # degrees of freedom used to convert W into a p value.
 
-    harmonic <- 1 / mean(1 / x)
-    shape <- (1 / harmonic) - (1 / xbar)
-    shape <- 1 / shape
-    shape <- pmax(shape, .Machine$double.eps)
-
-    MLEs <- c(xbar, shape)
-
-    return(MLEs)
+  # Per group sufficient statistics. Every estimate below is a function of
+  # these three quantities.
+  group_n <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_sum <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_sum_recip <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    group_n[i] <- length(tempX)
+    group_sum[i] <- sum(tempX)
+    group_sum_recip[i] <- sum(1 / tempX)
   }
 
-  MLEs <- get_MLEs(x)
-  obs_mean <- MLEs[1]
-  obs_shape <- MLEs[2]
-  obs_dispersion <- 1 / obs_shape
-  rm(MLEs)
-
-  W1 <- sum(statmod::dinvgauss(x = x, mean = obs_mean, dispersion = obs_dispersion, log = TRUE))
+  # A group's mean is free under both hypotheses and maximizes at the group's
+  # sample mean no matter what the dispersion is, so it is the same in both
+  # models.
+  group_means <- pmax(group_sum / group_n, .Machine$double.eps)
+  scaled_SS <- pmax(group_sum_recip - group_n / group_means, .Machine$double.eps)
 
   # alt
-  get_group_MLEs <- function(x, fctr) {
-    xbar <- mean(x)
-
-    shapes <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in seq_along(levels(fctr))) {
-      tempX <- x[which(fctr == levels(fctr)[i])]
-      C <- sum((tempX - xbar)^2 / tempX)
-      shapes[i] <- length(tempX) * (xbar^2) / C
-    }
-
-    group_MLEs <- c(xbar, shapes)
-    group_MLEs <- pmax(group_MLEs, .Machine$double.eps)
-    return(group_MLEs)
-  }
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_mean_HA <- group_MLEs[1]
-  group_shapes <- group_MLEs[2:length(group_MLEs)]
-  group_dispersions <- 1 / group_shapes
-  rm(group_MLEs)
+  # No parameter is shared, so the likelihood separates and each group is fit
+  # on its own. Both MLEs are closed form.
+  group_dispersions <- pmax(scaled_SS / group_n, .Machine$double.eps)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = profile_mean_HA, dispersion = group_dispersions[i], log = TRUE))
+    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = group_means[i], dispersion = group_dispersions[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  # The common dispersion pools the same sums of squares.
+  profile_dispersion_H0 <- pmax(sum(scaled_SS) / length(x), .Machine$double.eps)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(statmod::dinvgauss(x = tempX, mean = group_means[i], dispersion = profile_dispersion_H0, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -427,6 +435,8 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
 #' \item Null: Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
 #' \item Alternative: At least one dispersion is not equal.
 #' }
+#' The means are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #' library(statmod)

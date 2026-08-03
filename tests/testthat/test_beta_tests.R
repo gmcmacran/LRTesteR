@@ -360,6 +360,45 @@ test_that("Check CI", {
 rm(CI1, CI2)
 
 ###############################################
+# Null True. Shape2s differ.
+#
+# Shape2 is a nuisance parameter. Unequal shape2s should not push the p value
+# down. A version of the test that pools shape2 rejects this data.
+###############################################
+set.seed(1)
+x <- c(rbeta(50, 2, 2), rbeta(50, 2, 5), rbeta(50, 2, 10))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- beta_shape1_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Shape2s differ.
+#
+# Unequal shape2s should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(rbeta(50, 1, 2), rbeta(50, 2, 5), rbeta(50, 4, 10))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- beta_shape1_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
 # Input checking
 ###############################################
 test_that("x input checking works", {
@@ -447,6 +486,45 @@ test_that("Check CI", {
   expect_equal(CI1, CI2)
 })
 rm(CI1, CI2)
+
+###############################################
+# Null True. Shape1s differ.
+#
+# Shape1 is a nuisance parameter. Unequal shape1s should not push the p value
+# down. A version of the test that pools shape1 rejects this data.
+###############################################
+set.seed(1)
+x <- c(rbeta(50, 2, 2), rbeta(50, 5, 2), rbeta(50, 10, 2))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- beta_shape2_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Shape1s differ.
+#
+# Unequal shape1s should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(rbeta(50, 2, 1), rbeta(50, 5, 2), rbeta(50, 10, 4))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- beta_shape2_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
 
 ###############################################
 # Input checking

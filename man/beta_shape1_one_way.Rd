@@ -33,6 +33,8 @@ Test the equality of shape 1 parameters of beta distributions.
 \item Null: All shape1s are equal. (shape1_1 = shape1_2 ... shape1_k).
 \item Alternative: At least one shape1 is not equal.
 }
+The shape2s are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

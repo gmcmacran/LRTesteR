@@ -581,6 +581,53 @@ test_that("Check CI", {
 rm(CI1, CI2)
 
 ###############################################
+# Null True. Means differ.
+#
+# The mean is a nuisance parameter. Unequal means should not push the p value
+# down. A version of the test that pools the mean rejects this data.
+###############################################
+set.seed(1)
+x <- c(
+  statmod::rinvgauss(n = 50, mean = .5, shape = 2),
+  statmod::rinvgauss(n = 50, mean = 5, shape = 2),
+  statmod::rinvgauss(n = 50, mean = 50, shape = 2)
+)
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- inverse_gaussian_shape_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Means differ.
+#
+# Unequal means should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(
+  statmod::rinvgauss(n = 50, mean = .5, shape = 1),
+  statmod::rinvgauss(n = 50, mean = 5, shape = 4),
+  statmod::rinvgauss(n = 50, mean = 50, shape = 16)
+)
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- inverse_gaussian_shape_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
 # Input checking
 ###############################################
 test_that("x input checking works", {
@@ -678,6 +725,62 @@ test_that("Check CI", {
   expect_equal(CI1, CI2)
 })
 rm(CI1, CI2)
+
+###############################################
+# Null True. Means differ.
+#
+# The mean is a nuisance parameter. Unequal means should not push the p value
+# down. A version of the test that pools the mean rejects this data.
+#
+# A dispersion of .5 is a shape of 2, so this is the data used by the matching
+# shape section and the two tests should agree.
+###############################################
+set.seed(1)
+x <- c(
+  statmod::rinvgauss(n = 50, mean = .5, dispersion = .5),
+  statmod::rinvgauss(n = 50, mean = 5, dispersion = .5),
+  statmod::rinvgauss(n = 50, mean = 50, dispersion = .5)
+)
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- inverse_gaussian_dispersion_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_02 <- inverse_gaussian_shape_one_way(x, fctr, .95)
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+  expect_equal(test$p.value, test_02$p.value)
+})
+rm(test_02)
+
+###############################################
+# Null False. Means differ.
+#
+# Unequal means should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(
+  statmod::rinvgauss(n = 50, mean = .5, dispersion = 1),
+  statmod::rinvgauss(n = 50, mean = 5, dispersion = .25),
+  statmod::rinvgauss(n = 50, mean = 50, dispersion = .0625)
+)
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- inverse_gaussian_dispersion_one_way(x, fctr, .95)
+
+test_02 <- inverse_gaussian_shape_one_way(x, fctr, .95)
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+  expect_equal(test$p.value, test_02$p.value)
+})
+rm(test_02)
 
 ###############################################
 # Input checking

@@ -157,71 +157,89 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
 gamma_rate_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_rate, rate, 45, 0)
 
 #' @keywords internal
-calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
-  # null
-  MLEs <- unname(EnvStats::egamma(x, method = "mle")$parameters)
-  MLEs[2] <- 1 / MLEs[2] # convert to rate
-  obs_shape <- MLEs[1]
-  obs_rate <- MLEs[2]
+calc_gamma_group_MLEs <- function(x, fctr) {
+  # Unrestricted per group MLEs. These are the alternative hypothesis of every
+  # gamma one way test. No parameter is shared there, so the likelihood
+  # separates and each group is fit on its own instead of searching 2k
+  # dimensions at once. They also start the restricted fits.
 
-  W1 <- sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE))
-
-  # alt
-  get_group_MLEs <- function(x, fctr) {
-    neg_log_likelihood <- function(estimates) {
-      est_rate <- estimates[1] # pooled rate
-      est_shapes <- estimates[2:length(estimates)]
-
-      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in seq_along(levels(fctr))) {
-        l <- levels(fctr)[i]
-        index <- which(fctr == l)
-        tempX <- x[index]
-        likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = est_shapes[i], rate = est_rate, log = TRUE))
-      }
-      likelihoods <- -1 * sum(likelihoods)
-      return(likelihoods)
-    }
-    # starting points
-    shapes <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in seq_along(levels(fctr))) {
-      l <- levels(fctr)[i]
-      index <- which(fctr == l)
-      tempX <- x[index]
-
-      s <- log(mean(tempX)) - mean(log(tempX))
-      shape <- (3 - s + ((s - 3)^2 + 24 * s)^.5) / (12 * s)
-      # newton updates
-      tol <- 999
-      counter <- 0
-      while (tol > .00001 && counter <= 30) {
-        shape_new <- shape - (log(shape) - base::digamma(shape) - s) / ((1 / shape) - base::psigamma(shape, deriv = 1))
-        tol <- max(abs(shape - shape_new))
-        counter <- counter + 1
-        shape <- shape_new
-      }
-      shapes[i] <- shape
-      rm(shape)
-    }
-
-    start <- c(obs_rate, shapes)
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
-    return(group_MLEs)
+  group_shapes <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_scales <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    MLEs <- unname(EnvStats::egamma(tempX, method = "mle")$parameters)
+    group_shapes[i] <- MLEs[1]
+    group_scales[i] <- MLEs[2]
   }
 
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_rate_HA <- group_MLEs[1]
-  group_shapes <- group_MLEs[2:length(group_MLEs)]
-  rm(group_MLEs)
+  group_MLEs <- list(
+    shape = pmax(group_shapes, .Machine$double.eps),
+    scale = pmax(group_scales, .Machine$double.eps),
+    rate = pmax(1 / group_scales, .Machine$double.eps)
+  )
+  return(group_MLEs)
+}
+
+#' @keywords internal
+calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
+  # Rates are nuisance parameters under both hypotheses. Only the shape is
+  # restricted by the null, so the groups are not required to share a rate.
+  # The null estimates one shape and k rates. The alternative estimates k shapes
+  # and k rates. The difference is k - 1 parameters, matching the degrees of
+  # freedom used to convert W into a p value.
+
+  # alt
+  group_MLEs <- calc_gamma_group_MLEs(x, fctr)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = group_shapes[i], rate = profile_rate_HA, log = TRUE))
+    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = group_MLEs$shape[i], rate = group_MLEs$rate[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  get_null_MLEs <- function(x, fctr) {
+    neg_log_likelihood <- function(estimates) {
+      est_shape <- pmax(estimates[1], .Machine$double.eps) # pooled shape
+      est_rates <- pmax(estimates[2:length(estimates)], .Machine$double.eps)
+
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+      for (i in seq_along(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+        tempX <- x[index]
+        likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = est_shape, rate = est_rates[i], log = TRUE))
+      }
+      likelihoods <- -1 * sum(likelihoods)
+      return(likelihoods)
+    }
+
+    # starting points (group wise MLEs from the alternative)
+    # shape first b/c of how neg_log_likelihood splits arguments
+    start <- c(base::mean(group_MLEs$shape), group_MLEs$rate)
+    null_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    null_MLEs <- pmax(null_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
+    return(null_MLEs)
+  }
+
+  null_MLEs <- get_null_MLEs(x, fctr)
+  profile_shape_H0 <- null_MLEs[1]
+  null_rates <- null_MLEs[2:length(null_MLEs)]
+  rm(null_MLEs)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = profile_shape_H0, rate = null_rates[i], log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -239,6 +257,8 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
 #' \item Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
 #' \item Alternative: At least one shape is not equal.
 #' }
+#' The rates are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'
@@ -260,50 +280,62 @@ gamma_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_tes
 
 #' @keywords internal
 calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
-  # null
-  MLEs <- unname(EnvStats::egamma(x, method = "mle")$parameters)
-  MLEs[2] <- 1 / MLEs[2] # convert to rate
-  obs_shape <- MLEs[1]
-  obs_rate <- MLEs[2]
-  obs_scale <- 1 / obs_rate
-
-  W1 <- sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE))
+  # Shapes are nuisance parameters under both hypotheses. Only the scale is
+  # restricted by the null, so the groups are not required to share a shape.
+  # The null estimates k shapes and one scale. The alternative estimates k
+  # shapes and k scales. The difference is k - 1 parameters, matching the
+  # degrees of freedom used to convert W into a p value.
 
   # alt
-  get_group_MLEs <- function(x, fctr) {
-    neg_log_likelihood <- function(estimates) {
-      est_shape <- estimates[1] # pooled shape
-      est_scales <- estimates[2:length(estimates)]
-
-      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in seq_along(levels(fctr))) {
-        l <- levels(fctr)[i]
-        index <- which(fctr == l)
-        tempX <- x[index]
-        likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = est_shape, scale = est_scales[i], log = TRUE))
-      }
-      likelihoods <- -1 * sum(likelihoods)
-      return(likelihoods)
-    }
-    # starting points (MLEs from above)
-    start <- c(obs_shape, rep(obs_scale, length(levels(fctr))))
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
-    return(group_MLEs)
-  }
-
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_shape_HA <- group_MLEs[1]
-  group_scales <- group_MLEs[2:length(group_MLEs)]
-  rm(group_MLEs)
+  group_MLEs <- calc_gamma_group_MLEs(x, fctr)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = profile_shape_HA, scale = group_scales[i], log = TRUE))
+    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = group_MLEs$shape[i], scale = group_MLEs$scale[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  get_null_MLEs <- function(x, fctr) {
+    neg_log_likelihood <- function(estimates) {
+      est_scale <- pmax(estimates[1], .Machine$double.eps) # pooled scale
+      est_shapes <- pmax(estimates[2:length(estimates)], .Machine$double.eps)
+
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+      for (i in seq_along(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+        tempX <- x[index]
+        likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = est_shapes[i], scale = est_scale, log = TRUE))
+      }
+      likelihoods <- -1 * sum(likelihoods)
+      return(likelihoods)
+    }
+
+    # starting points (group wise MLEs from the alternative)
+    # scale first b/c of how neg_log_likelihood splits arguments
+    start <- c(base::mean(group_MLEs$scale), group_MLEs$shape)
+    null_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    null_MLEs <- pmax(null_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
+    return(null_MLEs)
+  }
+
+  null_MLEs <- get_null_MLEs(x, fctr)
+  profile_scale_H0 <- null_MLEs[1]
+  null_shapes <- null_MLEs[2:length(null_MLEs)]
+  rm(null_MLEs)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = null_shapes[i], scale = profile_scale_H0, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -321,6 +353,8 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
 #' \item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
 #' \item Alternative: At least one scale is not equal.
 #' }
+#' The shapes are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'
@@ -342,49 +376,62 @@ gamma_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_tes
 
 #' @keywords internal
 calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
-  # null
-  MLEs <- unname(EnvStats::egamma(x, method = "mle")$parameters)
-  MLEs[2] <- 1 / MLEs[2] # convert to rate
-  obs_shape <- MLEs[1]
-  obs_rate <- MLEs[2]
-
-  W1 <- sum(stats::dgamma(x = x, shape = obs_shape, rate = obs_rate, log = TRUE))
+  # Shapes are nuisance parameters under both hypotheses. Only the rate is
+  # restricted by the null, so the groups are not required to share a shape.
+  # The null estimates k shapes and one rate. The alternative estimates k shapes
+  # and k rates. The difference is k - 1 parameters, matching the degrees of
+  # freedom used to convert W into a p value.
 
   # alt
-  get_group_MLEs <- function(x, fctr) {
-    neg_log_likelihood <- function(estimates) {
-      est_shape <- estimates[1] # pooled shape
-      est_rates <- estimates[2:length(estimates)]
-
-      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in seq_along(levels(fctr))) {
-        l <- levels(fctr)[i]
-        index <- which(fctr == l)
-        tempX <- x[index]
-        likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = est_shape, rate = est_rates[i], log = TRUE))
-      }
-      likelihoods <- -1 * sum(likelihoods)
-      return(likelihoods)
-    }
-    # starting points (MLEs from above)
-    start <- c(obs_shape, rep(obs_rate, length(levels(fctr))))
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
-    return(group_MLEs)
-  }
-
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_shape_HA <- group_MLEs[1]
-  group_rates <- group_MLEs[2:length(group_MLEs)]
-  rm(group_MLEs)
+  group_MLEs <- calc_gamma_group_MLEs(x, fctr)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = profile_shape_HA, rate = group_rates[i], log = TRUE))
+    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = group_MLEs$shape[i], rate = group_MLEs$rate[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  get_null_MLEs <- function(x, fctr) {
+    neg_log_likelihood <- function(estimates) {
+      est_rate <- pmax(estimates[1], .Machine$double.eps) # pooled rate
+      est_shapes <- pmax(estimates[2:length(estimates)], .Machine$double.eps)
+
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+      for (i in seq_along(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+        tempX <- x[index]
+        likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = est_shapes[i], rate = est_rate, log = TRUE))
+      }
+      likelihoods <- -1 * sum(likelihoods)
+      return(likelihoods)
+    }
+
+    # starting points (group wise MLEs from the alternative)
+    # rate first b/c of how neg_log_likelihood splits arguments
+    start <- c(base::mean(group_MLEs$rate), group_MLEs$shape)
+    null_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    null_MLEs <- pmax(null_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
+    return(null_MLEs)
+  }
+
+  null_MLEs <- get_null_MLEs(x, fctr)
+  profile_rate_H0 <- null_MLEs[1]
+  null_shapes <- null_MLEs[2:length(null_MLEs)]
+  rm(null_MLEs)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dgamma(x = tempX, shape = null_shapes[i], rate = profile_rate_H0, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -402,6 +449,8 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
 #' \item Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
 #' \item Alternative: At least one rate is not equal.
 #' }
+#' The shapes are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'

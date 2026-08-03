@@ -105,63 +105,74 @@ beta_shape2_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LR
 
 #' @keywords internal
 calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
-  # null
-  MLEs <- unname(EnvStats::ebeta(x, method = "mle")$parameters)
-  obs_shape1 <- MLEs[1]
-  obs_shape2 <- MLEs[2]
-  rm(MLEs)
-
-  W1 <- sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE))
+  # Shape2s are nuisance parameters under both hypotheses. Only shape1 is
+  # restricted by the null, so the groups are not required to share a shape2.
+  # The null estimates one shape1 and k shape2s. The alternative estimates k
+  # shape1s and k shape2s. The difference is k - 1 parameters, matching the
+  # degrees of freedom used to convert W into a p value.
 
   # alt
-  get_group_MLEs <- function(x, fctr) {
-    neg_log_likelihood <- function(estimates) {
-      est_shape2 <- pmax(estimates[1], .0001) # pooled shape2
-      est_shape1s <- pmax(estimates[2:length(estimates)], .0001)
-
-      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in seq_along(levels(fctr))) {
-        l <- levels(fctr)[i]
-        index <- which(fctr == l)
-        tempX <- x[index]
-        likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = est_shape1s[i], shape2 = est_shape2, log = TRUE))
-      }
-      likelihoods <- -1 * sum(likelihoods)
-      return(likelihoods)
-    }
-
-    # MOMs
-    shape1s <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in seq_along(levels(fctr))) {
-      l <- levels(fctr)[i]
-      index <- which(fctr == l)
-      tempX <- x[index]
-      xbar <- base::mean(tempX)
-      vbar <- stats::var(tempX)
-      C <- (xbar * (1 - xbar)) / vbar - 1
-      shape1s[i] <- xbar * C
-    }
-
-    # starting points (MLE for pooled estimate and group wise MOMs)
-    start <- c(obs_shape2, shape1s)
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
-    group_MLEs <- pmax(group_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
-    return(group_MLEs)
+  # No parameter is shared, so the likelihood separates and each group is fit
+  # on its own instead of searching 2k dimensions at once.
+  group_shape1s <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_shape2s <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    MLEs <- unname(EnvStats::ebeta(tempX, method = "mle")$parameters)
+    group_shape1s[i] <- MLEs[1]
+    group_shape2s[i] <- MLEs[2]
   }
-
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_shape2_HA <- group_MLEs[1]
-  group_shape1 <- group_MLEs[2:length(group_MLEs)]
-  rm(group_MLEs)
+  rm(MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = group_shape1[i], shape2 = profile_shape2_HA, log = TRUE))
+    likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = group_shape1s[i], shape2 = group_shape2s[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  get_null_MLEs <- function(x, fctr) {
+    neg_log_likelihood <- function(estimates) {
+      est_shape1 <- pmax(estimates[1], .0001) # pooled shape1
+      est_shape2s <- pmax(estimates[2:length(estimates)], .0001)
+
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+      for (i in seq_along(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+        tempX <- x[index]
+        likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = est_shape1, shape2 = est_shape2s[i], log = TRUE))
+      }
+      likelihoods <- -1 * sum(likelihoods)
+      return(likelihoods)
+    }
+
+    # starting points (group wise MLEs from the alternative)
+    # shape1 first b/c of how neg_log_likelihood splits arguments
+    start <- c(base::mean(group_shape1s), group_shape2s)
+    null_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    null_MLEs <- pmax(null_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
+    return(null_MLEs)
+  }
+
+  null_MLEs <- get_null_MLEs(x, fctr)
+  profile_shape1_H0 <- null_MLEs[1]
+  null_shape2s <- null_MLEs[2:length(null_MLEs)]
+  rm(null_MLEs)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = profile_shape1_H0, shape2 = null_shape2s[i], log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -179,6 +190,8 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' \item Null: All shape1s are equal. (shape1_1 = shape1_2 ... shape1_k).
 #' \item Alternative: At least one shape1 is not equal.
 #' }
+#' The shape2s are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'
@@ -198,62 +211,76 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' @export
 beta_shape1_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample, 80)
 
+#' @keywords internal
 calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
-  # null
-  MLEs <- unname(EnvStats::ebeta(x, method = "mle")$parameters)
-  obs_shape1 <- MLEs[1]
-  obs_shape2 <- MLEs[2]
-  rm(MLEs)
-
-  W1 <- sum(stats::dbeta(x = x, shape1 = obs_shape1, shape2 = obs_shape2, log = TRUE))
+  # Shape1s are nuisance parameters under both hypotheses. Only shape2 is
+  # restricted by the null, so the groups are not required to share a shape1.
+  # The null estimates one shape2 and k shape1s. The alternative estimates k
+  # shape1s and k shape2s. The difference is k - 1 parameters, matching the
+  # degrees of freedom used to convert W into a p value.
 
   # alt
-  get_group_MLEs <- function(x, fctr) {
-    neg_log_likelihood <- function(estimates) {
-      est_shape1 <- pmax(estimates[1], .0001) # pooled shape1
-      est_shape2s <- pmax(estimates[2:length(estimates)], .0001)
-
-      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
-      for (i in seq_along(levels(fctr))) {
-        l <- levels(fctr)[i]
-        index <- which(fctr == l)
-        tempX <- x[index]
-        likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = est_shape1, shape2 = est_shape2s[i], log = TRUE))
-      }
-      likelihoods <- -1 * sum(likelihoods)
-      return(likelihoods)
-    }
-    # MOMs
-    shape2s <- vector(mode = "numeric", length = length(levels(fctr)))
-    for (i in seq_along(levels(fctr))) {
-      l <- levels(fctr)[i]
-      index <- which(fctr == l)
-      tempX <- x[index]
-      xbar <- base::mean(tempX)
-      vbar <- stats::var(tempX)
-      C <- (xbar * (1 - xbar)) / vbar - 1
-      shape2s[i] <- (1 - xbar) * C
-    }
-    # starting points (MLEs from above)
-    start <- c(obs_shape1, shape2s)
-    group_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
-    group_MLEs <- pmax(group_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
-    return(group_MLEs)
+  # No parameter is shared, so the likelihood separates and each group is fit
+  # on its own instead of searching 2k dimensions at once.
+  group_shape1s <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_shape2s <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    MLEs <- unname(EnvStats::ebeta(tempX, method = "mle")$parameters)
+    group_shape1s[i] <- MLEs[1]
+    group_shape2s[i] <- MLEs[2]
   }
-
-  group_MLEs <- get_group_MLEs(x, fctr)
-  profile_shape1_HA <- group_MLEs[1]
-  group_shape2 <- group_MLEs[2:length(group_MLEs)]
-  rm(group_MLEs)
+  rm(MLEs)
 
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = profile_shape1_HA, shape2 = group_shape2[i], log = TRUE))
+    likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = group_shape1s[i], shape2 = group_shape2s[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
+
+  # null
+  get_null_MLEs <- function(x, fctr) {
+    neg_log_likelihood <- function(estimates) {
+      est_shape2 <- pmax(estimates[1], .0001) # pooled shape2
+      est_shape1s <- pmax(estimates[2:length(estimates)], .0001)
+
+      likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+      for (i in seq_along(levels(fctr))) {
+        l <- levels(fctr)[i]
+        index <- which(fctr == l)
+        tempX <- x[index]
+        likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = est_shape1s[i], shape2 = est_shape2, log = TRUE))
+      }
+      likelihoods <- -1 * sum(likelihoods)
+      return(likelihoods)
+    }
+
+    # starting points (group wise MLEs from the alternative)
+    # shape2 first b/c of how neg_log_likelihood splits arguments
+    start <- c(base::mean(group_shape2s), group_shape1s)
+    null_MLEs <- stats::optim(start, neg_log_likelihood, lower = .Machine$double.eps, method = "L-BFGS-B", control = list(factr = 1e4))$par
+    null_MLEs <- pmax(null_MLEs, .Machine$double.eps) # Per pdf definition, parameter must be positive.
+    return(null_MLEs)
+  }
+
+  null_MLEs <- get_null_MLEs(x, fctr)
+  profile_shape2_H0 <- null_MLEs[1]
+  null_shape1s <- null_MLEs[2:length(null_MLEs)]
+  rm(null_MLEs)
+
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dbeta(x = tempX, shape1 = null_shape1s[i], shape2 = profile_shape2_H0, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
   W <- 2 * (W2 - W1)
   W <- pmax(W, 0)
@@ -271,6 +298,8 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 #' \item Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
 #' \item Alternative: At least one shape2 is not equal.
 #' }
+#' The shape1s are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'

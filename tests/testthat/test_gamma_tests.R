@@ -464,6 +464,45 @@ test_that("Check CI", {
 rm(CI1, CI2)
 
 ###############################################
+# Null True. Rates differ.
+#
+# The rate is a nuisance parameter. Unequal rates should not push the p value
+# down. A version of the test that pools the rate rejects this data.
+###############################################
+set.seed(1)
+x <- c(rgamma(50, 2, 1), rgamma(50, 2, 3), rgamma(50, 2, 9))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- gamma_shape_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Rates differ.
+#
+# Unequal rates should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(rgamma(50, 1, 1), rgamma(50, 2, 3), rgamma(50, 4, 9))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- gamma_shape_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
 # Input checking
 ###############################################
 test_that("x input checking works", {
@@ -553,6 +592,45 @@ test_that("Check CI", {
 rm(CI1, CI2)
 
 ###############################################
+# Null True. Shapes differ.
+#
+# The shape is a nuisance parameter. Unequal shapes should not push the p value
+# down. A version of the test that pools the shape rejects this data.
+###############################################
+set.seed(1)
+x <- c(rgamma(50, 1, scale = 2), rgamma(50, 3, scale = 2), rgamma(50, 9, scale = 2))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- gamma_scale_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Shapes differ.
+#
+# Unequal shapes should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(rgamma(50, 1, scale = 1), rgamma(50, 3, scale = 3), rgamma(50, 9, scale = 9))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- gamma_scale_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
 # Input checking
 ###############################################
 test_that("x input checking works", {
@@ -617,7 +695,7 @@ rm(CI1, CI2)
 ###############################################
 
 set.seed(1)
-x <- c(rgamma(50, 2, 1), rgamma(50, 2, 2), rgamma(50, 2, 3))
+x <- c(rgamma(50, 2, 1), rgamma(50, 2, 3), rgamma(50, 2, 9))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 test <- gamma_rate_one_way(x, fctr, .95)
@@ -640,6 +718,48 @@ test_that("Check CI", {
   expect_equal(CI1, CI2)
 })
 rm(CI1, CI2)
+
+###############################################
+# Null True. Shapes differ.
+#
+# The shape is a nuisance parameter. Unequal shapes should not push the p value
+# down. A version of the test that pools the shape rejects this data.
+#
+# Multiplying every group by a constant turns this into the matching scale
+# section, and the statistic is invariant to that, so the two agree.
+###############################################
+set.seed(1)
+x <- c(rgamma(50, 1, 2), rgamma(50, 3, 2), rgamma(50, 9, 2))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- gamma_rate_one_way(x, fctr, .95)
+
+test_that("Check structure.", {
+  expect_true(all(class(test) == c("one_way_case_one", "lrtest")))
+  expect_true(length(test) == 6)
+  expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
+})
+
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+})
+
+###############################################
+# Null False. Shapes differ.
+#
+# Unequal shapes should not cost the test its power.
+###############################################
+set.seed(1)
+x <- c(rgamma(50, 1, 1), rgamma(50, 3, 3), rgamma(50, 9, 9))
+fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
+fctr <- factor(fctr, levels = c("1", "2", "3"))
+test <- gamma_rate_one_way(x, fctr, .95)
+
+test_that("Check contents", {
+  expect_true(test$p.value <= .05)
+  expect_true(test$statistic >= 0)
+})
 
 ###############################################
 # Input checking

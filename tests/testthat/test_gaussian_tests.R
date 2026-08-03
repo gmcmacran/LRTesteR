@@ -349,6 +349,31 @@ test_that("Check CI", {
 rm(CI1, CI2, dat, model_00, model_01)
 
 ###############################################
+# Unequal variances across groups
+#
+# The test assumes a common variance, so it stays the equal variance
+# likelihood ratio test even when that assumption does not hold. Unbalanced
+# group sizes make the two disagree if the variance is ever pooled the wrong
+# way.
+###############################################
+set.seed(1)
+x <- c(rnorm(60, 1, 1), rnorm(30, 1, 2), rnorm(15, 1, 4))
+fctr <- factor(c(rep(1, 60), rep(2, 30), rep(3, 15)), levels = c("1", "2", "3"))
+test <- gaussian_mu_one_way(x, fctr, .95)
+
+dat <- data.frame(fctr = fctr, x = x)
+model_00 <- lm(x ~ 1, data = dat)
+model_01 <- lm(x ~ fctr, data = dat)
+
+test_02 <- lmtest::lrtest(model_00, model_01)
+test_that("Check contents", {
+  expect_true(test$p.value > .05)
+  expect_true(test$statistic >= 0)
+  expect_equal(test$p.value, test_02[["Pr(>Chisq)"]][2])
+})
+rm(dat, model_00, model_01, test_02)
+
+###############################################
 # Input checking
 ###############################################
 test_that("x input checking works", {

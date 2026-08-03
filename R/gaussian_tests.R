@@ -139,6 +139,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' \item Null: All mus are equal. (mu1 = mu2 ... muk).
 #' \item Alternative: At least one mu is not equal.
 #' }
+#' The variance is assumed to be equal across all groups.
 #' @source \itemize{
 #' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
@@ -165,30 +166,49 @@ gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_tes
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
-  # null
-  profile_mean <- base::mean(x)
+  # Means are nuisance parameters under both hypotheses.
+  group_means <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    group_means[i] <- base::mean(tempX)
+  }
 
-  obs_sd <- (sum((x - profile_mean)^2) / length(x))^.5
+  # null: one variance shared by all groups
+  SS <- 0
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    SS <- SS + sum((tempX - group_means[i])^2)
+  }
+  profile_sd <- (SS / length(x))^.5
 
-  W1 <- sum(stats::dnorm(x = x, mean = profile_mean, sd = obs_sd, log = TRUE))
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dnorm(x = tempX, mean = group_means[i], sd = profile_sd, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
-  # alt
-  profile_mean_HA <- base::mean(x)
+  # alt: a variance per group
   group_sds <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    group_sds[i] <- (sum((tempX - profile_mean_HA)^2) / length(tempX))^.5
+    group_sds[i] <- (sum((tempX - group_means[i])^2) / length(tempX))^.5
   }
 
-  likelihoods <- vector(mode = "numeric", length = length(group_sds))
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    temp <- sum(stats::dnorm(x = tempX, mean = profile_mean_HA, sd = group_sds[i], log = TRUE))
-    likelihoods[i] <- temp
+    likelihoods[i] <- sum(stats::dnorm(x = tempX, mean = group_means[i], sd = group_sds[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
 

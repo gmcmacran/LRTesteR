@@ -33,6 +33,7 @@ Test the equality of means of inverse gaussian distributions.
 \item Null: All mus are equal. (mu1 = mu2 ... muk).
 \item Alternative: At least one mu is not equal.
 }
+The shape parameter is assumed to be equal across all groups.
 }
 \examples{
 library(LRTesteR)
