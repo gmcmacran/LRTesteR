@@ -2,11 +2,12 @@
 % Please edit documentation in R/empirical_mu_tests.R
 \name{empirical_mu_one_way}
 \alias{empirical_mu_one_way}
-\title{Test the equality of means of an unknown distribution.}
+\title{Nonparametric test for the equality of means of an unknown distribution.}
 \source{
 \itemize{
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
+\item Owen. (1991). Empirical Likelihood for Linear Models. The Annals of Statistics, 19(4).
 }
 }
 \usage{
@@ -25,7 +26,7 @@ overall confidence level, individual confidence level of each interval and alter
 hypothesis.
 }
 \description{
-Test the equality of means of an unknown distribution.
+Nonparametric test for the equality of means of an unknown distribution.
 }
 \details{
 \itemize{
