@@ -1,5 +1,5 @@
 # LRTesteR 1.5.0
-* gaussian_mu_one_way and log_normal_mu_one_way no longer assume equal variance across groups.
+* gaussian_mu_one_way_test and log_normal_mu_one_way_test no longer assume equal variance across groups.
 
 # LRTesteR 1.4.0
 * Add empirical likelihood tests for variance

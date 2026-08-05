@@ -32,24 +32,24 @@ calc_test_stat_beta_shape1 <- function(x, shape1, alternative) {
 
 #' Test the shape1 parameter of a beta distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param shape1 a number indicating the tested value of the shape1 parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rbeta(100, shape1 = 1, shape2 = 2)
-#' beta_shape1_one_sample(x, 1, "two.sided")
+#' beta_shape1_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rbeta(100, shape1 = 3, shape2 = 2)
-#' beta_shape1_one_sample(x, 1, "greater")
+#' beta_shape1_test(x, 1, "greater")
 #' @export
-beta_shape1_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape1, shape1, 40, 0)
+beta_shape1_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape1, shape1, 40, 0)
 
 #' @keywords internal
 calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
@@ -84,24 +84,24 @@ calc_test_stat_beta_shape2 <- function(x, shape2, alternative) {
 
 #' Test the shape2 parameter of a beta distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param shape2 a number indicating the tested value of the shape2 parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rbeta(100, shape1 = 1, shape2 = 1)
-#' beta_shape2_one_sample(x, 1, "two.sided")
+#' beta_shape2_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rbeta(100, shape1 = 1, shape2 = 3)
-#' beta_shape2_one_sample(x, 1, "greater")
+#' beta_shape2_test(x, 1, "greater")
 #' @export
-beta_shape2_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape2, shape2, 40, 0)
+beta_shape2_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_beta_shape2, shape2, 40, 0)
 
 #' @keywords internal
 calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
@@ -182,9 +182,9 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 
 #' Test the equality of shape 1 parameters of beta distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All shape1s are equal. (shape1_1 = shape1_2 ... shape1_k).
@@ -200,16 +200,16 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
 #' x <- rbeta(150, 1, 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' beta_shape1_one_way(x, fctr, .95)
+#' beta_shape1_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rbeta(50, 1, 2), rbeta(50, 2, 2), rbeta(50, 3, 2))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' beta_shape1_one_way(x, fctr, .95)
+#' beta_shape1_one_way_test(x, fctr, .95)
 #' @export
-beta_shape1_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_one_sample, 80)
+beta_shape1_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape1_one_way, beta_shape1_test, 80)
 
 #' @keywords internal
 calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
@@ -290,9 +290,9 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 
 #' Test the equality of shape 2 parameters of beta distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All shape2s are equal. (shape2_1 = shape2_2 ... shape2_k).
@@ -308,13 +308,13 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
 #' x <- rbeta(150, 2, 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' beta_shape2_one_way(x, fctr, .95)
+#' beta_shape2_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rbeta(50, 2, 1), rbeta(50, 2, 2), rbeta(50, 2, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' beta_shape2_one_way(x, fctr, .95)
+#' beta_shape2_one_way_test(x, fctr, .95)
 #' @export
-beta_shape2_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape2_one_way, beta_shape2_one_sample, 80)
+beta_shape2_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_beta_shape2_one_way, beta_shape2_test, 80)

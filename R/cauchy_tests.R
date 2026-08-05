@@ -65,24 +65,24 @@ calc_test_stat_cauchy_location <- function(x, location, alternative) {
 
 #' Test the location parameter of a cauchy distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param location a number indicating the tested value of the location parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 1, scale = 2)
-#' cauchy_location_one_sample(x, 1, "two.sided")
+#' cauchy_location_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 3, scale = 2)
-#' cauchy_location_one_sample(x, 1, "greater")
+#' cauchy_location_test(x, 1, "greater")
 #' @export
-cauchy_location_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_location, location, 15)
+cauchy_location_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_location, location, 15)
 
 #' @keywords internal
 calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
@@ -151,24 +151,24 @@ calc_test_stat_cauchy_scale <- function(x, scale, alternative) {
 
 #' Test the scale parameter of a cauchy distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param scale a number indicating the tested value of the scale parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 1, scale = 2)
-#' cauchy_scale_one_sample(x, 2, "two.sided")
+#' cauchy_scale_test(x, 2, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rcauchy(n = 100, location = 3, scale = 2)
-#' cauchy_scale_one_sample(x, 1, "greater")
+#' cauchy_scale_test(x, 1, "greater")
 #' @export
-cauchy_scale_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_scale, scale, 35, 0)
+cauchy_scale_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_cauchy_scale, scale, 35, 0)
 
 #' @keywords internal
 calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
@@ -283,9 +283,9 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
 
 #' Test the equality of location parameters of cauchy distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item All locations are equal. (location_1 = location_2 ... location_k).
@@ -299,16 +299,16 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
 #' x <- rcauchy(n = 150, location = 1, scale = 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' cauchy_location_one_way(x, fctr, .95)
+#' cauchy_location_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(2)
 #' x <- c(rcauchy(50, 1, 2), rcauchy(50, 2, 2), rcauchy(50, 3, 2))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' cauchy_location_one_way(x, fctr, .95)
+#' cauchy_location_one_way_test(x, fctr, .95)
 #' @export
-cauchy_location_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_location_one_way, cauchy_location_one_sample, 30)
+cauchy_location_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_location_one_way, cauchy_location_test, 30)
 
 #' @keywords internal
 calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
@@ -423,9 +423,9 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
 
 #' Test the equality of scale parameters of cauchy distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
@@ -439,13 +439,13 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
 #' x <- rcauchy(n = 150, 1, 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' cauchy_scale_one_way(x, fctr, .95)
+#' cauchy_scale_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rcauchy(50, 2, 1), rcauchy(50, 2, 2), rcauchy(50, 2, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' cauchy_scale_one_way(x, fctr, .95)
+#' cauchy_scale_one_way_test(x, fctr, .95)
 #' @export
-cauchy_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_scale_one_way, cauchy_scale_one_sample, 70)
+cauchy_scale_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_cauchy_scale_one_way, cauchy_scale_test, 70)

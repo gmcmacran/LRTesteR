@@ -42,9 +42,9 @@ calc_test_stat_inv_gauss_mu <- function(x, mu, alternative) {
 
 #' Test the mean of an inverse gaussian distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inheritParams gaussian_mu_test
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #' library(statmod)
@@ -52,14 +52,14 @@ calc_test_stat_inv_gauss_mu <- function(x, mu, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rinvgauss(n = 100, mean = 1, shape = 2)
-#' inverse_gaussian_mu_one_sample(x, 1, "two.sided")
+#' inverse_gaussian_mu_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rinvgauss(n = 100, mean = 3, shape = 2)
-#' inverse_gaussian_mu_one_sample(x, 1, "greater")
+#' inverse_gaussian_mu_test(x, 1, "greater")
 #' @export
-inverse_gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu, mu, 35, 0)
+inverse_gaussian_mu_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu, mu, 35, 0)
 
 #' @keywords internal
 calc_test_inv_gauss_shape <- function(x, shape, alternative) {
@@ -96,10 +96,10 @@ calc_test_inv_gauss_shape <- function(x, shape, alternative) {
 
 #' Test the shape parameter of an inverse gaussian distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param shape a number indicating the tested value of the shape parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #' library(statmod)
@@ -107,14 +107,14 @@ calc_test_inv_gauss_shape <- function(x, shape, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rinvgauss(n = 100, mean = 1, shape = 2)
-#' inverse_gaussian_shape_one_sample(x, 2, "two.sided")
+#' inverse_gaussian_shape_test(x, 2, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rinvgauss(n = 100, mean = 1, shape = 2)
-#' inverse_gaussian_shape_one_sample(x, 1, "greater")
+#' inverse_gaussian_shape_test(x, 1, "greater")
 #' @export
-inverse_gaussian_shape_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_shape, shape, 35, 0)
+inverse_gaussian_shape_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_shape, shape, 35, 0)
 
 #' @keywords internal
 calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
@@ -152,10 +152,10 @@ calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
 
 #' Test the dispersion parameter of an inverse gaussian distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param dispersion a number indicating the tested value of the dispersion parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #' library(statmod)
@@ -163,14 +163,14 @@ calc_test_inv_gauss_dispersion <- function(x, dispersion, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rinvgauss(n = 100, mean = 1, dispersion = 2)
-#' inverse_gaussian_dispersion_one_sample(x, 2, "two.sided")
+#' inverse_gaussian_dispersion_test(x, 2, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rinvgauss(n = 100, mean = 1, dispersion = 2)
-#' inverse_gaussian_dispersion_one_sample(x, 1, "greater")
+#' inverse_gaussian_dispersion_test(x, 1, "greater")
 #' @export
-inverse_gaussian_dispersion_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_dispersion, dispersion, 35, 0)
+inverse_gaussian_dispersion_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_inv_gauss_dispersion, dispersion, 35, 0)
 
 #' @keywords internal
 calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
@@ -235,9 +235,9 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
 
 #' Test the equality of means of inverse gaussian distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All mus are equal. (mu1 = mu2 ... muk).
@@ -253,7 +253,7 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
 #' x <- rinvgauss(n = 150, mean = 1, shape = 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' inverse_gaussian_mu_one_way(x, fctr, .95)
+#' inverse_gaussian_mu_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
@@ -264,9 +264,9 @@ calc_test_stat_inv_gauss_mu_one_way <- function(x, fctr) {
 #' )
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' inverse_gaussian_mu_one_way(x, fctr, .95)
+#' inverse_gaussian_mu_one_way_test(x, fctr, .95)
 #' @export
-inverse_gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu_one_way, inverse_gaussian_mu_one_sample, 70)
+inverse_gaussian_mu_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_mu_one_way, inverse_gaussian_mu_test, 70)
 
 #' @keywords internal
 calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
@@ -330,9 +330,9 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 
 #' Test the equality of shape parameters of inverse gaussian distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
@@ -349,7 +349,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' x <- rinvgauss(n = 150, mean = 1, shape = 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' inverse_gaussian_shape_one_way(x, fctr, .95)
+#' inverse_gaussian_shape_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(2)
@@ -360,9 +360,9 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' )
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' inverse_gaussian_shape_one_way(x, fctr, .95)
+#' inverse_gaussian_shape_one_way_test(x, fctr, .95)
 #' @export
-inverse_gaussian_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_shape_one_way, inverse_gaussian_shape_one_sample, 70)
+inverse_gaussian_shape_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_shape_one_way, inverse_gaussian_shape_test, 70)
 
 #' @keywords internal
 calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
@@ -427,9 +427,9 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
 
 #' Test the equality of dispersion parameters of inverse gaussian distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
@@ -446,7 +446,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
 #' x <- rinvgauss(n = 150, mean = 1, dispersion = 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' inverse_gaussian_dispersion_one_way(x, fctr, .95)
+#' inverse_gaussian_dispersion_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
@@ -457,6 +457,6 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
 #' )
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' inverse_gaussian_dispersion_one_way(x, fctr, .95)
+#' inverse_gaussian_dispersion_one_way_test(x, fctr, .95)
 #' @export
-inverse_gaussian_dispersion_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_dispersion_one_way, inverse_gaussian_dispersion_one_sample, 70)
+inverse_gaussian_dispersion_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_inv_gauss_dispersion_one_way, inverse_gaussian_dispersion_test, 70)

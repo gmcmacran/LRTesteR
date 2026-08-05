@@ -1,10 +1,10 @@
 #' Nonparametric test for a quantile of an unknown distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param x a numeric vector.
 #' @param Q The quantile. A single numeric number. (.50 is median.)
 #' @param value A single numeric value that is the hypothesized Q quantile.
-#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_test return
 #' @source \itemize{
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
@@ -20,14 +20,14 @@
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_quantile_one_sample(x, .5, 0, "two.sided")
+#' empirical_quantile_test(x, .5, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 2, 1)
-#' empirical_quantile_one_sample(x, .5, 1, "greater")
+#' empirical_quantile_test(x, .5, 1, "greater")
 #' @export
-empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided", conf.level = .95) {
+empirical_quantile_test <- function(x, Q, value, alternative = "two.sided", conf.level = .95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
@@ -264,11 +264,11 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
 
 #' Nonparametric test for the equality of a quantile from an unknown distribution.
 #'
-#' @inheritParams gaussian_mu_one_way
+#' @inheritParams gaussian_mu_one_way_test
 #' @param x a numeric vector.
 #' @param Q The quantile. A single numeric number. (.50 is median.)
-#' @inherit gaussian_mu_one_way return
-#' @inherit empirical_mu_one_sample source
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit empirical_mu_test source
 #' @details
 #' \itemize{
 #' \item Null: Quantiles are equal. (Q1 = Q2 ... Qk).
@@ -282,16 +282,16 @@ empirical_quantile_one_sample <- function(x, Q, value, alternative = "two.sided"
 #' x <- rnorm(75, 1, 1)
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_quantile_one_way(x, .50, fctr, .95)
+#' empirical_quantile_one_way_test(x, .50, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(25, 1, 1), rnorm(25, 2, 1), rnorm(25, 3, 1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_quantile_one_way(x, .50, fctr, .95)
+#' empirical_quantile_one_way_test(x, .50, fctr, .95)
 #' @export
-empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
+empirical_quantile_one_way_test <- function(x, Q, fctr, conf.level = 0.95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
@@ -440,7 +440,7 @@ empirical_quantile_one_way <- function(x, Q, fctr, conf.level = 0.95) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    tempCI <- empirical_quantile_one_sample(tempX, Q, as.numeric(stats::quantile(tempX, Q)), "two.sided", individual.conf.level)
+    tempCI <- empirical_quantile_test(tempX, Q, as.numeric(stats::quantile(tempX, Q)), "two.sided", individual.conf.level)
     tempCI <- tempCI$conf.int
     CI[[l]] <- tempCI
   }

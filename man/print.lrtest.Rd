@@ -19,13 +19,13 @@ library(LRTesteR)
 
 set.seed(1)
 x <- rnorm(100, 0, 1)
-test <- gaussian_mu_one_sample(x, 0, "two.sided")
+test <- gaussian_mu_test(x, 0, "two.sided")
 print(test)
 
 set.seed(1)
 x <- rnorm(150, 1, 1)
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-test <- gaussian_mu_one_way(x, fctr, .95)
+test <- gaussian_mu_one_way_test(x, fctr, .95)
 print(test)
 }

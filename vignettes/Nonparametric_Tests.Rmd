@@ -31,11 +31,11 @@ library(statmod)
 set.seed(1)
 x <- rnorm(50)
 
-gaussian_mu_one_sample(x = x, mu = 0, alternative = "two.sided")
+gaussian_mu_test(x = x, mu = 0, alternative = "two.sided")
 ```
 
 ```{r part2}
-empirical_mu_one_sample(x = x, mu = 0, alternative = "two.sided")
+empirical_mu_test(x = x, mu = 0, alternative = "two.sided")
 ```
 
 ### Inverse Gaussian Distribution
@@ -44,12 +44,12 @@ empirical_mu_one_sample(x = x, mu = 0, alternative = "two.sided")
 set.seed(1)
 x <- rinvgauss(50)
 
-inverse_gaussian_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
+inverse_gaussian_mu_test(x = x, mu = 1, alternative = "two.sided")
 ```
 The one way test does not require nuisance parameters or sample size to be equal.
 
 ```{r part4}
-empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
+empirical_mu_test(x = x, mu = 1, alternative = "two.sided")
 ```
 
 
@@ -60,10 +60,10 @@ empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
 set.seed(1)
 x <- rnorm(50)
 
-gaussian_variance_one_sample(x = x, sigma.squared = 1, alternative = "two.sided")
+gaussian_variance_test(x = x, sigma.squared = 1, alternative = "two.sided")
 ```
 ```{r part7}
-empirical_variance_one_sample(x = x, sigma.squared = 1, alternative = "two.sided")
+empirical_variance_test(x = x, sigma.squared = 1, alternative = "two.sided")
 ```
 
 ## One Way Tests For Mu
@@ -75,11 +75,11 @@ x <- rnorm(100)
 fctr <- c(rep(1, 50), rep(2, 50))
 fctr <- factor(fctr, levels = c("1", "2"))
 
-gaussian_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+gaussian_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
 ```{r part9}
-empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+empirical_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
 ### Inverse Gaussian Distribution
@@ -89,11 +89,11 @@ x <- rinvgauss(100)
 fctr <- c(rep(1, 50), rep(2, 50))
 fctr <- factor(fctr, levels = c("1", "2"))
 
-inverse_gaussian_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+inverse_gaussian_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
 ```{r part11}
-empirical_mu_one_way(x = x, fctr = fctr, conf.level = .95)
+empirical_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
 ## One Way Tests For Variance
@@ -105,9 +105,9 @@ x <- rnorm(100)
 fctr <- c(rep(1, 50), rep(2, 50))
 fctr <- factor(fctr, levels = c("1", "2"))
 
-gaussian_variance_one_way(x = x, fctr = fctr, conf.level = .95)
+gaussian_variance_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
 ```{r part13}
-empirical_variance_one_way(x = x, fctr = fctr, conf.level = .95)
+empirical_variance_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```

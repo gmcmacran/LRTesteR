@@ -35,14 +35,14 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_mu_one_sample(x, 0, "two.sided")
+#' gaussian_mu_test(x, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 3, 1)
-#' gaussian_mu_one_sample(x, 0, "greater")
+#' gaussian_mu_test(x, 0, "greater")
 #' @export
-gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_mu, mu, 15)
+gaussian_mu_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_mu, mu, 15)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
@@ -62,24 +62,24 @@ calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
 
 #' Test the variance of a gaussian distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param sigma.squared a number indicating the tested value of sigma squared.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_variance_one_sample(x, 1, "two.sided")
+#' gaussian_variance_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 0, 2)
-#' gaussian_variance_one_sample(x, 1, "greater")
+#' gaussian_variance_test(x, 1, "greater")
 #' @export
-gaussian_variance_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared, sigma.squared, 45, 0)
+gaussian_variance_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared, sigma.squared, 45, 0)
 
 #' @keywords internal
 calc_test_stat_normal_mu_one_way <- function(x, fctr) {
@@ -153,16 +153,16 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' x <- rnorm(150, 1, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_mu_one_way(x, fctr, .95)
+#' gaussian_mu_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(50, 1, 1), rnorm(50, 2, 1), rnorm(50, 3, 1))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_mu_one_way(x, fctr, .95)
+#' gaussian_mu_one_way_test(x, fctr, .95)
 #' @export
-gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample, 30)
+gaussian_mu_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_test, 30)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
@@ -220,9 +220,9 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 
 #' Test the equality of variance parameters of gaussian distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
@@ -236,13 +236,13 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 #' x <- rnorm(150, 1, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_variance_one_way(x, fctr, .95)
+#' gaussian_variance_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(50, 1, 1), rnorm(50, 1, 2), rnorm(50, 1, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_variance_one_way(x, fctr, .95)
+#' gaussian_variance_one_way_test(x, fctr, .95)
 #' @export
-gaussian_variance_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_one_sample, 90)
+gaussian_variance_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_test, 90)

@@ -8,9 +8,9 @@ check_empirical_optimization <- function(ps) {
 
 #' Nonparametric test for the mean parameter of an unknown distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param x a numeric vector.
-#' @inherit gaussian_mu_one_sample return
+#' @inherit gaussian_mu_test return
 #' @source \itemize{
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
@@ -21,14 +21,14 @@ check_empirical_optimization <- function(ps) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_mu_one_sample(x, 0, "two.sided")
+#' empirical_mu_test(x, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 2, 1)
-#' empirical_mu_one_sample(x, 1, "greater")
+#' empirical_mu_test(x, 1, "greater")
 #' @export
-empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level = .95) {
+empirical_mu_test <- function(x, mu, alternative = "two.sided", conf.level = .95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
@@ -241,9 +241,9 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
 
 #' Nonparametric test for the equality of means of an unknown distribution.
 #'
-#' @inheritParams gaussian_mu_one_way
+#' @inheritParams gaussian_mu_one_way_test
 #' @param x a numeric vector.
-#' @inherit gaussian_mu_one_way return
+#' @inherit gaussian_mu_one_way_test return
 #' @source \itemize{
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
@@ -262,16 +262,16 @@ empirical_mu_one_sample <- function(x, mu, alternative = "two.sided", conf.level
 #' x <- rnorm(75, 1, 1)
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_mu_one_way(x, fctr, .95)
+#' empirical_mu_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(25, 1, 1), rnorm(25, 2, 1), rnorm(25, 3, 1))
 #' fctr <- c(rep(1, 25), rep(2, 25), rep(3, 25))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' empirical_mu_one_way(x, fctr, .95)
+#' empirical_mu_one_way_test(x, fctr, .95)
 #' @export
-empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
+empirical_mu_one_way_test <- function(x, fctr, conf.level = 0.95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
@@ -408,7 +408,7 @@ empirical_mu_one_way <- function(x, fctr, conf.level = 0.95) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    tempCI <- LRTesteR::empirical_mu_one_sample(tempX, mean(tempX), "two.sided", individual.conf.level)
+    tempCI <- LRTesteR::empirical_mu_test(tempX, mean(tempX), "two.sided", individual.conf.level)
     tempCI <- tempCI$conf.int
     CI[[l]] <- tempCI
   }

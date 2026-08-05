@@ -22,24 +22,24 @@ calc_test_stat_gamma_shape <- function(x, shape, alternative) {
 
 #' Test the shape parameter of a gamma distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param shape a number indicating the tested value of the shape parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rgamma(100, shape = 1, scale = 2)
-#' gamma_shape_one_sample(x, 1, "two.sided")
+#' gamma_shape_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rgamma(100, shape = 3, scale = 2)
-#' gamma_shape_one_sample(x, 1, "greater")
+#' gamma_shape_test(x, 1, "greater")
 #' @export
-gamma_shape_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_shape, shape, 45, 0)
+gamma_shape_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_shape, shape, 45, 0)
 
 #' @keywords internal
 calc_test_stat_gamma_scale <- function(x, scale, alternative) {
@@ -80,24 +80,24 @@ calc_test_stat_gamma_scale <- function(x, scale, alternative) {
 
 #' Test the scale parameter of a gamma distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param scale a number indicating the tested value of the scale parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rgamma(100, shape = 1, scale = 2)
-#' gamma_scale_one_sample(x, 2, "two.sided")
+#' gamma_scale_test(x, 2, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rgamma(100, shape = 1, scale = 2)
-#' gamma_scale_one_sample(x, 1, "greater")
+#' gamma_scale_test(x, 1, "greater")
 #' @export
-gamma_scale_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_scale, scale, 45, 0)
+gamma_scale_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_scale, scale, 45, 0)
 
 #' @keywords internal
 calc_test_stat_gamma_rate <- function(x, rate, alternative) {
@@ -137,24 +137,24 @@ calc_test_stat_gamma_rate <- function(x, rate, alternative) {
 
 #' Test the rate parameter of a gamma distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param rate a number indicating the tested value of the rate parameter.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rgamma(100, shape = 1, rate = 1)
-#' gamma_rate_one_sample(x, 1, "two.sided")
+#' gamma_rate_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rgamma(100, shape = 1, rate = 2)
-#' gamma_rate_one_sample(x, 1, "greater")
+#' gamma_rate_test(x, 1, "greater")
 #' @export
-gamma_rate_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_rate, rate, 45, 0)
+gamma_rate_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_gamma_rate, rate, 45, 0)
 
 #' @keywords internal
 calc_gamma_group_MLEs <- function(x, fctr) {
@@ -249,9 +249,9 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
 
 #' Test the equality of shape parameters of gamma distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
@@ -267,16 +267,16 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
 #' x <- rgamma(150, 2, 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_shape_one_way(x, fctr, .95)
+#' gamma_shape_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rgamma(50, 1, 2), rgamma(50, 2, 2), rgamma(50, 3, 2))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_shape_one_way(x, fctr, .95)
+#' gamma_shape_one_way_test(x, fctr, .95)
 #' @export
-gamma_shape_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_shape_one_way, gamma_shape_one_sample, 90)
+gamma_shape_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_shape_one_way, gamma_shape_test, 90)
 
 #' @keywords internal
 calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
@@ -345,9 +345,9 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
 
 #' Test the equality of scale parameters of gamma distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
@@ -363,16 +363,16 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
 #' x <- rgamma(150, 1, scale = 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_scale_one_way(x, fctr, .95)
+#' gamma_scale_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rgamma(50, 2, scale = 1), rgamma(50, 2, scale = 2), rgamma(50, 2, scale = 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_scale_one_way(x, fctr, .95)
+#' gamma_scale_one_way_test(x, fctr, .95)
 #' @export
-gamma_scale_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_scale_one_way, gamma_scale_one_sample, 90)
+gamma_scale_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_scale_one_way, gamma_scale_test, 90)
 
 #' @keywords internal
 calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
@@ -441,9 +441,9 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
 
 #' Test the equality of rate parameters of gamma distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
@@ -459,13 +459,13 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
 #' x <- rgamma(150, 1, 2)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_rate_one_way(x, fctr, .95)
+#' gamma_rate_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(5)
 #' x <- c(rgamma(50, 2, 1), rgamma(50, 2, 2), rgamma(50, 2, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gamma_rate_one_way(x, fctr, .95)
+#' gamma_rate_one_way_test(x, fctr, .95)
 #' @export
-gamma_rate_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_rate_one_way, gamma_rate_one_sample, 90)
+gamma_rate_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_gamma_rate_one_way, gamma_rate_test, 90)

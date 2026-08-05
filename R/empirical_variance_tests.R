@@ -1,8 +1,8 @@
 #' Nonparametric test for the variance of an unknown distribution.
 #'
-#' @inheritParams gaussian_variance_one_sample
+#' @inheritParams gaussian_variance_test
 #' @param x a numeric vector.
-#' @inherit gaussian_variance_one_sample return
+#' @inherit gaussian_variance_test return
 #' @source \itemize{
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 #' \item \url{https://www.statsmodels.org/stable/emplike.html}
@@ -20,14 +20,14 @@
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_variance_one_sample(x, 1, "two.sided") # Testing variance, not standard deviation
+#' empirical_variance_test(x, 1, "two.sided") # Testing variance, not standard deviation
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(25, 0, 1)
-#' empirical_variance_one_sample(x, 2, "less")
+#' empirical_variance_test(x, 2, "less")
 #' @export
-empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.sided", conf.level = .95) {
+empirical_variance_test <- function(x, sigma.squared, alternative = "two.sided", conf.level = .95) {
   if (length(x) < 3) {
     stop("Argument x should have at least three observations.")
   }
@@ -164,9 +164,9 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
 
 #' Nonparametric test for the equality of variances of unknown distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
+#' @inheritParams gaussian_mu_one_way_test
 #' @param x a numeric vector.
-#' @inherit gaussian_mu_one_way return
+#' @inherit gaussian_mu_one_way_test return
 #' @source \itemize{
 #' \item Owen. Empirical Likelihood. Chapman & Hall/CRC.
 #' \item Owen. (1991). Empirical Likelihood for Linear Models. The Annals of Statistics, 19(4).
@@ -194,16 +194,16 @@ empirical_variance_one_sample <- function(x, sigma.squared, alternative = "two.s
 #' x <- rnorm(30, 0, 1)
 #' fctr <- c(rep(1, 15), rep(2, 15))
 #' fctr <- factor(fctr, levels = c("1", "2"))
-#' empirical_variance_one_way(x, fctr, .95) # Testing variance, not standard deviation
+#' empirical_variance_one_way_test(x, fctr, .95) # Testing variance, not standard deviation
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(15, 0, 1), rnorm(15, 0, 3))
 #' fctr <- c(rep(1, 15), rep(2, 15))
 #' fctr <- factor(fctr, levels = c("1", "2"))
-#' empirical_variance_one_way(x, fctr, .95)
+#' empirical_variance_one_way_test(x, fctr, .95)
 #' @export
-empirical_variance_one_way <- function(x, fctr, conf.level = 0.95) {
+empirical_variance_one_way_test <- function(x, fctr, conf.level = 0.95) {
   if (length(x) < 1) {
     stop("Argument x should have positive length.")
   }
@@ -283,7 +283,7 @@ empirical_variance_one_way <- function(x, fctr, conf.level = 0.95) {
     index <- which(fctr == l)
     tempX <- x[index]
     obs_variance <- mean((tempX - mean(tempX))^2)
-    tempCI <- LRTesteR::empirical_variance_one_sample(tempX, obs_variance, "two.sided", individual.conf.level)
+    tempCI <- LRTesteR::empirical_variance_test(tempX, obs_variance, "two.sided", individual.conf.level)
     tempCI <- tempCI$conf.int
     CI[[l]] <- tempCI
   }
