@@ -1,6 +1,6 @@
 Package: LRTesteR
 Title: Likelihood Ratio Tests and Confidence Intervals
-Version: 1.4.0
+Version: 2.0.0
 Authors@R: person(given = "Greg",
                     family = "McMahan",
                     role = c("aut", "cre"),
