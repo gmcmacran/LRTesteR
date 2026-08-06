@@ -7,7 +7,7 @@
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 }
 }
 \usage{
@@ -30,7 +30,7 @@ Test the equality of location parameters of cauchy distributions.
 }
 \details{
 \itemize{
-\item All locations are equal. (location_1 = location_2 ... location_k).
+\item Null: All locations are equal. (location_1 = location_2 ... location_k).
 \item Alternative: At least one location is not equal.
 }
 }

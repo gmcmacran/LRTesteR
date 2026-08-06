@@ -334,7 +334,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item Null: Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
+#' \item Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
 #' \item Alternative: At least one shape is not equal.
 #' }
 #' The means are treated as nuisance parameters and are estimated separately for
@@ -430,7 +430,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item Null: Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
+#' \item Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
 #' \item Alternative: At least one dispersion is not equal.
 #' }
 #' The means are treated as nuisance parameters and are estimated separately for

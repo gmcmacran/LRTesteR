@@ -69,7 +69,7 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
+#' \item Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
 #' \item Alternative: At least one lambda is not equal.
 #' }
 #' @examples

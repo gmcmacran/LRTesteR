@@ -146,7 +146,7 @@ empirical_mu_test <- function(x, mu, alternative = "two.sided", conf.level = .95
 
       p <- -1 / (phi + lambda * x)
 
-      if (min(p) < 0 || max(p) > 1 || sum(p) != 1) {
+      if (min(p) < 0 || max(p) > 1 || !isTRUE(all.equal(target = 1, current = sum(p), tolerance = .1^6))) {
         lambda <- calc_lambda_two(x, mu)
         p <- 1 / (1 + lambda * (x - mu)) * (1 / length(x))
       }
@@ -304,7 +304,7 @@ empirical_mu_one_way_test <- function(x, fctr, conf.level = 0.95) {
     stop("Every group in x must have at least one data point greater than the grand mean.")
   }
 
-  calc_test_stat <- function(x, mu) {
+  calc_test_stat <- function(x, fctr) {
     calc_null_p <- function(x, fctr) {
       calc_lambdas <- function(x) {
         g <- function(lambda, level) {
@@ -376,6 +376,8 @@ empirical_mu_one_way_test <- function(x, fctr, conf.level = 0.95) {
       # underflow
       p <- pmax(p, .Machine$double.eps)
       p <- pmin(p, 1 - .Machine$double.eps)
+
+      return(p)
     }
 
     null_p <- calc_null_p(x, fctr)

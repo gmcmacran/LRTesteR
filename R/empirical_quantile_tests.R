@@ -157,7 +157,7 @@ empirical_quantile_test <- function(x, Q, value, alternative = "two.sided", conf
 
       p <- -1 / (phi + lambda * x)
 
-      if (min(p) < 0 || max(p) > 1 || sum(p) != 1) {
+      if (min(p) < 0 || max(p) > 1 || !isTRUE(all.equal(target = 1, current = sum(p), tolerance = .1^6))) {
         lambda <- calc_lambda_two(x, Q)
         p <- 1 / (1 + lambda * (x - Q)) * (1 / length(x))
       }
@@ -408,6 +408,8 @@ empirical_quantile_one_way_test <- function(x, Q, fctr, conf.level = 0.95) {
       # underflow
       p <- pmax(p, .Machine$double.eps)
       p <- pmin(p, 1 - .Machine$double.eps)
+
+      return(p)
     }
 
     null_p <- calc_null_p(x, fctr)

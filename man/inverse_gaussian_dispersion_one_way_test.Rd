@@ -7,7 +7,7 @@
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 }
 }
 \usage{
@@ -30,7 +30,7 @@ Test the equality of dispersion parameters of inverse gaussian distributions.
 }
 \details{
 \itemize{
-\item Null: Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
+\item Null: All dispersion parameters are equal. (dispersion_1 = dispersion_2 ... dispersion_k).
 \item Alternative: At least one dispersion is not equal.
 }
 The means are treated as nuisance parameters and are estimated separately for

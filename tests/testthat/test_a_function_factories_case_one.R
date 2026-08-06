@@ -20,7 +20,7 @@ test_that("calc_test_stat input checking works", {
   expect_error(LRTesteR:::create_test_function_one_sample_case_one(calc_test_helper_one, mu), "calc_test_stat's first argument is not x.")
   expect_error(LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_mu, sigma.squared), "calc_test_stat's second argument is does not match p0.")
   expect_error(LRTesteR:::create_test_function_one_sample_case_one(calc_test_helper_two, mu), "calc_test_stat's third argument is not alternative.")
-  expect_error(LRTesteR:::create_test_function_one_sample_case_one(calc_test_helper_three, mu), "calc_test_stat has too many arguments.")
+  expect_error(LRTesteR:::create_test_function_one_sample_case_one(calc_test_helper_three, mu), "calc_test_stat should have exactly three arguments.")
 })
 rm(calc_test_helper_one, calc_test_helper_two, calc_test_helper_three)
 
@@ -50,14 +50,13 @@ rm(f)
 ###############################################
 helper_one <- function(typo, fctr) {}
 helper_two <- function(x, typo) {}
-helper_three <- function(x, fctr, extra) {
-  test_that("calc_test_stat input checking works", {
-    expect_error(LRTesteR:::create_test_function_one_way_case_one(1), "Argument calc_test_stat must be a function.")
-    expect_error(LRTesteR:::create_test_function_one_way_case_one(helper_one), "calc_test_stat's first argument is not x.")
-    expect_error(LRTesteR:::create_test_function_one_way_case_one(helper_two), "calc_test_stat's second argument is not fctr.")
-    expect_error(LRTesteR:::create_test_function_one_way_case_one(helper_three), "calc_test_stat has too many arguments.")
-  })
-}
+helper_three <- function(x, fctr, extra) {}
+test_that("calc_test_stat input checking works", {
+  expect_error(LRTesteR:::create_test_function_one_way_case_one(1), "Argument calc_test_stat must be a function.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_one(helper_one), "calc_test_stat's first argument is not x.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_one(helper_two), "calc_test_stat's second argument is not fctr.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_one(helper_three), "calc_test_stat should have exactly two arguments.")
+})
 rm(helper_one, helper_two, helper_three)
 
 helper_one <- function(typo, mu, alternative, conf.level) {}
@@ -69,7 +68,7 @@ test_that("calc_test_stat input checking works", {
   expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, helper_one), "calc_individual_CI's first argument is not x.")
   expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, helper_two), "calc_individual_CI's third argument is not alternative.")
   expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, helper_three), "calc_individual_CI's fourth argument is not conf.level.")
-  expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, helper_four), "calc_individual_CI has too many arguments.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_one(calc_test_stat_normal_mu_one_way, helper_four), "calc_individual_CI should have exactly four arguments.")
 })
 rm(helper_one, helper_two, helper_three, helper_four)
 

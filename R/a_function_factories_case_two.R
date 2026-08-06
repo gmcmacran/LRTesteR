@@ -16,14 +16,14 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     stop("Argument calc_MLE must be a function.")
   }
   args <- names(formals((calc_MLE)))
+  if (length(args) != 2) {
+    stop("calc_MLE should have exactly two arguments.")
+  }
   if (args[1] != "arg1") {
     stop("calc_MLE's first argument is not arg1.")
   }
   if (args[2] != "arg2") {
     stop("calc_MLE's second argument is not arg2.")
-  }
-  if (length(args) != 2) {
-    stop("calc_MLE has too many arguments.")
   }
   rm(args)
 
@@ -33,6 +33,9 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     stop("Argument calc_test_stat must be a function.")
   }
   args <- names(formals(calc_test_stat))
+  if (length(args) != 4) {
+    stop("calc_test_stat should have exactly four arguments.")
+  }
   if (args[1] != "arg1") {
     stop("calc_test_stat's first argument is not arg1.")
   }
@@ -44,9 +47,6 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
   }
   if (args[4] != "alternative") {
     stop("calc_test_stat's fourth argument is not alternative.")
-  }
-  if (length(args) != 4) {
-    stop("calc_test_stat has too many arguments.")
   }
   rm(args)
 
@@ -251,6 +251,9 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
 
   args <- names(formals(calc_test_stat))
   args_02 <- names(formals(calc_individual_CI))
+  if (length(args) != 3) {
+    stop("calc_test_stat should have exactly three arguments.")
+  }
   if (args[1] != args_02[1]) {
     stop("calc_test_stat's first argument does not match calc_individual_CI first argument.")
   }
@@ -260,20 +263,17 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
   if (args[3] != "fctr") {
     stop("calc_test_stat's third argument is not fctr.")
   }
-  if (length(args) != 3) {
-    stop("calc_test_stat has too many arguments.")
-  }
   rm(args, args_02)
 
   args <- names(formals(calc_individual_CI))
+  if (length(args) != 5) {
+    stop("calc_individual_CI should have exactly five arguments.")
+  }
   if (args[4] != "alternative") {
     stop("calc_individual_CI's fourth argument is not alternative.")
   }
   if (args[5] != "conf.level") {
     stop("calc_individual_CI's fifth argument is not conf.level.")
-  }
-  if (length(args) != 5) {
-    stop("calc_individual_CI has too many arguments.")
   }
   rm(args)
 
@@ -352,6 +352,9 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     }
     if (length(base::unique(fctr)) < 2) {
       stop("Argument fctr should have at least two unique values.")
+    }
+    if (length(unique(fctr)) != length(unique(levels(fctr)))) {
+      stop("Each level in fctr needs to be present.")
     }
     if (length(conf.level) != 1) {
       stop("conf.level should have length one.")

@@ -7,7 +7,7 @@
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 }
 }
 \usage{
@@ -30,7 +30,7 @@ Test the equality of scale parameters of gamma distributions.
 }
 \details{
 \itemize{
-\item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
+\item Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
 \item Alternative: At least one scale is not equal.
 }
 The shapes are treated as nuisance parameters and are estimated separately for

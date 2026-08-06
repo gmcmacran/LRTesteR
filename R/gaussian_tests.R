@@ -27,7 +27,7 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' @source \itemize{
 #' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' \item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 #' }
 #' @examples
 #' library(LRTesteR)
@@ -143,7 +143,7 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' @source \itemize{
 #' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' \item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 #' }
 #' @examples
 #' library(LRTesteR)

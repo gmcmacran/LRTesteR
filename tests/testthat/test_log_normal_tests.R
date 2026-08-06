@@ -316,7 +316,7 @@ test_that("fctr input checking works", {
   expect_error(log_normal_mu_one_way_test(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(log_normal_mu_one_way_test(x, fctr1), "Argument fctr should have at least two unique values.")
   expect_error(log_normal_mu_one_way_test(x, fctr2), "Each level in fctr needs to be present.")
-  expect_error(log_normal_mu_one_way_test(x, fctr3), "Each groups needs to contain at least 15 data points for CIs to be accurate.")
+  expect_error(log_normal_mu_one_way_test(x, fctr3), "Each group needs to contain at least 15 data points for CIs to be accurate.")
 })
 rm(fctr1, fctr2, fctr3)
 
@@ -406,7 +406,7 @@ test_that("fctr input checking works", {
   expect_error(log_normal_variance_one_way_test(x, factor(rep("foo", 100))), "Argument fctr should have at least two unique values.")
   expect_error(log_normal_variance_one_way_test(x, fctr1), "Argument fctr should have at least two unique values.")
   expect_error(log_normal_variance_one_way_test(x, fctr2), "Each level in fctr needs to be present.")
-  expect_error(log_normal_variance_one_way_test(x, fctr3), "Each groups needs to contain at least 45 data points for CIs to be accurate.")
+  expect_error(log_normal_variance_one_way_test(x, fctr3), "Each group needs to contain at least 45 data points for CIs to be accurate.")
 })
 rm(fctr1, fctr2, fctr3)
 

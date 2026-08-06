@@ -7,7 +7,7 @@
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 }
 }
 \usage{
@@ -30,7 +30,7 @@ Test the equality of lambda parameters of poisson distributions.
 }
 \details{
 \itemize{
-\item All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
+\item Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
 \item Alternative: At least one lambda is not equal.
 }
 }

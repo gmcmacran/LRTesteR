@@ -7,7 +7,7 @@
 \itemize{
 \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-\item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+\item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 }
 }
 \usage{
@@ -30,7 +30,7 @@ Test the equality of shape parameters of inverse gaussian distributions.
 }
 \details{
 \itemize{
-\item Null: Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
+\item Null: All shapes are equal. (shape_1 = shape_2 ... shape_k).
 \item Alternative: At least one shape is not equal.
 }
 The means are treated as nuisance parameters and are estimated separately for

@@ -348,7 +348,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item Null: Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
+#' \item Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
 #' \item Alternative: At least one scale is not equal.
 #' }
 #' The shapes are treated as nuisance parameters and are estimated separately for
