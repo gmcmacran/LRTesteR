@@ -175,8 +175,7 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
   # Scales are nuisance parameters under both hypotheses. Only the location is
   # restricted by the null, so the groups are not required to share a scale.
   # The null estimates one location and k scales. The alternative estimates k
-  # locations and k scales. The difference is k - 1 parameters, matching the
-  # degrees of freedom used to convert W into a p value.
+  # locations and k scales.
 
   # Starting points for every location.
   start_locations <- vector(mode = "numeric", length = length(levels(fctr)))
@@ -315,8 +314,7 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
   # Locations are nuisance parameters under both hypotheses. Only the scale is
   # restricted by the null, so the groups are not required to share a location.
   # The null estimates k locations and one scale. The alternative estimates k
-  # locations and k scales. The difference is k - 1 parameters, matching the
-  # degrees of freedom used to convert W into a p value.
+  # locations and k scales.
 
   # Starting points for every location.
   start_locations <- vector(mode = "numeric", length = length(levels(fctr)))

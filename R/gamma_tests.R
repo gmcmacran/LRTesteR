@@ -187,8 +187,7 @@ calc_test_stat_gamma_shape_one_way <- function(x, fctr) {
   # Rates are nuisance parameters under both hypotheses. Only the shape is
   # restricted by the null, so the groups are not required to share a rate.
   # The null estimates one shape and k rates. The alternative estimates k shapes
-  # and k rates. The difference is k - 1 parameters, matching the degrees of
-  # freedom used to convert W into a p value.
+  # and k rates.
 
   # alt
   group_MLEs <- calc_gamma_group_MLEs(x, fctr)
@@ -283,8 +282,7 @@ calc_test_stat_gamma_scale_one_way <- function(x, fctr) {
   # Shapes are nuisance parameters under both hypotheses. Only the scale is
   # restricted by the null, so the groups are not required to share a shape.
   # The null estimates k shapes and one scale. The alternative estimates k
-  # shapes and k scales. The difference is k - 1 parameters, matching the
-  # degrees of freedom used to convert W into a p value.
+  # shapes and k scales.
 
   # alt
   group_MLEs <- calc_gamma_group_MLEs(x, fctr)
@@ -379,8 +377,7 @@ calc_test_stat_gamma_rate_one_way <- function(x, fctr) {
   # Shapes are nuisance parameters under both hypotheses. Only the rate is
   # restricted by the null, so the groups are not required to share a shape.
   # The null estimates k shapes and one rate. The alternative estimates k shapes
-  # and k rates. The difference is k - 1 parameters, matching the degrees of
-  # freedom used to convert W into a p value.
+  # and k rates.
 
   # alt
   group_MLEs <- calc_gamma_group_MLEs(x, fctr)

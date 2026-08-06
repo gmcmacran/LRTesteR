@@ -41,7 +41,7 @@ Statistically, there are number of things important to note:
 
 For a normal distribution, the above is not optimal. The F statistic is exact. The log likelihood statistic is an asymptotic approximation. The Bonferroni correction will lead to the widest confidence intervals compared to any other correction technique. 
 
-The principal advantage of the likelihood approach is it can be applied nonparametrically and to other distributions.
+The principal advantage of the likelihood approach is its generality. It can be applied nonparametrically and to other distributions.
 
 # Nonparametric One-Way ANOVA
 

@@ -108,8 +108,7 @@ calc_test_stat_beta_shape1_one_way <- function(x, fctr) {
   # Shape2s are nuisance parameters under both hypotheses. Only shape1 is
   # restricted by the null, so the groups are not required to share a shape2.
   # The null estimates one shape1 and k shape2s. The alternative estimates k
-  # shape1s and k shape2s. The difference is k - 1 parameters, matching the
-  # degrees of freedom used to convert W into a p value.
+  # shape1s and k shape2s.
 
   # alt
   # No parameter is shared, so the likelihood separates and each group is fit
@@ -216,8 +215,7 @@ calc_test_stat_beta_shape2_one_way <- function(x, fctr) {
   # Shape1s are nuisance parameters under both hypotheses. Only shape2 is
   # restricted by the null, so the groups are not required to share a shape1.
   # The null estimates one shape2 and k shape1s. The alternative estimates k
-  # shape1s and k shape2s. The difference is k - 1 parameters, matching the
-  # degrees of freedom used to convert W into a p value.
+  # shape1s and k shape2s.
 
   # alt
   # No parameter is shared, so the likelihood separates and each group is fit

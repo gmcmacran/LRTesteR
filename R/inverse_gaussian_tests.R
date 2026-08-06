@@ -273,8 +273,7 @@ calc_test_stat_inv_gauss_shape_one_way <- function(x, fctr) {
   # Means are nuisance parameters under both hypotheses. Only the shape is
   # restricted by the null, so the groups are not required to share a mean.
   # The null estimates k means and one shape. The alternative estimates k means
-  # and k shapes. The difference is k - 1 parameters, matching the degrees of
-  # freedom used to convert W into a p value.
+  # and k shapes.
 
   # Per group sufficient statistics. Every estimate below is a function of
   # these three quantities.
@@ -369,8 +368,7 @@ calc_test_stat_inv_gauss_dispersion_one_way <- function(x, fctr) {
   # Means are nuisance parameters under both hypotheses. Only the dispersion is
   # restricted by the null, so the groups are not required to share a mean.
   # The null estimates k means and one dispersion. The alternative estimates k
-  # means and k dispersions. The difference is k - 1 parameters, matching the
-  # degrees of freedom used to convert W into a p value.
+  # means and k dispersions.
 
   # Per group sufficient statistics. Every estimate below is a function of
   # these three quantities.
