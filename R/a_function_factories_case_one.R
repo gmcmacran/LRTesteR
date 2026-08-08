@@ -5,7 +5,7 @@ utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
 #' @keywords internal
 #' A function factory
 #' Function to return a function that performs likelihood ratio test.
-#' Main work hourse of one sample tests
+#' Main workhorse of one sample tests
 create_test_function_one_sample_case_one <- function(calc_test_stat, p0, n_min, LB = -Inf) {
   p0 <- rlang::ensym(p0)
   force(LB)
@@ -16,6 +16,9 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, n_min, 
     stop("Argument calc_test_stat must be a function.")
   }
   args <- names(formals(calc_test_stat))
+  if (length(args) != 3) {
+    stop("calc_test_stat should have exactly three arguments.")
+  }
   if (args[1] != "x") {
     stop("calc_test_stat's first argument is not x.")
   }
@@ -24,9 +27,6 @@ create_test_function_one_sample_case_one <- function(calc_test_stat, p0, n_min, 
   }
   if (args[3] != "alternative") {
     stop("calc_test_stat's third argument is not alternative.")
-  }
-  if (length(args) != 3) {
-    stop("calc_test_stat has too many arguments.")
   }
   rm(args)
 
@@ -169,14 +169,14 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     stop("Argument calc_test_stat must be a function.")
   }
   args <- names(formals(calc_test_stat))
+  if (length(args) != 2) {
+    stop("calc_test_stat should have exactly two arguments.")
+  }
   if (args[1] != "x") {
     stop("calc_test_stat's first argument is not x.")
   }
   if (args[2] != "fctr") {
     stop("calc_test_stat's second argument is not fctr.")
-  }
-  if (length(args) != 2) {
-    stop("calc_test_stat has too many arguments.")
   }
   rm(args)
 
@@ -186,6 +186,9 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     stop("Argument calc_individual_CI must be a function.")
   }
   args <- names(formals(calc_individual_CI))
+  if (length(args) != 4) {
+    stop("calc_individual_CI should have exactly four arguments.")
+  }
   if (args[1] != "x") {
     stop("calc_individual_CI's first argument is not x.")
   }
@@ -194,9 +197,6 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
   }
   if (args[4] != "conf.level") {
     stop("calc_individual_CI's fourth argument is not conf.level.")
-  }
-  if (length(args) != 4) {
-    stop("calc_individual_CI has too many arguments.")
   }
   rm(args)
 
@@ -234,8 +234,8 @@ create_test_function_one_way_case_one <- function(calc_test_stat, calc_individua
     if (length(unique(fctr)) != length(unique(levels(fctr)))) {
       stop("Each level in fctr needs to be present.")
     }
-    if (any(as.vector(by(x, fctr, length)) < 2)) {
-      msg <- stringr::str_c("Each groups needs to contain at least ", n_min / 2, " data points for CIs to be accurate.")
+    if (any(as.vector(by(x, fctr, length)) < n_min / 2)) {
+      msg <- stringr::str_c("Each group needs to contain at least ", n_min / 2, " data points for CIs to be accurate.")
       stop(msg)
     }
     if (length(conf.level) != 1) {

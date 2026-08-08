@@ -10,4 +10,7 @@
 0 errors | 0 warnings | 0 note
 
 ## Main updates
+* Rename all functions. Breaking changes.
+* In one way tests, nuisance parameters are no longer assumed equal
 * Add empirical likelihood tests for variance
+* Redo all vignettes

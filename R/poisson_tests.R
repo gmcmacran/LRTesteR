@@ -15,24 +15,24 @@ calc_test_stat_poisson_lambda <- function(x, lambda, alternative) {
 
 #' Test the lambda parameter of a poisson distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param lambda a number indicating the tested value of lambda
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rpois(100, 1)
-#' poisson_lambda_one_sample(x, 1, "two.sided")
+#' poisson_lambda_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rpois(100, 2)
-#' poisson_lambda_one_sample(x, 1, "greater")
+#' poisson_lambda_test(x, 1, "greater")
 #' @export
-poisson_lambda_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 15, 0)
+poisson_lambda_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_poisson_lambda, lambda, 15, 0)
 
 #' @keywords internal
 calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
@@ -64,12 +64,12 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
 
 #' Test the equality of lambda parameters of poisson distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
+#' \item Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
 #' \item Alternative: At least one lambda is not equal.
 #' }
 #' @examples
@@ -80,13 +80,13 @@ calc_test_stat_poisson_lambda_one_way <- function(x, fctr) {
 #' x <- rpois(150, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' poisson_lambda_one_way(x, fctr, .95)
+#' poisson_lambda_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rpois(50, 1), rpois(50, 2), rpois(50, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' poisson_lambda_one_way(x, fctr, .95)
+#' poisson_lambda_one_way_test(x, fctr, .95)
 #' @export
-poisson_lambda_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_one_sample, 30)
+poisson_lambda_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_poisson_lambda_one_way, poisson_lambda_test, 30)

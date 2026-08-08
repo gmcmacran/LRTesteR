@@ -27,7 +27,7 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' @source \itemize{
 #' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' \item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 #' }
 #' @examples
 #' library(LRTesteR)
@@ -35,14 +35,14 @@ calc_test_stat_normal_mu <- function(x, mu, alternative) {
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_mu_one_sample(x, 0, "two.sided")
+#' gaussian_mu_test(x, 0, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 3, 1)
-#' gaussian_mu_one_sample(x, 0, "greater")
+#' gaussian_mu_test(x, 0, "greater")
 #' @export
-gaussian_mu_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_mu, mu, 15)
+gaussian_mu_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_mu, mu, 15)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
@@ -62,24 +62,24 @@ calc_test_stat_normal_sigma.squared <- function(x, sigma.squared, alternative) {
 
 #' Test the variance of a gaussian distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param sigma.squared a number indicating the tested value of sigma squared.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rnorm(100, 0, 1)
-#' gaussian_variance_one_sample(x, 1, "two.sided")
+#' gaussian_variance_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rnorm(100, 0, 2)
-#' gaussian_variance_one_sample(x, 1, "greater")
+#' gaussian_variance_test(x, 1, "greater")
 #' @export
-gaussian_variance_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared, sigma.squared, 45, 0)
+gaussian_variance_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared, sigma.squared, 45, 0)
 
 #' @keywords internal
 calc_test_stat_normal_mu_one_way <- function(x, fctr) {
@@ -139,10 +139,11 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' \item Null: All mus are equal. (mu1 = mu2 ... muk).
 #' \item Alternative: At least one mu is not equal.
 #' }
+#' The variance is assumed to be equal across all groups.
 #' @source \itemize{
 #' \item \url{https://en.wikipedia.org/wiki/Likelihood-ratio_test}
 #' \item Yudi Pawitan. In All Likelihood. Oxford University Press.
-#' \item Hodd, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
+#' \item Hogg, McKean, and Craig. Introduction to Mathematical Statistics. Pearson.
 #' }
 #' @examples
 #' library(LRTesteR)
@@ -152,43 +153,62 @@ calc_test_stat_normal_mu_one_way <- function(x, fctr) {
 #' x <- rnorm(150, 1, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_mu_one_way(x, fctr, .95)
+#' gaussian_mu_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(50, 1, 1), rnorm(50, 2, 1), rnorm(50, 3, 1))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_mu_one_way(x, fctr, .95)
+#' gaussian_mu_one_way_test(x, fctr, .95)
 #' @export
-gaussian_mu_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_one_sample, 30)
+gaussian_mu_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_mu_one_way, gaussian_mu_test, 30)
 
 #' @keywords internal
 calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
-  # null
-  profile_mean <- base::mean(x)
+  # Means are nuisance parameters under both hypotheses.
+  group_means <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    group_means[i] <- base::mean(tempX)
+  }
 
-  obs_sd <- (sum((x - profile_mean)^2) / length(x))^.5
+  # null: one variance shared by all groups
+  SS <- 0
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    SS <- SS + sum((tempX - group_means[i])^2)
+  }
+  profile_sd <- (SS / length(x))^.5
 
-  W1 <- sum(stats::dnorm(x = x, mean = profile_mean, sd = obs_sd, log = TRUE))
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
+  for (i in seq_along(levels(fctr))) {
+    l <- levels(fctr)[i]
+    index <- which(fctr == l)
+    tempX <- x[index]
+    likelihoods[i] <- sum(stats::dnorm(x = tempX, mean = group_means[i], sd = profile_sd, log = TRUE))
+  }
+  W1 <- sum(likelihoods)
 
-  # alt
-  profile_mean_HA <- base::mean(x)
+  # alt: a variance per group
   group_sds <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    group_sds[i] <- (sum((tempX - profile_mean_HA)^2) / length(tempX))^.5
+    group_sds[i] <- (sum((tempX - group_means[i])^2) / length(tempX))^.5
   }
 
-  likelihoods <- vector(mode = "numeric", length = length(group_sds))
+  likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
-    temp <- sum(stats::dnorm(x = tempX, mean = profile_mean_HA, sd = group_sds[i], log = TRUE))
-    likelihoods[i] <- temp
+    likelihoods[i] <- sum(stats::dnorm(x = tempX, mean = group_means[i], sd = group_sds[i], log = TRUE))
   }
   W2 <- sum(likelihoods)
 
@@ -200,14 +220,16 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 
 #' Test the equality of variance parameters of gaussian distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
 #' \item Alternative: At least one variance is not equal.
 #' }
+#' The means are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'
@@ -216,13 +238,13 @@ calc_test_stat_normal_sigma.squared_one_way <- function(x, fctr) {
 #' x <- rnorm(150, 1, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_variance_one_way(x, fctr, .95)
+#' gaussian_variance_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rnorm(50, 1, 1), rnorm(50, 1, 2), rnorm(50, 1, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' gaussian_variance_one_way(x, fctr, .95)
+#' gaussian_variance_one_way_test(x, fctr, .95)
 #' @export
-gaussian_variance_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_one_sample, 90)
+gaussian_variance_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_normal_sigma.squared_one_way, gaussian_variance_test, 90)

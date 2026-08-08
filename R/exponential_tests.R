@@ -15,24 +15,24 @@ calc_test_stat_exponential_rate <- function(x, rate, alternative) {
 
 #' Test the rate parameter of a exponential distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param rate a number indicating the tested value of rate.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true
 #' set.seed(1)
 #' x <- rexp(100, 1)
-#' exponential_rate_one_sample(x, 1, "two.sided")
+#' exponential_rate_test(x, 1, "two.sided")
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rexp(100, 3)
-#' exponential_rate_one_sample(x, 1, "greater")
+#' exponential_rate_test(x, 1, "greater")
 #' @export
-exponential_rate_one_sample <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_exponential_rate, rate, 15, 0)
+exponential_rate_test <- LRTesteR:::create_test_function_one_sample_case_one(LRTesteR:::calc_test_stat_exponential_rate, rate, 15, 0)
 
 #' @keywords internal
 calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
@@ -64,9 +64,9 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
 
 #' Test the equality of rate parameters of exponential distributions.
 #'
-#' @inheritParams gaussian_mu_one_way
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inheritParams gaussian_mu_one_way_test
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
 #' \item Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
@@ -80,13 +80,13 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
 #' x <- rexp(150, 1)
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' exponential_rate_one_way(x, fctr, .95)
+#' exponential_rate_one_way_test(x, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- c(rexp(50, 1), rexp(50, 2), rexp(50, 3))
 #' fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 #' fctr <- factor(fctr, levels = c("1", "2", "3"))
-#' exponential_rate_one_way(x, fctr, .95)
+#' exponential_rate_one_way_test(x, fctr, .95)
 #' @export
-exponential_rate_one_way <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_exponential_rate_one_way, exponential_rate_one_sample, 30)
+exponential_rate_one_way_test <- create_test_function_one_way_case_one(LRTesteR:::calc_test_stat_exponential_rate_one_way, exponential_rate_test, 30)

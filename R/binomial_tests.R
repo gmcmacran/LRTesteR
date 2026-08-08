@@ -20,22 +20,22 @@ calc_test_stat_binomial_p <- function(arg1, arg2, p, alternative) {
 
 #' Test the p parameter of a binomial distribution.
 #'
-#' @inheritParams gaussian_mu_one_sample
+#' @inheritParams gaussian_mu_test
 #' @param x Number of successes.
 #' @param n Number of trials.
 #' @param p Hypothesized probability of success.
-#' @inherit gaussian_mu_one_sample return
-#' @inherit gaussian_mu_one_sample source
+#' @inherit gaussian_mu_test return
+#' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true. 52 successes. 100 trials
-#' binomial_p_one_sample(52, 100, .50, "two.sided")
+#' binomial_p_test(52, 100, .50, "two.sided")
 #'
 #' # Null is false. 75 successes. 100 trials
-#' binomial_p_one_sample(75, 100, .50, "two.sided")
+#' binomial_p_test(75, 100, .50, "two.sided")
 #' @export
-binomial_p_one_sample <- LRTesteR:::create_test_function_one_sample_case_two(LRTesteR:::calc_MLE_binomial_p, LRTesteR:::calc_test_stat_binomial_p, x, n)
+binomial_p_test <- LRTesteR:::create_test_function_one_sample_case_two(LRTesteR:::calc_MLE_binomial_p, LRTesteR:::calc_test_stat_binomial_p, x, n)
 
 #' @keywords internal
 calc_test_stat_p_one_way <- function(x, n, fctr) {
@@ -64,11 +64,11 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
 }
 
 #' Test the equality of p parameters of binomial distributions.
-#' @inheritParams gaussian_mu_one_way
+#' @inheritParams gaussian_mu_one_way_test
 #' @param x a numeric vector indicating number of successes per group.
 #' @param n a numeric vector indicating number of attempts per group.
-#' @inherit gaussian_mu_one_way return
-#' @inherit gaussian_mu_one_way source
+#' @inherit gaussian_mu_one_way_test return
+#' @inherit gaussian_mu_one_way_test source
 #' @examples
 #' library(LRTesteR)
 #'
@@ -77,13 +77,13 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
 #' x <- rbinom(3, 50, .5)
 #' n <- rep(50, length(x))
 #' fctr <- factor(1:length(x))
-#' binomial_p_one_way(x, n, fctr, .95)
+#' binomial_p_one_way_test(x, n, fctr, .95)
 #'
 #' # Null is false
 #' set.seed(1)
 #' x <- rbinom(3, 50, c(.25, .50, .75))
 #' n <- rep(50, length(x))
 #' fctr <- factor(1:length(x))
-#' binomial_p_one_way(x, n, fctr, .95)
+#' binomial_p_one_way_test(x, n, fctr, .95)
 #' @export
-binomial_p_one_way <- LRTesteR:::create_test_function_one_way_case_two(LRTesteR:::calc_test_stat_p_one_way, binomial_p_one_sample)
+binomial_p_one_way_test <- LRTesteR:::create_test_function_one_way_case_two(LRTesteR:::calc_test_stat_p_one_way, binomial_p_test)

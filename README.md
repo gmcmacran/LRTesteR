@@ -12,19 +12,19 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 
 LRTesteR provides 42 hypothesis tests and confidence likelihood based on
 the likelihood ratio statistic. There are 36 tests about distributions
-and 6 nonparametric tests. All tests have a one sample and an ANOVA
-style test.
+and 6 nonparametric tests based on the empirical likelihood. All tests
+have a one sample and an ANOVA style test.
 
 # Example 1: Test lambda of a poisson distribution
 
-To test lambda, simply call poisson_lambda_one_sample.
+To test lambda, simply call poisson_lambda_test.
 
 ``` r
 library(LRTesteR)
 
 set.seed(1)
 x <- rpois(n = 100, lambda = 1)
-poisson_lambda_one_sample(x = x, lambda = 1, alternative = "two.sided")
+poisson_lambda_test(x = x, lambda = 1, alternative = "two.sided")
 #> Log Likelihood Statistic: 0.01
 #> p value: 0.92
 #> Confidence Level: 95%
@@ -40,7 +40,7 @@ from a Cauchy random variable.
 ``` r
 set.seed(1)
 x <- rcauchy(n = 100, location = 3, scale = 5)
-cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level = .90)
+cauchy_scale_test(x = x, scale = 5, alternative = "two.sided", conf.level = .90)
 #> Log Likelihood Statistic: 1.21
 #> p value: 0.271
 #> Confidence Level: 90%
@@ -50,7 +50,7 @@ cauchy_scale_one_sample(x = x, scale = 5, alternative = "two.sided", conf.level 
 Setting alternative to “less” gets a lower one sided interval.
 
 ``` r
-cauchy_scale_one_sample(x = x, scale = 5, alternative = "less", conf.level = .90)
+cauchy_scale_test(x = x, scale = 5, alternative = "less", conf.level = .90)
 #> Log Likelihood Statistic: 1.1
 #> p value: 0.865
 #> Confidence Level: 90%
@@ -60,7 +60,7 @@ cauchy_scale_one_sample(x = x, scale = 5, alternative = "less", conf.level = .90
 Setting it to “greater” gets an upper one sided interval.
 
 ``` r
-cauchy_scale_one_sample(x = x, scale = 5, alternative = "greater", conf.level = .90)
+cauchy_scale_test(x = x, scale = 5, alternative = "greater", conf.level = .90)
 #> Log Likelihood Statistic: 1.1
 #> p value: 0.135
 #> Confidence Level: 90%
@@ -79,8 +79,8 @@ set.seed(1)
 x <- c(rgamma(n = 50, shape = 1, rate = 2), rgamma(n = 50, shape = 2, rate = 2), rgamma(n = 50, shape = 3, rate = 2))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
-gamma_shape_one_way(x = x, fctr = fctr, conf.level = .95)
-#> Log Likelihood Statistic: 68.59
+gamma_shape_one_way_test(x = x, fctr = fctr, conf.level = .95)
+#> Log Likelihood Statistic: 17.27
 #> p value: 0
 #> Confidence Level Of Set: 95%
 #> Individual Confidence Level: 98.3%
@@ -97,12 +97,14 @@ assumptions and work with less data.
 ``` r
 set.seed(1)
 x <- rnorm(n = 25, mean = 1, sd = 1)
-empirical_mu_one_sample(x = x, mu = 1, alternative = "two.sided")
+empirical_mu_test(x = x, mu = 1, alternative = "two.sided")
 #> Log Likelihood Statistic: 0.73
 #> p value: 0.392
 #> Confidence Level: 95%
 #> Confidence Interval: (0.752, 1.501)
 ```
+
+See vignette for more detail on the empirical likelihood.
 
 # The χ<sup>2</sup> approximation
 
@@ -117,7 +119,7 @@ to 2. The two intervals for μ are similar.
 set.seed(1)
 x <- rnorm(n = 500, mean = 3, sd = 2)
 exactTest <- t.test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- gaussian_mu_one_sample(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- gaussian_mu_test(x = x, mu = 2.5, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 2.867461 3.223115
 likelihoodTest$conf.int
@@ -131,7 +133,7 @@ set.seed(1)
 x <- rnorm(n = 500, mean = 3, sd = 2)
 sigma2 <- 1.5^2 # Variance, not standard deviation.
 exactTest <- EnvStats::varTest(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- gaussian_variance_one_sample(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- gaussian_variance_test(x = x, sigma.squared = sigma2, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 3.631734 4.655834
 likelihoodTest$conf.int
@@ -143,7 +145,7 @@ are similar yet again.
 
 ``` r
 exactTest <- stats::binom.test(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- binomial_p_one_sample(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- binomial_p_test(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 0.4552856 0.5447144
 likelihoodTest$conf.int
@@ -152,8 +154,9 @@ likelihoodTest$conf.int
 
 When sample size is small, similarity will decrease. When exact methods
 are available, they are the better option. The utility of the likelihood
-based approach is its generality. Many tests in this package don’t have
-other well known options.
+based approach is its generality. This package provides hypothesis tests
+and confidence intervals for distributions that otherwise would not have
+them.
 
 Estimated asymptotic type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).

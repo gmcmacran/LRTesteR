@@ -1,7 +1,6 @@
-# LRTesteR 1.5.0
-* gaussian_mu_one_way and log_normal_mu_one_way no longer assume equal variance across groups.
-
-# LRTesteR 1.4.0
+# LRTesteR 2.0.0
+* Rename all functions. Breaking changes.
+* In one way tests, nuisance parameters are no longer assumed equal (besides a few tests where it is stated)
 * Add empirical likelihood tests for variance
 * Redo all vignettes
 
