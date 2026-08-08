@@ -1,8 +1,9 @@
 ## Test environments
-* R Release on windows (github actions)
 * R Release on macOS (github actions)
+* R Release on windows (github actions)
+* R Old release on ubuntu (github actions)
 * R Release on ubuntu (github actions)
-* R devel on ubuntu (github actions)
+* R Devel on ubuntu (github actions)
 
 ## R CMD check results
 
