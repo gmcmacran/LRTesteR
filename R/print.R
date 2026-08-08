@@ -2,6 +2,7 @@
 #'
 #' @param x a test from LRTesteR.
 #' @param ... arguments passed to other methods.
+#' @return x, invisibly. Called for the side effect of printing the test.
 #' @examples
 #' library(LRTesteR)
 #'
