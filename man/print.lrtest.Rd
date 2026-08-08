@@ -11,6 +11,9 @@
 
 \item{...}{arguments passed to other methods.}
 }
+\value{
+x, invisibly. Called for the side effect of printing the test.
+}
 \description{
 Print results of tests.
 }
