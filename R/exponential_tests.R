@@ -13,7 +13,7 @@ calc_test_stat_exponential_rate <- function(x, rate, alternative) {
   return(W)
 }
 
-#' Test the rate parameter of a exponential distribution.
+#' Test the rate parameter of an exponential distribution.
 #'
 #' @inheritParams gaussian_mu_test
 #' @param rate a number indicating the tested value of rate.
