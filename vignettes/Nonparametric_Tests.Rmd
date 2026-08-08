@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample and as a likelihood without parametric assumptions. (Owen 2001)
 
-The following demonstrates the empirical likelihood approach produces similar p values and similar confidence internals in optimal conditions for the parametric method. Even when the parametric method's assumptions are true, the assumption offers little advantage. 
+The following demonstrates the empirical likelihood approach produces similar p values and similar confidence internals in optimal conditions for the parametric method, when sample size is reasonably large.
 
 ## Tests For Mu
 

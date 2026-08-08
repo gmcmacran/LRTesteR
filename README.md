@@ -12,8 +12,8 @@ status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.o
 
 LRTesteR provides 42 hypothesis tests and confidence likelihood based on
 the likelihood ratio statistic. There are 36 tests about distributions
-and 6 nonparametric tests. All tests have a one sample and an ANOVA
-style test.
+and 6 nonparametric tests based on the empirical likelihood. All tests
+have a one sample and an ANOVA style test.
 
 # Example 1: Test lambda of a poisson distribution
 
@@ -104,6 +104,8 @@ empirical_mu_test(x = x, mu = 1, alternative = "two.sided")
 #> Confidence Interval: (0.752, 1.501)
 ```
 
+See vignette for more detail on the empirical likelihood.
+
 # The χ<sup>2</sup> approximation
 
 As implemented, all functions depend on the asymptotic χ<sup>2</sup>
@@ -152,8 +154,9 @@ likelihoodTest$conf.int
 
 When sample size is small, similarity will decrease. When exact methods
 are available, they are the better option. The utility of the likelihood
-based approach is its generality. Many tests in this package don’t have
-other well known options.
+based approach is its generality. This package provides hypothesis tests
+and confidence intervals for distributions that otherwise would not have
+them.
 
 Estimated asymptotic type I and type II error rates can be found
 [here](https://github.com/gmcmacran/TypeOneTypeTwoSim).
