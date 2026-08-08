@@ -33,6 +33,8 @@ Test the equality of location parameters of cauchy distributions.
 \item Null: All locations are equal. (location_1 = location_2 ... location_k).
 \item Alternative: At least one location is not equal.
 }
+The scales are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

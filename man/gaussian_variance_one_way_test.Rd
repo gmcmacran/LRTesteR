@@ -33,6 +33,8 @@ Test the equality of variance parameters of gaussian distributions.
 \item Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
 \item Alternative: At least one variance is not equal.
 }
+The means are treated as nuisance parameters and are estimated separately for
+each group.
 }
 \examples{
 library(LRTesteR)

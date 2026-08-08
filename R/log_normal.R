@@ -79,7 +79,7 @@ calc_test_stat_log_normal_mu_one_way <- function(x, fctr) {
 #' \item Null: All mus are equal. (mu1 = mu2 ... muk).
 #' \item Alternative: At least one mu is not equal.
 #' }
-#' The variances of the logged data is pooled across groups.
+#' The variance of the logged data is assumed to be equal across all groups.
 #' @examples
 #' library(LRTesteR)
 #'
@@ -119,6 +119,8 @@ calc_test_stat_log_normal_sigma.squared_one_way <- function(x, fctr) {
 #' \item Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
 #' \item Alternative: At least one variance is not equal.
 #' }
+#' The means of the logged data are treated as nuisance parameters and are
+#' estimated separately for each group.
 #' @examples
 #' library(LRTesteR)
 #'

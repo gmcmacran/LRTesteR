@@ -290,6 +290,8 @@ calc_test_stat_cauchy_location_one_way <- function(x, fctr) {
 #' \item Null: All locations are equal. (location_1 = location_2 ... location_k).
 #' \item Alternative: At least one location is not equal.
 #' }
+#' The scales are treated as nuisance parameters and are estimated separately for
+#' each group.
 #' @examples
 #' library(LRTesteR)
 #'
@@ -429,6 +431,8 @@ calc_test_stat_cauchy_scale_one_way <- function(x, fctr) {
 #' \item Null: All scales are equal. (scale_1 = scale_2 ... scale_k).
 #' \item Alternative: At least one scale is not equal.
 #' }
+#' The locations are treated as nuisance parameters and are estimated separately
+#' for each group.
 #' @examples
 #' library(LRTesteR)
 #'

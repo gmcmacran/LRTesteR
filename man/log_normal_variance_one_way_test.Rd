@@ -33,6 +33,8 @@ Test the equality of variance parameters of log normal distributions.
 \item Null: All variances are equal. (o^2_1 = o^2_2 ... o^2_k).
 \item Alternative: At least one variance is not equal.
 }
+The means of the logged data are treated as nuisance parameters and are
+estimated separately for each group.
 }
 \examples{
 library(LRTesteR)
