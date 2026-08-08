@@ -30,6 +30,12 @@ hypothesis.
 \description{
 Test the equality of p parameters of binomial distributions.
 }
+\details{
+\itemize{
+\item Null: All ps are equal. (p_1 = p_2 ... p_k).
+\item Alternative: At least one p is not equal.
+}
+}
 \examples{
 library(LRTesteR)
 

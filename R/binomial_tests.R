@@ -64,11 +64,17 @@ calc_test_stat_p_one_way <- function(x, n, fctr) {
 }
 
 #' Test the equality of p parameters of binomial distributions.
+#'
 #' @inheritParams gaussian_mu_one_way_test
 #' @param x a numeric vector indicating number of successes per group.
 #' @param n a numeric vector indicating number of attempts per group.
 #' @inherit gaussian_mu_one_way_test return
 #' @inherit gaussian_mu_one_way_test source
+#' @details
+#' \itemize{
+#' \item Null: All ps are equal. (p_1 = p_2 ... p_k).
+#' \item Alternative: At least one p is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
