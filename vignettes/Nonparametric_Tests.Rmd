@@ -14,15 +14,19 @@ knitr::opts_chunk$set(
 )
 ```
 
-## Empirical Likelihood Tests
+# Empirical Likelihood Tests
 
-Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample and as a likelihood without parametric assumptions. (Owen 2001)
+> Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample and as a likelihood without parametric assumptions.
+>
+> --- Owen (2001)
 
-The following demonstrates the empirical likelihood approach produces similar p values and similar confidence internals in optimal conditions for the parametric method, when sample size is reasonably large.
+Dropping the distributional assumption usually costs something. The sections below show how little is given up: each parametric test is paired with its empirical counterpart on the same data, under conditions ideal for the parametric test and with a reasonably large sample. The p values and confidence intervals come out close.
 
-## Tests For Mu
+# One Sample Tests For Mu
 
-### Gaussian Distribution
+## Gaussian Distribution
+
+Starting with a normal sample, the parametric test is the natural choice.
 
 ```{r part1}
 library(LRTesteR)
@@ -34,11 +38,15 @@ x <- rnorm(50)
 gaussian_mu_test(x = x, mu = 0, alternative = "two.sided")
 ```
 
+The empirical test, which knows nothing about the normal distribution, lands in nearly the same place.
+
 ```{r part2}
 empirical_mu_test(x = x, mu = 0, alternative = "two.sided")
 ```
 
-### Inverse Gaussian Distribution
+## Inverse Gaussian Distribution
+
+The agreement is not special to the normal distribution. Here the data are inverse gaussian.
 
 ```{r part3}
 set.seed(1)
@@ -46,30 +54,37 @@ x <- rinvgauss(50)
 
 inverse_gaussian_mu_test(x = x, mu = 1, alternative = "two.sided")
 ```
-The one way test does not require nuisance parameters or sample size to be equal.
+
+The same empirical test is used again. Only the data changed.
 
 ```{r part4}
 empirical_mu_test(x = x, mu = 1, alternative = "two.sided")
 ```
 
+# One Sample Tests For Variance
 
-## Tests For Variance
+## Gaussian Distribution
 
-### Gaussian Distribution
-```{r part6}
+Mu is a nuisance parameter here, and the empirical test profiles it out.
+
+```{r part5}
 set.seed(1)
 x <- rnorm(50)
 
 gaussian_variance_test(x = x, sigma.squared = 1, alternative = "two.sided")
 ```
-```{r part7}
+
+```{r part6}
 empirical_variance_test(x = x, sigma.squared = 1, alternative = "two.sided")
 ```
 
-## One Way Tests For Mu
+# One Way Tests For Mu
 
-### Gaussian Distribution
-```{r part8}
+## Gaussian Distribution
+
+Moving to two groups, the pattern holds for the ANOVA style tests. Unlike the parametric one way test, the empirical version does not require nuisance parameters or sample sizes to be equal across groups.
+
+```{r part7}
 set.seed(1)
 x <- rnorm(100)
 fctr <- c(rep(1, 50), rep(2, 50))
@@ -78,12 +93,15 @@ fctr <- factor(fctr, levels = c("1", "2"))
 gaussian_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
-```{r part9}
+```{r part8}
 empirical_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
-### Inverse Gaussian Distribution
-```{r part10}
+## Inverse Gaussian Distribution
+
+Again, swapping the distribution changes the parametric test but not the empirical one.
+
+```{r part9}
 set.seed(1)
 x <- rinvgauss(100)
 fctr <- c(rep(1, 50), rep(2, 50))
@@ -92,14 +110,17 @@ fctr <- factor(fctr, levels = c("1", "2"))
 inverse_gaussian_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
-```{r part11}
+```{r part10}
 empirical_mu_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
-## One Way Tests For Variance
+# One Way Tests For Variance
 
-### Gaussian Distribution
-```{r part12}
+## Gaussian Distribution
+
+Testing equality of variances across groups closes out the comparison.
+
+```{r part11}
 set.seed(1)
 x <- rnorm(100)
 fctr <- c(rep(1, 50), rep(2, 50))
@@ -108,6 +129,8 @@ fctr <- factor(fctr, levels = c("1", "2"))
 gaussian_variance_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
 
-```{r part13}
+```{r part12}
 empirical_variance_one_way_test(x = x, fctr = fctr, conf.level = .95)
 ```
+
+Across all of these, the empirical tests track the parametric ones closely. What they buy is robustness: when the distributional assumption is wrong, or when no parametric test exists for the parameter of interest, the empirical version still applies.

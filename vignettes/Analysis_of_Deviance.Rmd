@@ -33,36 +33,43 @@ fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))
 fctr <- factor(fctr, levels = c("1", "2", "3"))
 gaussian_mu_one_way_test(x = x, fctr = fctr, conf.level = 0.95)
 ```
-Statistically, there are number of things important to note:
+Statistically, there are a number of things worth noting:
 
 * The statistic is the log likelihood statistic, not the F statistic.
 * The p value is based on the chi-squared distribution, not the F distribution.
 * The individual confidence intervals use the Bonferroni correction.
 
-For a normal distribution, the above is not optimal. The F statistic is exact. The log likelihood statistic is an asymptotic approximation. The Bonferroni correction will lead to the widest confidence intervals compared to any other correction technique. 
+For a normal distribution, none of this is optimal. The F statistic is exact while the log likelihood statistic is only an asymptotic approximation, and the Bonferroni correction leads to the widest confidence intervals of any correction technique.
 
-The principal advantage of the likelihood approach is its generality. It can be applied nonparametrically and to other distributions.
+The principal advantage of the likelihood approach is its generality. The same machinery applies nonparametrically and to other distributions. The rest of this vignette works through both.
 
 # Nonparametric One-Way ANOVA
 
-One-way analysis without assuming the data are normally distributed.
+The same comparison of means, without assuming the data are normally distributed. The null hypothesis is unchanged.
+
+$$ H_{0}: \mu_0 = \mu_1 = \mu_2  $$
 
 ```{r part2}
 empirical_mu_one_way_test(x = x, fctr = fctr, conf.level = 0.95)
 ```
 
-# Nonparametric Equality Of Variance
+# Nonparametric Equality of Variance
+
+Reusing the same data, the equality of variances is tested nonparametrically. The null hypothesis is
+
 $$ H_{0}: \sigma^2_0 = \sigma^2_1 = \sigma^2_2  $$
-```{r part4}
+
+```{r part3}
 empirical_variance_one_way_test(x = x, fctr = fctr, conf.level = 0.95)
 ```
 
 # Cauchy Random Variables
+
 Here two random variables following a Cauchy distribution with a common location and different scales are created. For this test, the null hypothesis is 
 
 $$ H_{0}: \gamma_0 = \gamma_1  $$
 
-```{r part5}
+```{r part4}
 set.seed(1)
 x <- c(rcauchy(n = 50, location = 2, scale = 1), rcauchy(n = 50, location = 2, scale = 3))
 fctr <- c(rep(1, 50), rep(2, 50))
@@ -70,14 +77,13 @@ fctr <- factor(fctr, levels = c("1", "2"))
 cauchy_scale_one_way_test(x = x, fctr = fctr, conf.level = 0.95)
 ```
 
-
-
 # Poisson Random Variables
-Here three poisson random variables with different lambdas are created. The null hypothesis is 
+
+Finally, three poisson random variables with different lambdas are created. The null hypothesis is
 
 $$ H_{0}: \lambda_0 = \lambda_1 = \lambda_2  $$
 
-```{r part6}
+```{r part5}
 set.seed(1)
 x <- c(rpois(n = 50, lambda = 1), rpois(n = 50, lambda = 2), rpois(n = 50, lambda = 3))
 fctr <- c(rep(1, 50), rep(2, 50), rep(3, 50))

@@ -10,10 +10,11 @@
 status](https://www.r-pkg.org/badges/version/LRTesteR)](https://cran.r-project.org/package=LRTesteR)
 <!-- badges: end -->
 
-LRTesteR provides 42 hypothesis tests and confidence likelihood based on
-the likelihood ratio statistic. There are 36 tests about distributions
-and 6 nonparametric tests based on the empirical likelihood. All tests
-have a one sample and an ANOVA style test.
+LRTesteR provides 42 hypothesis tests and confidence intervals based on
+the likelihood ratio statistic. Of these, 36 are parametric tests about
+a specific distribution and 6 are nonparametric tests based on the
+empirical likelihood. Every test comes in two forms: a one sample
+version and an ANOVA style version.
 
 # Example 1: Test lambda of a poisson distribution
 
@@ -33,9 +34,9 @@ poisson_lambda_test(x = x, lambda = 1, alternative = "two.sided")
 
 # Example 2: Confidence Interval
 
-To get a confidence interval, set the conf.level to the desired
-confidence. Below gets a two sided 90% confidence interval for scale
-from a Cauchy random variable.
+To get a confidence interval, set conf.level to the desired confidence.
+The example below gets a two sided 90% confidence interval for the scale
+of a Cauchy random variable.
 
 ``` r
 set.seed(1)
@@ -47,7 +48,7 @@ cauchy_scale_test(x = x, scale = 5, alternative = "two.sided", conf.level = .90)
 #> Confidence Interval: (4.64, 7.284)
 ```
 
-Setting alternative to “less” gets a lower one sided interval.
+Setting alternative to “less” gets a one sided interval bounded above.
 
 ``` r
 cauchy_scale_test(x = x, scale = 5, alternative = "less", conf.level = .90)
@@ -57,7 +58,7 @@ cauchy_scale_test(x = x, scale = 5, alternative = "less", conf.level = .90)
 #> Confidence Interval: (0, 6.93)
 ```
 
-Setting it to “greater” gets an upper one sided interval.
+Setting it to “greater” gets a one sided interval bounded below.
 
 ``` r
 cauchy_scale_test(x = x, scale = 5, alternative = "greater", conf.level = .90)
@@ -70,9 +71,9 @@ cauchy_scale_test(x = x, scale = 5, alternative = "greater", conf.level = .90)
 # Example 3: One-way Analysis
 
 One-way ANOVA is generalized to all distributions. Here gamma random
-variables are created with different shapes. The one way test has a
-small p value and provides confidence intervals with 95% confidence for
-the whole set.
+variables are created with different shapes. The test returns a small p
+value and a set of confidence intervals that have 95% confidence as a
+group.
 
 ``` r
 set.seed(1)
@@ -104,16 +105,18 @@ empirical_mu_test(x = x, mu = 1, alternative = "two.sided")
 #> Confidence Interval: (0.752, 1.501)
 ```
 
-See vignette for more detail on the empirical likelihood.
+See the Nonparametric Tests vignette for more detail on the empirical
+likelihood.
 
 # The χ<sup>2</sup> approximation
 
 As implemented, all functions depend on the asymptotic χ<sup>2</sup>
-approximation. To get a sense of accuracy of this approximation for
-large samples, the likelihood tests are compared to the exact tests.
+approximation. To get a sense of how accurate this approximation is for
+large samples, the likelihood tests are compared to the exact tests
+below.
 
-X is normally distributed with μ equal to 3 and standard deviation equal
-to 2. The two intervals for μ are similar.
+First, X is normally distributed with μ equal to 3 and standard
+deviation equal to 2. The two intervals for μ are similar.
 
 ``` r
 set.seed(1)
@@ -140,7 +143,7 @@ likelihoodTest$conf.int
 #> [1] 3.620303 4.639384
 ```
 
-Changing to p for a binomial random variable, the confidence intervals
+Switching to p of a binomial random variable, the confidence intervals
 are similar yet again.
 
 ``` r
@@ -152,9 +155,9 @@ likelihoodTest$conf.int
 #> [1] 0.4562579 0.5437421
 ```
 
-When sample size is small, similarity will decrease. When exact methods
+When sample size is small, the similarity decreases. When exact methods
 are available, they are the better option. The utility of the likelihood
-based approach is its generality. This package provides hypothesis tests
+based approach is its generality: this package provides hypothesis tests
 and confidence intervals for distributions that otherwise would not have
 them.
 

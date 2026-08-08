@@ -63,11 +63,17 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
 }
 
 #' Test the equality of p parameters of negative binomial distributions.
+#'
 #' @param num_failures a numeric vector indicating number of failures per group.
 #' @param num_successes a numeric vector indicating number of successes per group.
 #' @inheritParams gaussian_mu_one_way_test
 #' @inherit gaussian_mu_one_way_test return
 #' @inherit gaussian_mu_one_way_test source
+#' @details
+#' \itemize{
+#' \item Null: All ps are equal. (p_1 = p_2 ... p_k).
+#' \item Alternative: At least one p is not equal.
+#' }
 #' @examples
 #' library(LRTesteR)
 #'
