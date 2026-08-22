@@ -1,9 +1,9 @@
 ###############################################
 # Test Results
 ###############################################
-calc_MLE <- calc_MLE_binomial_p
+calc_MLE <- calc_MLE_binomial_prob
 
-calc_test_stat <- calc_test_stat_binomial_p
+calc_test_stat <- calc_test_stat_binomial_prob
 
 f <- LRTesteR:::create_test_function_one_sample_case_two(calc_MLE, calc_test_stat, x, size)
 test_that("Check structure.", {
@@ -72,7 +72,7 @@ calc_test_stat <- function(x, size, fctr) {
   return(W)
 }
 
-f <- LRTesteR:::create_test_function_one_way_case_two(calc_test_stat, binomial_p_test)
+f <- LRTesteR:::create_test_function_one_way_case_two(calc_test_stat, binomial_prob_test)
 test_that("Check structure.", {
   expect_true(class(f) == "function")
   expect_true(all(names(formals(f)) == c("x", "size", "fctr", "conf.level")))
@@ -87,11 +87,11 @@ helper_two <- function(x, typo, fctr) {}
 helper_three <- function(x, size, typo) {}
 helper_four <- function(x, size, fctr, extra) {}
 test_that("calc_test_stat input checking works", {
-  expect_error(LRTesteR:::create_test_function_one_way_case_two(1, binomial_p_test), "Argument calc_test_stat must be a function.")
-  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_one, binomial_p_test), "calc_test_stat's first argument does not match calc_individual_CI first argument.")
-  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_two, binomial_p_test), "calc_test_stat's second argument does not match calc_individual_CI second argument.")
-  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_three, binomial_p_test), "calc_test_stat's third argument is not fctr.")
-  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_four, binomial_p_test), "calc_test_stat should have exactly three arguments.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_two(1, binomial_prob_test), "Argument calc_test_stat must be a function.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_one, binomial_prob_test), "calc_test_stat's first argument does not match calc_individual_CI first argument.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_two, binomial_prob_test), "calc_test_stat's second argument does not match calc_individual_CI second argument.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_three, binomial_prob_test), "calc_test_stat's third argument is not fctr.")
+  expect_error(LRTesteR:::create_test_function_one_way_case_two(helper_four, binomial_prob_test), "calc_test_stat should have exactly three arguments.")
 })
 rm(helper_one, helper_two, helper_three, helper_four)
 
