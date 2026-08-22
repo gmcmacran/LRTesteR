@@ -1,12 +1,12 @@
 #' @keywords internal
-calc_MLE_negative_binomial_p <- function(arg1, arg2) {
+calc_MLE_negative_binomial_prob <- function(arg1, arg2) {
   ops_p <- arg2 / (arg2 + arg1)
   return(ops_p)
 }
 
 #' @keywords internal
-calc_test_stat_negative_binomial_p <- function(arg1, arg2, prob, alternative) {
-  obs_prob <- calc_MLE_negative_binomial_p(arg1, arg2)
+calc_test_stat_negative_binomial_prob <- function(arg1, arg2, prob, alternative) {
+  obs_prob <- calc_MLE_negative_binomial_prob(arg1, arg2)
   W <- 2 * (sum(stats::dnbinom(x = arg1, size = arg2, prob = obs_prob, log = TRUE)) -
     sum(stats::dnbinom(x = arg1, size = arg2, prob = prob, log = TRUE)))
   W <- pmax(W, 0)
@@ -18,26 +18,26 @@ calc_test_stat_negative_binomial_p <- function(arg1, arg2, prob, alternative) {
   return(W)
 }
 
-#' Test the p parameter of a negative binomial distribution.
+#' Test the prob parameter of a negative binomial distribution.
 #'
 #' @param num_failures Number of failures.
 #' @param num_successes Number of successes.
-#' @inheritParams binomial_p_test
+#' @inheritParams binomial_prob_test
 #' @inherit gaussian_mu_test return
 #' @inherit gaussian_mu_test source
 #' @examples
 #' library(LRTesteR)
 #'
 #' # Null is true. 48 failures before 52 successes.
-#' negative_binomial_p_test(48, 52, .50, "two.sided")
+#' negative_binomial_prob_test(48, 52, .50, "two.sided")
 #'
 #' # Null is false. 25 failures before 75 successes.
-#' negative_binomial_p_test(25, 75, .50, "two.sided")
+#' negative_binomial_prob_test(25, 75, .50, "two.sided")
 #' @export
-negative_binomial_p_test <- LRTesteR:::create_test_function_one_sample_case_two(LRTesteR:::calc_MLE_negative_binomial_p, LRTesteR:::calc_test_stat_negative_binomial_p, num_failures, num_successes)
+negative_binomial_prob_test <- LRTesteR:::create_test_function_one_sample_case_two(LRTesteR:::calc_MLE_negative_binomial_prob, LRTesteR:::calc_test_stat_negative_binomial_prob, num_failures, num_successes)
 
 #' @keywords internal
-calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_successes, fctr) {
+calc_test_stat_negative_binomial_prob_one_way <- function(num_failures, num_successes, fctr) {
   # Null
   obs_prob <- sum(num_successes) / (sum(num_successes) + sum(num_failures))
 
@@ -62,7 +62,7 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
   return(W)
 }
 
-#' Test the equality of p parameters of negative binomial distributions.
+#' Test the equality of prob parameters of negative binomial distributions.
 #'
 #' @param num_failures a numeric vector indicating number of failures per group.
 #' @param num_successes a numeric vector indicating number of successes per group.
@@ -71,8 +71,8 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
 #' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item Null: All ps are equal. (p_1 = p_2 ... p_k).
-#' \item Alternative: At least one p is not equal.
+#' \item Null: All probs are equal. (prob_1 = prob_2 ... prob_k).
+#' \item Alternative: At least one prob is not equal.
 #' }
 #' @examples
 #' library(LRTesteR)
@@ -82,7 +82,7 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
 #' num_failures <- rnbinom(3, 50, .5)
 #' num_successes <- rep(50, length(num_failures))
 #' fctr <- factor(1:length(num_failures))
-#' negative_binomial_p_one_way_test(num_failures, num_successes, fctr, .95)
+#' negative_binomial_prob_one_way_test(num_failures, num_successes, fctr, .95)
 #'
 #'
 #' # Null is false
@@ -90,6 +90,6 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
 #' num_failures <- rnbinom(3, 50, c(.25, .50, .75))
 #' num_successes <- rep(50, length(num_failures))
 #' fctr <- factor(1:length(num_failures))
-#' negative_binomial_p_one_way_test(num_failures, num_successes, fctr, .95)
+#' negative_binomial_prob_one_way_test(num_failures, num_successes, fctr, .95)
 #' @export
-negative_binomial_p_one_way_test <- LRTesteR:::create_test_function_one_way_case_two(LRTesteR:::calc_test_stat_negative_binomial_p_one_way, negative_binomial_p_test)
+negative_binomial_prob_one_way_test <- LRTesteR:::create_test_function_one_way_case_two(LRTesteR:::calc_test_stat_negative_binomial_prob_one_way, negative_binomial_prob_test)
