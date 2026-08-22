@@ -257,6 +257,7 @@ test_that("Second argument input checking works", {
   expect_error(negative_binomial_prob_one_way_test(10, 1.5), "Second argument should only contain integers.")
   expect_error(negative_binomial_prob_one_way_test(10, -1L), "All elements in second argument should be 0 or above.")
   expect_error(negative_binomial_prob_one_way_test(10, 39), "num_failures plus num_successes should be at least 60 for likelihood ratio test.")
+  expect_error(negative_binomial_prob_one_way_test(60, 0), "There must be at least one success in num_successes per group.")
 })
 
 

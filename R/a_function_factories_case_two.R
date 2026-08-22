@@ -84,7 +84,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
 
   calc_CI <- function(arg1, arg2, alternative, conf.level) {
     alpha <- 1 - conf.level
-    ops_p <- calc_MLE(arg1, arg2)
+    obs_prob <- calc_MLE(arg1, arg2)
 
     calc_left_side_CI <- function(alpha) {
       helper <- function(param) {
@@ -126,21 +126,21 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     if (alternative == "two.sided") {
       alpha <- alpha / 2
       # deal with edge case of MLE on boundary
-      if (ops_p == 1) {
+      if (obs_prob == 1) {
         CI <- c(calc_left_side_CI(alpha), UB)
-      } else if (ops_p == 0) {
+      } else if (obs_prob == 0) {
         CI <- c(LB, calc_right_side_CI(alpha))
       } else {
         CI <- c(calc_left_side_CI(alpha), calc_right_side_CI(alpha))
       }
     } else if (alternative == "less") {
-      if (ops_p == 1) {
+      if (obs_prob == 1) {
         CI <- c(calc_left_side_CI(alpha), UB)
       } else {
         CI <- c(LB, calc_right_side_CI(alpha))
       }
     } else {
-      if (ops_p == 0) {
+      if (obs_prob == 0) {
         CI <- c(LB, calc_right_side_CI(alpha))
       } else {
         CI <- c(calc_left_side_CI(alpha), UB)
@@ -288,7 +288,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     )
     rangeCheck <- rlang::expr(
       if (any(!!arg1 > !!arg2)) {
-        stop("No values in  x can be larger than values in size.")
+        stop("No values in x can be larger than values in size.")
       }
     )
   } else if (rlang::as_string(arg2) == "num_successes") {

@@ -229,6 +229,7 @@ test_that("Second argument input checking works", {
   expect_error(binomial_prob_one_way_test(10, 1.5), "Second argument should only contain integers.")
   expect_error(binomial_prob_one_way_test(10, -1L), "All elements in second argument should be 0 or above.")
   expect_error(binomial_prob_one_way_test(10, 49), "At least 50 trials should be done for likelihood ratio test.")
+  expect_error(binomial_prob_one_way_test(60, 50), "No values in x can be larger than values in size.")
 })
 
 

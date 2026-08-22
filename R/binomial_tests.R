@@ -1,7 +1,7 @@
 #' @keywords internal
 calc_MLE_binomial_prob <- function(arg1, arg2) {
-  ops_p <- arg1 / arg2
-  return(ops_p)
+  obs_prob <- arg1 / arg2
+  return(obs_prob)
 }
 
 #' @keywords internal
