@@ -11,14 +11,14 @@
 }
 }
 \usage{
-binomial_p_test(x, n, p, alternative = "two.sided", conf.level = 0.95)
+binomial_p_test(x, size, prob, alternative = "two.sided", conf.level = 0.95)
 }
 \arguments{
 \item{x}{Number of successes.}
 
-\item{n}{Number of trials.}
+\item{size}{Number of trials.}
 
-\item{p}{Hypothesized probability of success.}
+\item{prob}{Hypothesized probability of success.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 

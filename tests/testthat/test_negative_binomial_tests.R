@@ -165,10 +165,10 @@ test_that("success input checking works", {
 })
 
 test_that("p input checking works", {
-  expect_error(negative_binomial_p_test(1, 50, "foo"), "Argument p should be numeric.")
-  expect_error(negative_binomial_p_test(1, 50, c(.5, .6)), "Argument p should have length one.")
-  expect_error(negative_binomial_p_test(1, 50, -.1), "Argument p should be between 0 and 1.")
-  expect_error(negative_binomial_p_test(1, 50, 1.01), "Argument p should be between 0 and 1.")
+  expect_error(negative_binomial_p_test(1, 50, "foo"), "Argument prob should be numeric.")
+  expect_error(negative_binomial_p_test(1, 50, c(.5, .6)), "Argument prob should have length one.")
+  expect_error(negative_binomial_p_test(1, 50, -.1), "Argument prob should be between 0 and 1.")
+  expect_error(negative_binomial_p_test(1, 50, 1.01), "Argument prob should be between 0 and 1.")
 })
 
 test_that("alternative input checking works", {

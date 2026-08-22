@@ -11,12 +11,12 @@
 }
 }
 \usage{
-binomial_p_one_way_test(x, n, fctr, conf.level = 0.95)
+binomial_p_one_way_test(x, size, fctr, conf.level = 0.95)
 }
 \arguments{
 \item{x}{a numeric vector indicating number of successes per group.}
 
-\item{n}{a numeric vector indicating number of attempts per group.}
+\item{size}{a numeric vector indicating number of attempts per group.}
 
 \item{fctr}{a factor vector indicating groups.}
 
@@ -42,14 +42,14 @@ library(LRTesteR)
 # Null is true.
 set.seed(1)
 x <- rbinom(3, 50, .5)
-n <- rep(50, length(x))
+size <- rep(50, length(x))
 fctr <- factor(1:length(x))
-binomial_p_one_way_test(x, n, fctr, .95)
+binomial_p_one_way_test(x, size, fctr, .95)
 
 # Null is false
 set.seed(1)
 x <- rbinom(3, 50, c(.25, .50, .75))
-n <- rep(50, length(x))
+size <- rep(50, length(x))
 fctr <- factor(1:length(x))
-binomial_p_one_way_test(x, n, fctr, .95)
+binomial_p_one_way_test(x, size, fctr, .95)
 }

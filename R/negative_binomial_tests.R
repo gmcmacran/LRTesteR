@@ -5,14 +5,14 @@ calc_MLE_negative_binomial_p <- function(arg1, arg2) {
 }
 
 #' @keywords internal
-calc_test_stat_negative_binomial_p <- function(arg1, arg2, p, alternative) {
-  obs_p <- calc_MLE_negative_binomial_p(arg1, arg2)
-  W <- 2 * (sum(stats::dnbinom(x = arg1, size = arg2, prob = obs_p, log = TRUE)) -
-    sum(stats::dnbinom(x = arg1, size = arg2, prob = p, log = TRUE)))
+calc_test_stat_negative_binomial_p <- function(arg1, arg2, prob, alternative) {
+  obs_prob <- calc_MLE_negative_binomial_p(arg1, arg2)
+  W <- 2 * (sum(stats::dnbinom(x = arg1, size = arg2, prob = obs_prob, log = TRUE)) -
+    sum(stats::dnbinom(x = arg1, size = arg2, prob = prob, log = TRUE)))
   W <- pmax(W, 0)
 
   if (alternative != "two.sided") {
-    W <- sign(obs_p - p) * (W^.5)
+    W <- sign(obs_prob - prob) * (W^.5)
   }
 
   return(W)
@@ -39,9 +39,9 @@ negative_binomial_p_test <- LRTesteR:::create_test_function_one_sample_case_two(
 #' @keywords internal
 calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_successes, fctr) {
   # Null
-  obs_p <- sum(num_successes) / (sum(num_successes) + sum(num_failures))
+  obs_prob <- sum(num_successes) / (sum(num_successes) + sum(num_failures))
 
-  W1 <- sum(stats::dnbinom(x = num_failures, size = num_successes, prob = obs_p, log = TRUE))
+  W1 <- sum(stats::dnbinom(x = num_failures, size = num_successes, prob = obs_prob, log = TRUE))
 
   # alt
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
@@ -50,8 +50,8 @@ calc_test_stat_negative_binomial_p_one_way <- function(num_failures, num_success
     index <- which(fctr == l)
     tempFailure <- num_failures[index]
     tempSuccess <- num_successes[index]
-    tempP <- tempSuccess / (tempSuccess + tempFailure)
-    likelihoods[i] <- sum(stats::dnbinom(x = tempFailure, size = tempSuccess, prob = tempP, log = TRUE))
+    tempProb <- tempSuccess / (tempSuccess + tempFailure)
+    likelihoods[i] <- sum(stats::dnbinom(x = tempFailure, size = tempSuccess, prob = tempProb, log = TRUE))
   }
 
   W2 <- sum(likelihoods)

@@ -14,7 +14,7 @@
 negative_binomial_p_test(
   num_failures,
   num_successes,
-  p,
+  prob,
   alternative = "two.sided",
   conf.level = 0.95
 )
@@ -24,7 +24,7 @@ negative_binomial_p_test(
 
 \item{num_successes}{Number of successes.}
 
-\item{p}{Hypothesized probability of success.}
+\item{prob}{Hypothesized probability of success.}
 
 \item{alternative}{a character string specifying the alternative hypothesis, must be one of "two.sided" (default), "greater" or "less".}
 

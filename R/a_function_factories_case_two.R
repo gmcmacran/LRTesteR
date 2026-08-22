@@ -1,6 +1,6 @@
 # fix check.
 # Not actually global.
-utils::globalVariables(c("x", "alternative", "conf.level", "p", "fctr"))
+utils::globalVariables(c("x", "alternative", "conf.level", "prob", "fctr"))
 
 #' @keywords internal
 #' A function factory
@@ -42,8 +42,8 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
   if (args[2] != "arg2") {
     stop("calc_test_stat's second argument is not arg2.")
   }
-  if (args[3] != "p") {
-    stop("calc_test_stat's third argument is not p.")
+  if (args[3] != "prob") {
+    stop("calc_test_stat's third argument is not prob.")
   }
   if (args[4] != "alternative") {
     stop("calc_test_stat's fourth argument is not alternative.")
@@ -53,7 +53,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
   LB <- 0
   UB <- 1
 
-  if (rlang::as_string(arg2) == "n") {
+  if (rlang::as_string(arg2) == "size") {
     # binomial case
     sizeCheck <- rlang::expr(
       if (!!arg2 < 25) {
@@ -62,7 +62,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     )
     rangeCheck <- rlang::expr(
       if (!!arg1 > !!arg2) {
-        stop("Argument x cannot be larger than n.")
+        stop("Argument x cannot be larger than size.")
       }
     )
   } else if (rlang::as_string(arg2) == "num_successes") {
@@ -78,7 +78,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
       }
     )
   } else {
-    stop("Arg2 is not n or num_successes.")
+    stop("Arg2 is not size or num_successes.")
   }
 
 
@@ -151,7 +151,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
   }
 
   # Build function
-  args <- rlang::pairlist2(holder1 = , holder2 = , p = , alternative = "two.sided", conf.level = 0.95)
+  args <- rlang::pairlist2(holder1 = , holder2 = , prob = , alternative = "two.sided", conf.level = 0.95)
   names(args)[1] <- rlang::as_string(arg1)
   names(args)[2] <- rlang::as_string(arg2)
 
@@ -183,14 +183,14 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
     !!sizeCheck
     !!rangeCheck
 
-    if (!is.numeric(p)) {
-      stop("Argument p should be numeric.")
+    if (!is.numeric(prob)) {
+      stop("Argument prob should be numeric.")
     }
-    if (length(p) != 1) {
-      stop("Argument p should have length one.")
+    if (length(prob) != 1) {
+      stop("Argument prob should have length one.")
     }
-    if (p < 0 || p > 1) {
-      stop("Argument p should be between 0 and 1.")
+    if (prob < 0 || prob > 1) {
+      stop("Argument prob should be between 0 and 1.")
     }
     if (length(alternative) != 1) {
       stop("Argument alternative should have length one.")
@@ -211,7 +211,7 @@ create_test_function_one_sample_case_two <- function(calc_MLE, calc_test_stat, a
       stop("conf.level should between zero and one.")
     }
 
-    W <- calc_test_stat(!!arg1, !!arg2, p, alternative)
+    W <- calc_test_stat(!!arg1, !!arg2, prob, alternative)
 
     # calculate p value
     if (alternative == "two.sided") {
@@ -279,7 +279,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
 
   arg1 <- rlang::sym(names(formals(calc_individual_CI))[1])
   arg2 <- rlang::sym(names(formals(calc_individual_CI))[2])
-  if (rlang::as_string(arg2) == "n") {
+  if (rlang::as_string(arg2) == "size") {
     # binomial case
     sizeCheck <- rlang::expr(
       if (sum(!!arg2) < 50) {
@@ -288,7 +288,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
     )
     rangeCheck <- rlang::expr(
       if (any(!!arg1 > !!arg2)) {
-        stop("No values in  x can be larger than values in n.")
+        stop("No values in  x can be larger than values in size.")
       }
     )
   } else if (rlang::as_string(arg2) == "num_successes") {
@@ -305,7 +305,7 @@ create_test_function_one_way_case_two <- function(calc_test_stat, calc_individua
       }
     )
   } else {
-    stop("arg2 was not n or num_successes.")
+    stop("arg2 was not size or num_successes.")
   }
 
   # Build function

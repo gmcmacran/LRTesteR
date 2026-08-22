@@ -121,14 +121,14 @@ test_that("n input checking works", {
   expect_error(binomial_p_test(1, 2.5), "Second argument should be an integer.")
   expect_error(binomial_p_test(1, -1), "Second argument should be 0 or above.")
   expect_error(binomial_p_test(1, 10), "At least 25 trials should be done for likelihood ratio test.")
-  expect_error(binomial_p_test(55, 50), "Argument x cannot be larger than n.")
+  expect_error(binomial_p_test(55, 50), "Argument x cannot be larger than size.")
 })
 
 test_that("p input checking works", {
-  expect_error(binomial_p_test(1, 50, "foo"), "Argument p should be numeric.")
-  expect_error(binomial_p_test(1, 50, c(.5, .6)), "Argument p should have length one.")
-  expect_error(binomial_p_test(1, 50, -.1), "Argument p should be between 0 and 1.")
-  expect_error(binomial_p_test(1, 50, 1.01), "Argument p should be between 0 and 1.")
+  expect_error(binomial_p_test(1, 50, "foo"), "Argument prob should be numeric.")
+  expect_error(binomial_p_test(1, 50, c(.5, .6)), "Argument prob should have length one.")
+  expect_error(binomial_p_test(1, 50, -.1), "Argument prob should be between 0 and 1.")
+  expect_error(binomial_p_test(1, 50, 1.01), "Argument prob should be between 0 and 1.")
 })
 
 test_that("alternative input checking works", {
@@ -149,9 +149,9 @@ test_that("conf.level input checking works", {
 ###############################################
 set.seed(1)
 x <- rbinom(3, 50, .5)
-n <- rep(50, length(x))
+size <- rep(50, length(x))
 fctr <- factor(seq(1, length(x)))
-test <- binomial_p_one_way_test(x, n, fctr, .95)
+test <- binomial_p_one_way_test(x, size, fctr, .95)
 
 test_that("Check structure.", {
   expect_true(all(class(test) == c("one_way_case_two", "lrtest")))
@@ -159,9 +159,9 @@ test_that("Check structure.", {
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
 
-dat <- data.frame(fctr = fctr, x = x, n = n)
-model_00 <- glm(cbind(x, n - x) ~ 1, data = dat, family = binomial(link = "logit"))
-model_01 <- glm(cbind(x, n - x) ~ fctr, data = dat, family = binomial(link = "logit"))
+dat <- data.frame(fctr = fctr, x = x, size = size)
+model_00 <- glm(cbind(x, size - x) ~ 1, data = dat, family = binomial(link = "logit"))
+model_01 <- glm(cbind(x, size - x) ~ fctr, data = dat, family = binomial(link = "logit"))
 
 test_02 <- lmtest::lrtest(model_00, model_01)
 test_that("Check contents", {
@@ -184,9 +184,9 @@ rm(CI1, CI2, dat, model_00, model_01)
 
 set.seed(1)
 x <- rbinom(3, 50, c(.25, .50, .75))
-n <- rep(50, length(x))
+size <- rep(50, length(x))
 fctr <- factor(seq(1, length(x)))
-test <- binomial_p_one_way_test(x, n, fctr, .95)
+test <- binomial_p_one_way_test(x, size, fctr, .95)
 
 test_that("Check structure.", {
   expect_true(all(class(test) == c("one_way_case_two", "lrtest")))
@@ -194,9 +194,9 @@ test_that("Check structure.", {
   expect_true(all(names(test) == c("statistic", "p.value", "conf.ints", "overall.conf", "individ.conf", "alternative")))
 })
 
-dat <- data.frame(fctr = fctr, x = x, n = n)
-model_00 <- glm(cbind(x, n - x) ~ 1, data = dat, family = binomial(link = "logit"))
-model_01 <- glm(cbind(x, n - x) ~ fctr, data = dat, family = binomial(link = "logit"))
+dat <- data.frame(fctr = fctr, x = x, size = size)
+model_00 <- glm(cbind(x, size - x) ~ 1, data = dat, family = binomial(link = "logit"))
+model_01 <- glm(cbind(x, size - x) ~ fctr, data = dat, family = binomial(link = "logit"))
 
 test_02 <- lmtest::lrtest(model_00, model_01)
 test_that("Check contents", {
