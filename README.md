@@ -148,7 +148,7 @@ are similar yet again.
 
 ``` r
 exactTest <- stats::binom.test(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
-likelihoodTest <- binomial_p_test(x = 250, n = 500, p = .50, alternative = "two.sided", conf.level = .95)
+likelihoodTest <- binomial_prob_test(x = 250, size = 500, prob = .50, alternative = "two.sided", conf.level = .95)
 as.numeric(exactTest$conf.int)
 #> [1] 0.4552856 0.5447144
 likelihoodTest$conf.int

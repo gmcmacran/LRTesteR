@@ -1,8 +1,8 @@
 ---
-title: "Nonparametric Tests"
+title: "Empirical Likelihood Tests"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Nonparametric Tests}
+  %\VignetteIndexEntry{Empirical Likelihood Tests}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,11 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-# Empirical Likelihood Tests
-
 > Empirical likelihood is a nonparametric method of inference based on a data driven likelihood ratio function. Like the bootstrap and jackknife, empirical likelihood inference does not require us to specify a family of distributions for the data. Like parametric likelihood methods, empirical likelihood makes an automatic determination of the shape of confidence regions [...] and has very favorable asymptotic power properties. It can be thought of as a bootstrap that does not resample and as a likelihood without parametric assumptions.
 >
 > --- Owen (2001)
+
+# Simulation Comparison
 
 Dropping the distributional assumption usually costs something. The sections below show how little is given up: each parametric test is paired with its empirical counterpart on the same data, under conditions ideal for the parametric test and with a reasonably large sample. The p values and confidence intervals come out close.
 
