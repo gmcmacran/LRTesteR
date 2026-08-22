@@ -37,20 +37,20 @@ exponential_rate_test <- LRTesteR:::create_test_function_one_sample_case_one(LRT
 #' @keywords internal
 calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
   # Null
-  obs_lambda <- 1 / base::mean(x)
+  obs_rate <- 1 / base::mean(x)
 
-  W1 <- sum(stats::dexp(x = x, rate = obs_lambda, log = TRUE))
+  W1 <- sum(stats::dexp(x = x, rate = obs_rate, log = TRUE))
 
   # alt
-  group_lambdas <- vector(mode = "numeric", length = length(levels(fctr)))
+  group_rates <- vector(mode = "numeric", length = length(levels(fctr)))
   likelihoods <- vector(mode = "numeric", length = length(levels(fctr)))
   for (i in seq_along(levels(fctr))) {
     l <- levels(fctr)[i]
     index <- which(fctr == l)
     tempX <- x[index]
     temp <- 1 / base::mean(tempX)
-    group_lambdas[i] <- temp
-    temp <- sum(stats::dexp(x = tempX, rate = group_lambdas[i], log = TRUE))
+    group_rates[i] <- temp
+    temp <- sum(stats::dexp(x = tempX, rate = group_rates[i], log = TRUE))
     likelihoods[i] <- temp
   }
 
@@ -69,8 +69,8 @@ calc_test_stat_exponential_rate_one_way <- function(x, fctr) {
 #' @inherit gaussian_mu_one_way_test source
 #' @details
 #' \itemize{
-#' \item Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
-#' \item Alternative: At least one lambda is not equal.
+#' \item Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
+#' \item Alternative: At least one rate is not equal.
 #' }
 #' @examples
 #' library(LRTesteR)

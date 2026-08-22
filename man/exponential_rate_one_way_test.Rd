@@ -30,8 +30,8 @@ Test the equality of rate parameters of exponential distributions.
 }
 \details{
 \itemize{
-\item Null: All lambdas are equal. (lambda_1 = lambda_2 ... lambda_k).
-\item Alternative: At least one lambda is not equal.
+\item Null: All rates are equal. (rate_1 = rate_2 ... rate_k).
+\item Alternative: At least one rate is not equal.
 }
 }
 \examples{
